@@ -101,18 +101,18 @@ def input_error(func):
 
 
 def print_help(your_name: str):
-    """..."""
+    """Print help for the console bot program."""
     return f'{your_name}, This is help for the console bot program:\n{HELP}'
 
 
 def help_from_bot(name) -> str:
-    """..."""
+    """Provide help from the bot."""
     return f'{name}, How can I help you?'
 
 
 @input_error
 def add_contact(your_name: str, name: str, phone: str) -> dict:
-    """..."""
+    """Add a contact to the phone book."""
     
     if len(name.strip(LETTERS)) != 0:
         raise TypeError("Contact's name can only contain letter")
@@ -126,7 +126,7 @@ def add_contact(your_name: str, name: str, phone: str) -> dict:
 
 @input_error
 def change_contact(your_name: str, name: str, phone: str):
-    """..."""
+    """Change the phone number of a contact in the phone book."""
     
     if len(phone.strip(digits)) != 0:
         raise TypeError("Contact's phone can only contain digits")
@@ -140,7 +140,8 @@ def change_contact(your_name: str, name: str, phone: str):
 
 @input_error
 def print_number_contact(your_name: str, name: str) -> str:
-    """..."""
+    """Print the phone number of a contact from the phone book."""
+
     if name not in phone_book:
         raise ValueError(f"Contact {name} not found")
     
@@ -148,7 +149,8 @@ def print_number_contact(your_name: str, name: str) -> str:
 
 
 def print_all_contacts(your_name: str) -> str:
-    """..."""
+    """Print all contacts from the phone book."""
+
     table = PrettyTable()
     table.field_names = ["Name contact", "number phone"]
 
@@ -159,7 +161,7 @@ def print_all_contacts(your_name: str) -> str:
 
 
 def close_bot(name):
-    """..."""
+    """Close the bot"""
     sys.exit(f'{name} Good bye!')
 
 
@@ -185,7 +187,7 @@ COMANDS = {
 
 
 def handle_command(command):
-    """..."""
+    """This function returns the appropriate function to handle the given command."""
     return COMANDS[command]
 
 
