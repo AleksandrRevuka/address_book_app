@@ -121,7 +121,7 @@ def add_contact(your_name: str, name: str, phone: str) -> dict:
     if len(name.strip(LETTERS)) != 0:
         raise TypeError("Contact's name can only contain letter")
     
-    if len(phone.strip(digits)) != 0:
+    if len(phone.strip(digits + '+')) != 0:
         raise TypeError("Contact's phone can only contain digits")
     
     if len(phone) not in PHONE_RANGE:
@@ -135,7 +135,7 @@ def add_contact(your_name: str, name: str, phone: str) -> dict:
 def change_contact(your_name: str, name: str, phone: str):
     """Change the phone number of a contact in the phone book."""
     
-    if len(phone.strip(digits)) != 0:
+    if len(phone.strip(digits + '+')) != 0:
         raise TypeError("Contact's phone can only contain digits")
     
     if len(phone) not in PHONE_RANGE:
@@ -201,6 +201,21 @@ def handle_command(command):
     return COMMANDS[command]
 
 
+def format_phone_number(func):
+    """Add '+' to phone's number"""
+    def add_code_phone(phone):
+        phone = func(phone)
+        return ''.join('+' + phone)
+
+    return add_code_phone
+
+
+@format_phone_number
+def sanitize_phone_number(phone: str):
+    """Clean number"""
+    return ''.join(number.strip(' , (, ), -, +') for number in phone)
+
+
 def main():
     """Main controller"""
     cli_args = parse_args()
@@ -216,10 +231,12 @@ def main():
         command = data[0]
         name = data[1] if len(data) > 1 else False
         phone = ''.join(data[2:]) if len(data) > 2 else False
+        
 
         if command in COMMANDS:
             if command in ('--add', '-a'):
                 if name and phone:
+                    phone = sanitize_phone_number(phone)
                     response = handle_command(command)
                     print(response(firstname, name, phone))
                 else:
@@ -228,6 +245,7 @@ def main():
 
             elif command in ('--change', '-c'):
                 if name and phone:
+                    phone = sanitize_phone_number(phone)
                     response = handle_command(command)
                     print(response(firstname, name, phone))
                 else:
