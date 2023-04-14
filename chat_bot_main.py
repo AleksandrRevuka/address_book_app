@@ -4,8 +4,12 @@ A console bot helper that will recognize commands entered from the keyboard and 
 
 import sys
 import argparse
+from string import ascii_letters, digits
 from prettytable import PrettyTable
 
+
+CYRILLIC = 'абвгґдеєёжзиіїйклмнопрстуфхцчшщъыьэюя'
+LETTERS = ascii_letters + CYRILLIC + CYRILLIC.upper()
 
 HELP = """
 A console bot helper that will recognize commands entered from the keyboard and respond accordingly
@@ -86,12 +90,12 @@ def input_error(func):
         """Wrapper function for handling input errors"""
         try:
             return func(*args, **kwargs)
-        except KeyError:
-            return "Enter user name"
-        except ValueError:
-            return "Give me name and phone please"
-        except IndexError:
-            return "Incorrect input. Please try again."
+        
+        except TypeError as error:
+            return f"Error: {error}"
+        
+        except ValueError as error:
+            return f"Error: {error}"
 
     return wrraper_input_error
 
@@ -106,23 +110,40 @@ def help_from_bot(name) -> str:
     return f'{name}, How can I help you?'
 
 
+@input_error
 def add_contact(your_name: str, name: str, phone: str) -> dict:
     """..."""
+    
+    if len(name.strip(LETTERS)) != 0:
+        raise TypeError("Contact's name can only contain letter")
+    
+    if len(phone.strip(digits)) != 0:
+        raise TypeError("Contact's phone can only contain digits")
+    
     phone_book.update({name: phone})
     return f'{your_name}, contact has been added {name}: {phone}'
 
 
+@input_error
 def change_contact(your_name: str, name: str, phone: str):
     """..."""
-    # if not name.isalpha():
-    #     raise ValueError("The name can only contain letters")
-
+    
+    if len(phone.strip(digits)) != 0:
+        raise TypeError("Contact's phone can only contain digits")
+    
+    if name not in phone_book:
+        raise ValueError(f"Contact {name} not found")
+    
     phone_book[name] = phone
     return f'{your_name}, contact has been changed {name}: {phone}'
 
 
+@input_error
 def print_number_contact(your_name: str, name: str) -> str:
     """..."""
+    if name not in phone_book:
+        raise ValueError(f"Contact {name} not found")
+    
     return f"{your_name}, This contact {name} has phone number: {phone_book[name]} "
 
 
@@ -132,7 +153,7 @@ def print_all_contacts(your_name: str) -> str:
     table.field_names = ["Name contact", "number phone"]
 
     for name, phone in phone_book.items():
-        table.add_row([name, phone])
+        table.add_row([name.title(), phone])
 
     return f"{your_name}, This is your phone book:\n{table}"
 
@@ -162,8 +183,8 @@ COMANDS = {
 }
 
 
-@input_error
-def handle_command(command, name=None, phone=None):
+
+def handle_command(command):
     """..."""
     return COMANDS[command]
 
@@ -181,25 +202,38 @@ def main():
         usedr_data = input('Enter command: ').lower()
         data = usedr_data.split()
         command = data[0]
-        name = data[1].title() if len(data) > 1 else None
-        phone = ''.join(data[2:]).title() if len(data) > 2 else None
+        name = data[1] if len(data) > 1 else False
+        phone = ''.join(data[2:]) if len(data) > 2 else False
 
         if command in COMANDS:
             if command in ('--add', '-a'):
-                response = handle_command(command)
-                print(response(firstname, name, phone))
+                if name and phone:
+                    response = handle_command(command)
+                    print(response(firstname, name, phone))
+                else:
+                    print(f"After the command {command} you must enter the new contact's name and new number with a space\n \
+                          for example: {command} Smith 380631234567")
+
             elif command in ('--change', '-c'):
-                response = handle_command(command, name, phone)
-                print(response(firstname, name, phone))
+                if name and phone:
+                    response = handle_command(command)
+                    print(response(firstname, name, phone))
+                else:
+                    print(f"After the command {command} you must enter existing name and new contact \
+                          number separated by a space\n for example: {command} Smith 380631234567")
+
             elif command in ('--phone', '-p'):
-                response = handle_command(command)
-                print(response(firstname, name))
+                if name:
+                    response = handle_command(command)
+                    print(response(firstname, name))
+                else:
+                    print(f"After the command {command} you must enter the existing contact's name\n \
+                          for example: {command} Smith")
             else:
                 response = handle_command(command)
                 print(response(firstname))
         else:
-            print(
-                f"I don't know this command: {command}\nYou can see halp (-h or --help)!\nTry again!")
+            print(f"I don't know this command: {command}\nYou can see halp (-h or --help)!\nTry again!")
 
 
 if __name__ == '__main__':
