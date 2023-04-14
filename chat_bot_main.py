@@ -105,9 +105,9 @@ def print_help(your_name: str):
     return f'{your_name}, This is help for the console bot program:\n{HELP}'
 
 
-def help_from_bot(name) -> str:
+def help_from_bot(your_name) -> str:
     """Provide help from the bot."""
-    return f'{name}, How can I help you?'
+    return f'{your_name}, How can I help you?'
 
 
 @input_error
@@ -120,8 +120,11 @@ def add_contact(your_name: str, name: str, phone: str) -> dict:
     if len(phone.strip(digits)) != 0:
         raise TypeError("Contact's phone can only contain digits")
     
+    if not (11 <= len(phone) <= 16):
+        raise ValueError(f"Contact's phone {phone} is too long or short, it must be between 11 and 16 numbers")
+
     phone_book.update({name: phone})
-    return f'{your_name}, contact has been added {name}: {phone}'
+    return f'{your_name}, contact has been added {name.title()}: {phone}'
 
 
 @input_error
@@ -131,11 +134,14 @@ def change_contact(your_name: str, name: str, phone: str):
     if len(phone.strip(digits)) != 0:
         raise TypeError("Contact's phone can only contain digits")
     
+    if not (11 <= len(phone) <= 16):
+        raise ValueError(f"Contact's phone {phone} is too long or short, it must be between 11 and 16 numbers")
+
     if name not in phone_book:
         raise ValueError(f"Contact {name} not found")
     
     phone_book[name] = phone
-    return f'{your_name}, contact has been changed {name}: {phone}'
+    return f'{your_name}, contact has been changed {name.title()}: {phone}'
 
 
 @input_error
@@ -145,7 +151,7 @@ def print_number_contact(your_name: str, name: str) -> str:
     if name not in phone_book:
         raise ValueError(f"Contact {name} not found")
     
-    return f"{your_name}, This contact {name} has phone number: {phone_book[name]} "
+    return f"{your_name}, This contact {name.title()} has phone number: {phone_book[name]} "
 
 
 def print_all_contacts(your_name: str) -> str:
@@ -165,7 +171,7 @@ def close_bot(name):
     sys.exit(f'{name} Good bye!')
 
 
-COMANDS = {
+COMMANDS = {
     "--help": print_help,
     "-h": print_help,
     "--hello": help_from_bot,
@@ -175,9 +181,9 @@ COMANDS = {
     "-c": change_contact,
     "--phone": print_number_contact,
     "-p": print_number_contact,
-    "--show all": print_all_contacts,
+    "--show_all": print_all_contacts,
     "-s": print_all_contacts,
-    "--good bye": close_bot,
+    "--goodbye": close_bot,
     "--close": close_bot,
     "--exit": close_bot,
     "-q": close_bot,
@@ -187,8 +193,8 @@ COMANDS = {
 
 
 def handle_command(command):
-    """This function returns the appropriate function to handle the given command."""
-    return COMANDS[command]
+    """..."""
+    return COMMANDS[command]
 
 
 def main():
@@ -207,7 +213,7 @@ def main():
         name = data[1] if len(data) > 1 else False
         phone = ''.join(data[2:]) if len(data) > 2 else False
 
-        if command in COMANDS:
+        if command in COMMANDS:
             if command in ('--add', '-a'):
                 if name and phone:
                     response = handle_command(command)
