@@ -97,6 +97,9 @@ def input_error(func):
         
         except ValueError as error:
             return f"Error: {error}"
+        
+        except KeyError as error:
+            return f"Error: {error}"
 
     return wrraper_input_error
 
@@ -139,7 +142,7 @@ def change_contact(your_name: str, name: str, phone: str):
         raise ValueError(f"Contact's phone {phone} is too long or short, it must be between 11 and 16 numbers")
 
     if name not in phone_book:
-        raise ValueError(f"Contact {name} not found")
+        raise KeyError(f"Contact {name} not found")
     
     phone_book[name] = phone
     return f'{your_name}, contact has been changed {name.title()}: {phone}'
@@ -150,7 +153,7 @@ def print_number_contact(your_name: str, name: str) -> str:
     """Print the phone number of a contact from the phone book."""
 
     if name not in phone_book:
-        raise ValueError(f"Contact {name} not found")
+        raise KeyError(f"Contact {name} not found")
     
     return f"{your_name}, This contact {name.title()} has phone number: {phone_book[name]} "
 
