@@ -197,7 +197,7 @@ COMMANDS = {
 
 
 def handle_command(command):
-    """..."""
+    """This function returns the appropriate function to handle the given command."""
     return COMMANDS[command]
 
 
