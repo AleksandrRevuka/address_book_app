@@ -91,13 +91,13 @@ def input_error(func):
         """Wrapper function for handling input errors"""
         try:
             return func(*args, **kwargs)
-        
+
         except TypeError as error:
             return f"Error: {error}"
-        
+
         except ValueError as error:
             return f"Error: {error}"
-        
+
         except KeyError as error:
             return f"Error: {error}"
 
@@ -117,15 +117,16 @@ def help_from_bot(your_name) -> str:
 @input_error
 def add_contact(your_name: str, name: str, phone: str) -> dict:
     """Add a contact to the phone book."""
-    
+
     if len(name.strip(LETTERS)) != 0:
         raise TypeError("Contact's name can only contain letter")
-    
+
     if len(phone.strip(digits + '+')) != 0:
         raise TypeError("Contact's phone can only contain digits")
-    
+
     if len(phone) not in PHONE_RANGE:
-        raise ValueError(f"Contact's phone {phone} is too long or short, it must be between 11 and 16 numbers")
+        raise ValueError(
+            f"Contact's phone {phone} is too long or short, it must be between 11 and 16 numbers")
 
     phone_book.update({name: phone})
     return f'{your_name}, contact has been added {name.title()}: {phone}'
@@ -134,16 +135,17 @@ def add_contact(your_name: str, name: str, phone: str) -> dict:
 @input_error
 def change_contact(your_name: str, name: str, phone: str):
     """Change the phone number of a contact in the phone book."""
-    
+
     if len(phone.strip(digits + '+')) != 0:
         raise TypeError("Contact's phone can only contain digits")
-    
+
     if len(phone) not in PHONE_RANGE:
-        raise ValueError(f"Contact's phone {phone} is too long or short, it must be between 11 and 16 numbers")
+        raise ValueError(
+            f"Contact's phone {phone} is too long or short, it must be between 11 and 16 numbers")
 
     if name not in phone_book:
         raise KeyError(f"Contact {name} not found")
-    
+
     phone_book[name] = phone
     return f'{your_name}, contact has been changed {name.title()}: {phone}'
 
@@ -154,7 +156,7 @@ def print_number_contact(your_name: str, name: str) -> str:
 
     if name not in phone_book:
         raise KeyError(f"Contact {name} not found")
-    
+
     return f"{your_name}, This contact {name.title()} has phone number: {phone_book[name]} "
 
 
@@ -195,7 +197,6 @@ COMMANDS = {
 }
 
 
-
 def handle_command(command):
     """This function returns the appropriate function to handle the given command."""
     return COMMANDS[command]
@@ -231,7 +232,6 @@ def main():
         command = data[0]
         name = data[1] if len(data) > 1 else False
         phone = ''.join(data[2:]) if len(data) > 2 else False
-        
 
         if command in COMMANDS:
             if command in ('--add', '-a'):
