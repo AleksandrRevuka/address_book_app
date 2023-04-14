@@ -10,6 +10,7 @@ from prettytable import PrettyTable
 
 CYRILLIC = 'абвгґдеєёжзиіїйклмнопрстуфхцчшщъыьэюя'
 LETTERS = ascii_letters + CYRILLIC + CYRILLIC.upper()
+PHONE_RANGE = range(11, 17)
 
 HELP = """
 A console bot helper that will recognize commands entered from the keyboard and respond accordingly
@@ -120,7 +121,7 @@ def add_contact(your_name: str, name: str, phone: str) -> dict:
     if len(phone.strip(digits)) != 0:
         raise TypeError("Contact's phone can only contain digits")
     
-    if not (11 <= len(phone) <= 16):
+    if len(phone) not in PHONE_RANGE:
         raise ValueError(f"Contact's phone {phone} is too long or short, it must be between 11 and 16 numbers")
 
     phone_book.update({name: phone})
@@ -134,7 +135,7 @@ def change_contact(your_name: str, name: str, phone: str):
     if len(phone.strip(digits)) != 0:
         raise TypeError("Contact's phone can only contain digits")
     
-    if not (11 <= len(phone) <= 16):
+    if len(phone) not in PHONE_RANGE:
         raise ValueError(f"Contact's phone {phone} is too long or short, it must be between 11 and 16 numbers")
 
     if name not in phone_book:
