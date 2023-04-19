@@ -5,6 +5,9 @@ A console bot helper that will recognize commands entered from the keyboard and 
 import sys
 import argparse
 from string import ascii_letters, digits
+from collections import UserDict
+
+
 from prettytable import PrettyTable
 
 
@@ -43,7 +46,64 @@ Note: Names and phone numbers should only contain letters and digits.
 """
 
 
-phone_book = {}
+class AddressBook(UserDict):
+    """..."""
+
+    def get_contact(self, name):
+        """..."""
+        return self.data[name]
+    
+    def add_record(self, record):
+        """..."""
+        self.data[record.name.value] = record
+    
+    def delete_record(self, record_name):
+        """..."""
+        del self.data[record_name]
+    
+    def search(self):
+        """..."""
+        pass
+
+
+class Record:
+    """..."""
+    def __init__(self, name):
+        self.name = Name(name)
+        self.phones = []
+
+    def add_phone(self, phone):
+        """..."""
+        self.phones.append(Phone(phone))
+    
+    def edit_phone(self, phone_number, new_phone_number):
+        """..."""
+        for phone in self.phones:
+            if phone.value == phone_number:
+                phone.value = new_phone_number
+                break
+    
+    def delete_phone(self, phone_number):
+        """..."""
+        for phone in self.phones:
+            if phone.value == phone_number:
+                self.phones.remove(phone)
+                break
+
+class Field:
+    """..."""
+    def __init__(self, value):
+        self.value = value
+
+
+class Name(Field):
+    """..."""
+    pass
+
+
+class Phone(Field):
+    """..."""
+    pass
 
 
 def parse_args() -> argparse.Namespace:
@@ -128,12 +188,15 @@ def add_contact(your_name: str, name: str, phone: str) -> dict:
         raise ValueError(
             f"Contact's phone {phone} is too long or short, it must be between 11 and 16 numbers")
 
-    phone_book.update({name: phone})
+    contact = Record(name)
+    contact.add_phone(phone)
+    phone_book.add_record(contact)
+
     return f'{your_name}, contact has been added {name.title()}: {phone}'
 
-
+ 
 @input_error
-def change_contact(your_name: str, name: str, phone: str):
+def change_number_contact(your_name: str, name: str, phone: str, old_phone: str):
     """Change the phone number of a contact in the phone book."""
 
     if len(phone.strip(digits + '+')) != 0:
@@ -144,9 +207,12 @@ def change_contact(your_name: str, name: str, phone: str):
             f"Contact's phone {phone} is too long or short, it must be between 11 and 16 numbers")
 
     if name not in phone_book:
-        raise KeyError(f"Contact {name} not found")
+        raise KeyError(f"Contact {name.title()} not found")
 
-    phone_book[name] = phone
+    contact = phone_book.get_contact(name)
+    contact.edit_phone(old_phone, phone)
+    phone_book.add_record(contact)
+
     return f'{your_name}, contact has been changed {name.title()}: {phone}'
 
 
@@ -156,8 +222,59 @@ def print_number_contact(your_name: str, name: str) -> str:
 
     if name not in phone_book:
         raise KeyError(f"Contact {name} not found")
+    
+    contact = phone_book.get_contact(name)
+    contact_numbers = [number.value for number in contact.phones]
 
-    return f"{your_name}, This contact {name.title()} has phone number: {phone_book[name]} "
+    return f"{your_name}, This contact {name.title()} has phone number: {contact_numbers} "
+
+
+@input_error
+def delete_contact(your_name: str, name: str) -> str:
+    """..."""
+
+    if name not in phone_book:
+        raise KeyError(f"Contact {name} not found")
+    
+    phone_book.delete_record(name)
+
+    return f"{your_name}, This contact {name.title()} has been deleted"
+
+
+@input_error
+def delete_contact_phone(your_name: str, name: str, phone: str) -> str:
+    """..."""
+
+    if name not in phone_book:
+        raise KeyError(f"Contact {name} not found")
+    
+    contact = phone_book.get_contact(name)
+
+    if phone in contact.phones:
+        raise ValueError(f"Contact's phone {phone} not found in the address book")
+
+    contact.delete_phone(phone)
+
+    return f"{your_name}, Contact's phone {phone} was deleted from the address book"
+
+
+@input_error
+def add_number_phone_to_contact(your_name: str, name: str, phone: str) -> str:
+    """..."""
+    if name not in phone_book:
+        raise KeyError(f"Contact {name} not found")
+
+    if len(phone.strip(digits + '+')) != 0:
+        raise TypeError("Contact's phone can only contain digits")
+
+    if len(phone) not in PHONE_RANGE:
+        raise ValueError(
+            f"Contact's phone {phone} is too long or short, it must be between 11 and 16 numbers")
+
+    contact = phone_book.get_contact(name)
+    contact.add_phone(phone)
+
+    return f"{your_name}, {name}'s new contact phone {phone} has been successfully added to the address book"
 
 
 def print_all_contacts(your_name: str) -> str:
@@ -166,8 +283,10 @@ def print_all_contacts(your_name: str) -> str:
     table = PrettyTable()
     table.field_names = ["Name contact", "number phone"]
 
-    for name, phone in phone_book.items():
-        table.add_row([name.title(), phone])
+    for contact in phone_book.values():
+        name = contact.name.value
+        phones = [phone.value for phone in contact.phones]
+        table.add_row([name.title(), phones])
 
     return f"{your_name}, This is your phone book:\n{table}"
 
@@ -181,12 +300,15 @@ COMMANDS = {
     "--help": print_help,
     "-h": print_help,
     "--hello": help_from_bot,
-    "--add": add_contact,
-    "-a": add_contact,
-    "--change": change_contact,
-    "-c": change_contact,
-    "--phone": print_number_contact,
-    "-p": print_number_contact,
+    "--add": None,
+    "-a": None,
+    "--change": None,
+    "-c": None,
+    "--phone": None,
+    "-p": None,
+    "--del": None,
+    "--del_phone": None,
+    "--add_phone": None,
     "--show_all": print_all_contacts,
     "-s": print_all_contacts,
     "--goodbye": close_bot,
@@ -231,40 +353,62 @@ def main():
         data = usedr_data.split()
         command = data[0]
         name = data[1] if len(data) > 1 else False
-        phone = ''.join(data[2:]) if len(data) > 2 else False
+        phone = data[2] if len(data) > 2 else False
+        old_phone = data[3] if len(data) > 3 else False
 
         if command in COMMANDS:
             if command in ('--add', '-a'):
                 if name and phone:
-                    phone = sanitize_phone_number(phone)
-                    response = handle_command(command)
-                    print(response(firstname, name, phone))
+                    # phone = sanitize_phone_number(phone)
+                    print(add_contact(firstname, name, phone))
                 else:
-                    print(f"After the command {command} you must enter the new contact's name and new number with a space\n \
-                          for example: {command} Smith 380631234567")
+                    print(f"After the command {command} you must enter the new contact's name and new number with a space\nFor example: {command} Smith 380631234567")
 
             elif command in ('--change', '-c'):
-                if name and phone:
-                    phone = sanitize_phone_number(phone)
-                    response = handle_command(command)
-                    print(response(firstname, name, phone))
+                if name and phone and old_phone:
+                    # phone = sanitize_phone_number(phone)
+                    print(change_number_contact(firstname, name, phone, old_phone))
                 else:
-                    print(f"After the command {command} you must enter existing name and new contact \
-                          number separated by a space\n for example: {command} Smith 380631234567")
+                    print(f"After the command {command} you must enter existing name and new contact number and old contact number separated by a space\nFor example: {command} Smith 380631234567 +380956785434")
 
             elif command in ('--phone', '-p'):
                 if name:
-                    response = handle_command(command)
-                    print(response(firstname, name))
+                    print(print_number_contact(firstname, name))
                 else:
-                    print(f"After the command {command} you must enter the existing contact's name\n \
-                          for example: {command} Smith")
+                    print(f"After the command {command} you must enter the existing contact's name\nFor example: {command} Smith")
+
+            elif command in ('--del'):
+                if name:
+                    print(delete_contact(firstname, name))
+                else:
+                    print(f"After the command {command} you must enter the existing contact's name\nFor example: {command} Smith")
+            
+            elif command in ('--del_phone'):
+                if name:
+                    print(delete_contact_phone(firstname, name, phone))
+                else:
+                    print(f"After the command {command} you must enter the existing contact's name and phone\nFor example: {command} Smith 380631234567")
+            elif command in ('--add_phone'):
+                if name and phone:
+                    # phone = sanitize_phone_number(phone)
+                    print(add_number_phone_to_contact(firstname, name, phone))
+                else:
+                    print(f"After the command {command} you must enter the existing contact's name and new number with a space\nFor example: {command} Smith 380631234567")
+
             else:
                 response = handle_command(command)
                 print(response(firstname))
         else:
             print(f"I don't know this command: {command}\nYou can see halp (-h or --help)!\nTry again!")
 
+phone_book = AddressBook()
 
 if __name__ == '__main__':
     main()
+
+# python chat_bot_main.py -f sasha
+# -a Olya 380956786543
+# --add Alex 380964563456
+# -c alex 380964563499 380964563456 
+# --del olya
+# --del_phone alex 380964563499
