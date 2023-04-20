@@ -186,7 +186,7 @@ def input_error(func):
     return wrraper_input_error
 
 
-def print_help(your_name: str):
+def print_help(your_name: str) -> str:
     """Print help for the console bot program."""
     return f'{your_name}, This is help for the console bot program:\n{HELP}'
 
@@ -197,7 +197,7 @@ def help_from_bot(your_name) -> str:
 
 
 @input_error
-def add_contact(your_name: str, name: str, phone: str) -> dict:
+def add_contact(your_name: str, name: str, phone: str) -> str:
     """Add a contact to the phone book."""
 
     if len(name.strip(LETTERS)) != 0:
@@ -222,7 +222,7 @@ def add_contact(your_name: str, name: str, phone: str) -> dict:
 
  
 @input_error
-def change_number_contact(your_name: str, name: str, phone: str, old_phone: str):
+def change_number_contact(your_name: str, name: str, phone: str, old_phone: str) -> str:
     """Change the phone number of a contact in the phone book."""
 
     for number in phone, old_phone:
@@ -328,7 +328,7 @@ def print_all_contacts(your_name: str) -> str:
     return f"{your_name}, This is your phone book:\n{table}"
 
 
-def close_bot(name):
+def close_bot(name: str):
     """Close the bot"""
     sys.exit(f'{name} Good bye!')
 
@@ -343,7 +343,7 @@ def format_phone_number(func):
 
 
 @format_phone_number
-def sanitize_phone_number(phone: str):
+def sanitize_phone_number(phone: str) -> str:
     """Clean number"""
     return ''.join(number.strip(' , (, ), -, +') for number in phone)
 
@@ -426,15 +426,3 @@ phone_book = AddressBook()
 
 if __name__ == '__main__':
     main()
-
-# python chat_bot_main.py -f sasha
-# -a Olya 380956786543
-# -c olya 380955436712 380956786543
-# --add_phone olya 380956786543
-
-# --add Alex 380964563456
-# -c alex 380964563499 380964563456
-# --add_phone alex 380675876987
-# --add_phone alex 380964563456
-# --del olya
-# --del_phone alex 380964563499
