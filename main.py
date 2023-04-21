@@ -49,31 +49,34 @@ def run_bot():
                     print(add_contact(firstname, name, phone))
                 else:
                     print(
-                        f"After the command {command} you must enter the new contact's name and new number with a space\nFor example: {command} Smith 380631234567")
+                        f"After the command '{command}' you must enter the new contact's name and new number with a space\nFor example: {command} Smith 380631234567")
 
             elif command in ('--change', '-c'):
                 if name and phone and old_phone:
                     phone = sanitize_phone_number(phone)
                     old_phone = sanitize_phone_number(old_phone)
                     print(change_number_contact(
-                        firstname, name, phone, old_phone))
+                        firstname,
+                        name,
+                        phone,
+                        old_phone))
                 else:
                     print(
-                        f"After the command {command} you must enter existing name and new contact number and old contact number separated by a space\nFor example: {command} Smith 380631234567 +380956785434")
+                        f"After the command '{command}' you must enter existing name and new contact number and old contact number separated by a space\nFor example: {command} Smith 380631234567 +380956785434")
 
             elif command in ('--phone', '-p'):
                 if name:
                     print(print_number_contact(firstname, name))
                 else:
                     print(
-                        f"After the command {command} you must enter the existing contact's name\nFor example: {command} Smith")
+                        f"After the command '{command}' you must enter the existing contact's name\nFor example: {command} Smith")
 
             elif command in ('--del'):
                 if name:
                     print(delete_contact(firstname, name))
                 else:
                     print(
-                        f"After the command {command} you must enter the existing contact's name\nFor example: {command} Smith")
+                        f"After the command '{command}' you must enter the existing contact's name\nFor example: {command} Smith")
 
             elif command in ('--del_phone'):
                 if name:
@@ -81,7 +84,7 @@ def run_bot():
                     print(delete_contact_phone(firstname, name, phone))
                 else:
                     print(
-                        f"After the command {command} you must enter the existing contact's name and phone\nFor example: {command} Smith 380631234567")
+                        f"After the command '{command}' you must enter the existing contact's name and phone\nFor example: {command} Smith 380631234567")
 
             elif command in ('--add_phone'):
                 if name and phone:
@@ -89,7 +92,7 @@ def run_bot():
                     print(add_number_phone_to_contact(firstname, name, phone))
                 else:
                     print(
-                        f"After the command {command} you must enter the existing contact's name and new number with a space\nFor example: {command} Smith 380631234567")
+                        f"After the command '{command}' you must enter the existing contact's name and new number with a space\nFor example: {command} Smith 380631234567")
 
             elif command in ('--show_all', '-s'):
                 print(print_all_contacts(firstname))

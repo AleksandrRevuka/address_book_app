@@ -56,7 +56,6 @@ def add_contact(your_name: str, name: str, phone: str) -> str:
     if len(phone) not in PHONE_RANGE:
         raise ValueError(
             f"Contact's phone '{phone}' is too long or short, it must be between 11 and 16 numbers")
-    
 
     contact = Record(name)
     contact.add_phone(phone)
@@ -110,7 +109,7 @@ def print_number_contact(your_name: str, name: str) -> str:
 
 @input_error
 def delete_contact(your_name: str, name: str) -> str:
-    """Prints the phone number of a contact from the phone book."""
+    """Delete the phone number of a contact from the phone book."""
 
     if name not in phone_book:
         raise KeyError(f"Contact {name.title()} not found")
@@ -153,6 +152,11 @@ def add_number_phone_to_contact(your_name: str, name: str, phone: str) -> str:
             f"Contact's phone '{phone}' is too long or short, it must be between 11 and 16 numbers")
 
     contact = phone_book.get_contact(name)
+    contact_numbers = [number.value for number in contact.phones]
+
+    if phone in contact_numbers:
+        raise ValueError(f"Contact's phone '{phone}' exists in this '{name.title()}' contact")
+
     contact.add_phone(phone)
 
     return f"{your_name}, '{name.title()}'s' new contact phone number '{phone}' has been successfully added to the address book"
@@ -174,4 +178,4 @@ def print_all_contacts(your_name: str) -> str:
 
 def close_bot(name: str):
     """Close the bot"""
-    sys.exit(f'{name} Good bye!')
+    sys.exit(f'{name}, Good bye!')
