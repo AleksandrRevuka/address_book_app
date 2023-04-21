@@ -1,33 +1,15 @@
 """commands"""
 
 import sys
-from string import digits
 
 from prettytable import PrettyTable
 
-from constants import HELP, LETTERS, PHONE_RANGE
+from error import input_error
+from constants import HELP
 from address_book import Record, AddressBook
 
 
 phone_book = AddressBook()
-
-def input_error(func):
-    """Decorator for handling input errors"""
-    def wrraper_input_error(*args, **kwargs):
-        """Wrapper function for handling input errors"""
-        try:
-            return func(*args, **kwargs)
-
-        except TypeError as error:
-            return f"Error: {error}"
-
-        except ValueError as error:
-            return f"Error: {error}"
-
-        except KeyError as error:
-            return f"Error: {error}"
-
-    return wrraper_input_error
 
 
 def print_help(your_name: str) -> str:
@@ -43,19 +25,9 @@ def help_from_bot(your_name) -> str:
 @input_error
 def add_contact(your_name: str, name: str, phone: str) -> str:
     """Add a contact to the phone book."""
-
-    if len(name.strip(LETTERS)) != 0:
-        raise TypeError(f"Contact's name '{name.title()}' can only contain letter")
     
     if name in phone_book:
         raise ValueError(f"Contact '{name.title()}' exists in the address book")
-
-    if len(phone.strip(digits + '+')) != 0:
-        raise TypeError(f"Contact's phone '{phone}' can only contain digits")
-
-    if len(phone) not in PHONE_RANGE:
-        raise ValueError(
-            f"Contact's phone '{phone}' is too long or short, it must be between 11 and 16 numbers")
 
     contact = Record(name)
     contact.add_phone(phone)
@@ -67,14 +39,6 @@ def add_contact(your_name: str, name: str, phone: str) -> str:
 @input_error
 def change_number_contact(your_name: str, name: str, phone: str, old_phone: str) -> str:
     """Change the phone number of a contact in the phone book."""
-
-    for number in phone, old_phone:
-        if len(number.strip(digits + '+')) != 0:
-            raise TypeError(f"Contact's phone '{number}' can only contain digits")
-
-        if len(number) not in PHONE_RANGE:
-            raise ValueError(
-                f"Contact's phone '{number}' is too long or short, it must be between 11 and 16 numbers")
 
     if name not in phone_book:
         raise KeyError(f"Contact '{name.title()}' not found")
@@ -143,13 +107,6 @@ def add_number_phone_to_contact(your_name: str, name: str, phone: str) -> str:
 
     if name not in phone_book:
         raise KeyError(f"Contact {name.title()} not found")
-
-    if len(phone.strip(digits + '+')) != 0:
-        raise TypeError("Contact's phone '{phone}' can only contain digits")
-
-    if len(phone) not in PHONE_RANGE:
-        raise ValueError(
-            f"Contact's phone '{phone}' is too long or short, it must be between 11 and 16 numbers")
 
     contact = phone_book.get_contact(name)
     contact_numbers = [number.value for number in contact.phones]

@@ -36,9 +36,10 @@ class Record:
     
     def edit_phone(self, phone_number, new_phone_number):
         """Updates an existing phone number for the contact."""
+        new_phone_number = Phone(new_phone_number)
         for phone in self.phones:
             if phone.value == phone_number:
-                phone.value = new_phone_number
+                phone.value = new_phone_number.value
                 break
     
     def delete_phone(self, phone_number):

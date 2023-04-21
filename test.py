@@ -1,4 +1,4 @@
-# python chat_bot_main.py -f sasha
+# python main.py -f sasha
 # -a Olya 380956786543
 # -c olya 380955436712 380956786543
 # --add_phone olya 380956786543
@@ -9,3 +9,4 @@
 # --add_phone alex 380964563456
 # --del olya
 # --del_phone alex 380964563499
+# -c alex 380964563400 380964563456

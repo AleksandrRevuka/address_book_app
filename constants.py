@@ -1,12 +1,5 @@
 """constants"""
 
-from string import ascii_letters
-
-
-CYRILLIC = 'абвгґдеєёжзиіїйклмнопрстуфхцчшщъыьэюя'
-LETTERS = ascii_letters + CYRILLIC + CYRILLIC.upper()
-PHONE_RANGE = range(11, 17)
-
 COMMANDS = {
     "--help": 'print_help',
     "-h": 'print_help',
