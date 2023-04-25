@@ -1,5 +1,6 @@
 """error"""
 
+
 def input_error(func):
     """Decorator for handling input errors"""
     def wrraper_input_error(*args, **kwargs):

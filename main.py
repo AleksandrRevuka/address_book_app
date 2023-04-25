@@ -101,14 +101,16 @@ def run_bot():
                 if name and birthday:
                     print(add_birthday_data(firstname, name, birthday))
                 else:
-                    print(f"After the command '{command}' you must enter the existing contact's name and the birthday\nFor example: {command} Smith DD-MM-YYYY")
+                    print(
+                        f"After the command '{command}' you must enter the existing contact's name and the birthday\nFor example: {command} Smith DD-MM-YYYY")
 
             elif command in ('--change_birth'):
                 birthday = phone
                 if name and birthday:
                     print(change_birthday_data(firstname, name, birthday))
                 else:
-                    print(f"After the command '{command}' you must enter the existing contact's name and the new birthday\nFor example: {command} Smith DD-MM-YYYY")
+                    print(
+                        f"After the command '{command}' you must enter the existing contact's name and the new birthday\nFor example: {command} Smith DD-MM-YYYY")
 
             elif command in ('--show_all', '-s'):
                 print(print_all_contacts(firstname))
