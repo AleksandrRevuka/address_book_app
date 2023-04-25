@@ -1,4 +1,4 @@
-"""..."""
+"""error"""
 
 def input_error(func):
     """Decorator for handling input errors"""

@@ -10,7 +10,7 @@ class Field:
 
 
 class Name(Field):
-    """..."""
+    """Represents the name of a contact."""
     def __init__(self, name):
         super().__init__(name)
         self.__name = None
@@ -18,17 +18,18 @@ class Name(Field):
 
     @property
     def name(self):
-        """..."""
+        """Returns the name of the contact."""
         return self.__name
 
     @name.setter
     def name(self, new_name):
+        """Sets the name of the contact if it is valid, otherwise raises an error."""
         self.__check = DataVerify
         self.__check.verify_name(new_name)
         self.__name = new_name
 
 class Phone(Field):
-    """..."""
+    """Represents the phone number of a contact."""
     def __init__(self, phone):
         super().__init__(phone)
         self.__phone = None
@@ -36,18 +37,19 @@ class Phone(Field):
 
     @property
     def phone(self):
-        """..."""
+        """Returns the phone number of the contact."""
         return self.__phone
 
     @phone.setter
     def phone(self, new_phone):
+        """Sets the phone number of the contact if it is valid, otherwise raises an error."""
         self.__check = DataVerify
         self.__check.verify_phone(new_phone)
         self.__phone = new_phone
 
 
 class Birthday(Field):
-    """..."""
+    """Represents the birthday date of a contact."""
     def __init__(self, birthday_data):
         super().__init__(birthday_data)
         self.__birthday_data = None
@@ -55,17 +57,19 @@ class Birthday(Field):
 
     @property
     def birthday_data(self):
-        """..."""
+        """Returns the birthday date of the contact."""
         return self.__birthday_data
 
     @birthday_data.setter
     def birthday_data(self, new_birthday_data):
+        """Sets the birthday date of the contact if it is valid, otherwise raises an error."""
         self.__check = DataVerify
         self.__check.verify_birthday_data(new_birthday_data)
         self.__birthday_data = datetime.strptime(new_birthday_data, '%d-%m-%Y').date()
 
 class DataVerify:
-    """..."""
+    """A utility class for verifying contact data"""
+
     CYRILLIC = 'абвгґдеєёжзиіїйклмнопрстуфхцчшщъыьэюя'
     LETTERS = ascii_letters + CYRILLIC + CYRILLIC.upper()
     NAME_RANGE = range(1, 50)

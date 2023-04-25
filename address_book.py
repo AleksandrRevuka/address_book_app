@@ -57,11 +57,11 @@ class Record:
                 break
     
     def add_birthday_data(self, birthday_data):
-        """..."""
+        """Add a birthday data to the contact."""
         self.birthday_data = Birthday(birthday_data)
 
     def days_to_birthday(self):
-        """..."""
+        """Calculate the number of days to the next birthday."""
         if self.birthday_data:
             now = datetime.now()
             birthday = self.birthday_data.birthday_data

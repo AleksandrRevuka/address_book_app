@@ -60,7 +60,7 @@ def change_number_contact(your_name: str, name: str, phone: str, old_phone: str)
 
 @input_error
 def print_contact(your_name: str, name: str) -> str:
-    """Print the phone number of a contact from the phone book."""
+    """Print the phone number and other details of a contact from the phone book."""
 
     if name not in phone_book:
         raise KeyError(f"Contact '{name.title()}' not found")
@@ -146,7 +146,7 @@ def print_all_contacts(your_name: str) -> str:
 
 @input_error
 def add_birthday_data(your_name: str, name: str, birthday_data) -> str:
-    """..."""
+    """Adds a birthday date to an existing contact in the phone book."""
 
     if name not in phone_book:
         raise KeyError(f"Contact {name.title()} not found")
@@ -160,7 +160,7 @@ def add_birthday_data(your_name: str, name: str, birthday_data) -> str:
 
 @input_error
 def change_birthday_data(your_name: str, name: str, new_birthday_data) -> str:
-    """..."""
+    """Changes the birthday date of an existing contact in the phone book."""
 
     if name not in phone_book:
         raise KeyError(f"Contact {name.title()} not found")
