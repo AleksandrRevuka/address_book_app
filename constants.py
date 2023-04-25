@@ -1,5 +1,7 @@
 """constants"""
 
+NUMBER_OF_CONTACTS_PER_PAGE = 2
+
 COMMANDS = {
     "--help": 'print_help',
     "-h": 'print_help',
@@ -8,11 +10,13 @@ COMMANDS = {
     "-a": 'add_contact',
     "--change": 'change_number_contact',
     "-c": 'change_number_contact',
-    "--phone": 'print_number_contact',
+    "--print": 'print_contact',
     "-p": 'print_number_contact',
     "--del": 'delete_contact',
     "--del_phone": 'delete_contact_phone',
     "--add_phone": 'add_number_phone_to_contact',
+    "--add_birth": 'add_birthday_data',
+    "--change_birth": 'change_birthday_data',
     "--show_all": 'print_all_contacts',
     "-s": 'print_all_contacts',
     "--goodbye": 'close_bot',

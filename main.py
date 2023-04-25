@@ -5,10 +5,12 @@ from utils import sanitize_phone_number, parse_args
 from commands import (
     add_contact,
     change_number_contact,
-    print_number_contact,
+    print_contact,
     delete_contact,
     delete_contact_phone,
     add_number_phone_to_contact,
+    add_birthday_data,
+    change_birthday_data,
     print_all_contacts,
     help_from_bot,
     close_bot,
@@ -64,9 +66,9 @@ def run_bot():
                     print(
                         f"After the command '{command}' you must enter existing name and new contact number and old contact number separated by a space\nFor example: {command} Smith 380631234567 +380956785434")
 
-            elif command in ('--phone', '-p'):
+            elif command in ('--print', '-p'):
                 if name:
-                    print(print_number_contact(firstname, name))
+                    print(print_contact(firstname, name))
                 else:
                     print(
                         f"After the command '{command}' you must enter the existing contact's name\nFor example: {command} Smith")
@@ -93,6 +95,20 @@ def run_bot():
                 else:
                     print(
                         f"After the command '{command}' you must enter the existing contact's name and new number with a space\nFor example: {command} Smith 380631234567")
+
+            elif command in ('--add_birth'):
+                birthday = phone
+                if name and birthday:
+                    print(add_birthday_data(firstname, name, birthday))
+                else:
+                    print(f"After the command '{command}' you must enter the existing contact's name and the birthday\nFor example: {command} Smith DD-MM-YYYY")
+
+            elif command in ('--change_birth'):
+                birthday = phone
+                if name and birthday:
+                    print(change_birthday_data(firstname, name, birthday))
+                else:
+                    print(f"After the command '{command}' you must enter the existing contact's name and the new birthday\nFor example: {command} Smith DD-MM-YYYY")
 
             elif command in ('--show_all', '-s'):
                 print(print_all_contacts(firstname))

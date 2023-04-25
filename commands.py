@@ -5,7 +5,7 @@ import sys
 from prettytable import PrettyTable
 
 from error import input_error
-from constants import HELP
+from constants import HELP, NUMBER_OF_CONTACTS_PER_PAGE
 from address_book import Record, AddressBook
 
 
@@ -44,7 +44,7 @@ def change_number_contact(your_name: str, name: str, phone: str, old_phone: str)
         raise KeyError(f"Contact '{name.title()}' not found")
 
     contact = phone_book.get_contact(name)
-    contact_numbers = [number.value for number in contact.phones]
+    contact_numbers = [number.phone for number in contact.phones]
 
     if old_phone not in contact_numbers:
         raise ValueError(f"Contact's phone '{old_phone}' not found in the address book")
@@ -59,16 +59,23 @@ def change_number_contact(your_name: str, name: str, phone: str, old_phone: str)
 
 
 @input_error
-def print_number_contact(your_name: str, name: str) -> str:
+def print_contact(your_name: str, name: str) -> str:
     """Print the phone number of a contact from the phone book."""
 
     if name not in phone_book:
         raise KeyError(f"Contact '{name.title()}' not found")
     
+    table = PrettyTable()
+    table.field_names = ["Name contact", "Number phone", "Birthday", "Days before birthday"]
+    
     contact = phone_book.get_contact(name)
-    contact_numbers = [number.value for number in contact.phones]
+    phones = [number.phone for number in contact.phones]
+    birthday = contact.birthday_data.birthday_data if contact.birthday_data else '-'
+    day_before_birthday = contact.days_to_birthday()
+    table.add_row([name.title(), phones, birthday, day_before_birthday])
 
-    return f"{your_name}, This contact '{name.title()}' has phone number: '{contact_numbers}' "
+    return f"{your_name}, '{name.title()}':\n{table}"
+
 
 
 @input_error
@@ -91,14 +98,14 @@ def delete_contact_phone(your_name: str, name: str, phone: str) -> str:
         raise KeyError(f"Contact '{name.title()}' not found")
     
     contact = phone_book.get_contact(name)
-    contact_numbers = [number.value for number in contact.phones]
+    contact_numbers = [number.phone for number in contact.phones]
 
     if phone not in contact_numbers:
         raise ValueError(f"Contact's phone '{phone}' not found in this '{name.title()}' contact")
 
     contact.delete_phone(phone)
 
-    return f"{your_name}, Contact's phone '{phone}' was deleted from the-s '{name.title()}' contact"
+    return f"{your_name}, Contact's phone '{phone}' was deleted from the '{name.title()}' contact"
 
 
 @input_error
@@ -109,7 +116,7 @@ def add_number_phone_to_contact(your_name: str, name: str, phone: str) -> str:
         raise KeyError(f"Contact {name.title()} not found")
 
     contact = phone_book.get_contact(name)
-    contact_numbers = [number.value for number in contact.phones]
+    contact_numbers = [number.phone for number in contact.phones]
 
     if phone in contact_numbers:
         raise ValueError(f"Contact's phone '{phone}' exists in this '{name.title()}' contact")
@@ -119,19 +126,49 @@ def add_number_phone_to_contact(your_name: str, name: str, phone: str) -> str:
     return f"{your_name}, '{name.title()}'s' new contact phone number '{phone}' has been successfully added to the address book"
 
 
+@input_error
 def print_all_contacts(your_name: str) -> str:
     """Print all contacts from the phone book."""
+    
+    for i, contacts in enumerate(phone_book.record_iterator(NUMBER_OF_CONTACTS_PER_PAGE), 1):
+        table = PrettyTable()
+        table.field_names = ["Name contact", "Number phone", "Birthday", "Days before birthday"]
 
-    table = PrettyTable()
-    table.field_names = ["Name contact", "number phone"]
+        for contact in contacts:
+            name = contact.name.name
+            phones = [phone.phone for phone in contact.phones]
+            birthday = contact.birthday_data.birthday_data if contact.birthday_data else '-'
+            day_before_birthday = contact.days_to_birthday()
+            table.add_row([name.title(), phones, birthday, day_before_birthday])
+        print(f"{your_name}, This is 'page {i}' your phone book:\n{table}")
+    return "End"
 
-    for contact in phone_book.values():
-        name = contact.name.value
-        phones = [phone.value for phone in contact.phones]
-        table.add_row([name.title(), phones])
 
-    return f"{your_name}, This is your phone book:\n{table}"
+@input_error
+def add_birthday_data(your_name: str, name: str, birthday_data) -> str:
+    """..."""
 
+    if name not in phone_book:
+        raise KeyError(f"Contact {name.title()} not found")
+    
+    contact = phone_book.get_contact(name)
+    contact.add_birthday_data(birthday_data)
+    phone_book.add_record(contact)
+
+    return f"{your_name}, birthday '{birthday_data}' has been added to the contact '{name.title()}'"
+
+
+@input_error
+def change_birthday_data(your_name: str, name: str, new_birthday_data) -> str:
+    """..."""
+
+    if name not in phone_book:
+        raise KeyError(f"Contact {name.title()} not found")
+    
+    contact = phone_book.get_contact(name)
+    contact.add_birthday_data(new_birthday_data)
+    phone_book.add_record(contact)
+    return f"{your_name}, birthday '{new_birthday_data}' has been changed in the contact '{name.title()}'"
 
 def close_bot(name: str):
     """Close the bot"""

@@ -1,5 +1,6 @@
 """field"""
 
+from datetime import datetime 
 from string import ascii_letters, digits
 
 class Field:
@@ -12,17 +13,56 @@ class Name(Field):
     """..."""
     def __init__(self, name):
         super().__init__(name)
-        self.__check = DataVerify
-        self.__check.verify_name(name)
+        self.__name = None
+        self.name = name
 
+    @property
+    def name(self):
+        """..."""
+        return self.__name
+
+    @name.setter
+    def name(self, new_name):
+        self.__check = DataVerify
+        self.__check.verify_name(new_name)
+        self.__name = new_name
 
 class Phone(Field):
     """..."""
     def __init__(self, phone):
         super().__init__(phone)
-        self.__check = DataVerify
-        self.__check.verify_phone(phone)
+        self.__phone = None
+        self.phone = phone
 
+    @property
+    def phone(self):
+        """..."""
+        return self.__phone
+
+    @phone.setter
+    def phone(self, new_phone):
+        self.__check = DataVerify
+        self.__check.verify_phone(new_phone)
+        self.__phone = new_phone
+
+
+class Birthday(Field):
+    """..."""
+    def __init__(self, birthday_data):
+        super().__init__(birthday_data)
+        self.__birthday_data = None
+        self.birthday_data = birthday_data
+
+    @property
+    def birthday_data(self):
+        """..."""
+        return self.__birthday_data
+
+    @birthday_data.setter
+    def birthday_data(self, new_birthday_data):
+        self.__check = DataVerify
+        self.__check.verify_birthday_data(new_birthday_data)
+        self.__birthday_data = datetime.strptime(new_birthday_data, '%d-%m-%Y').date()
 
 class DataVerify:
     """..."""
@@ -54,3 +94,14 @@ class DataVerify:
         if len(phone) not in cls.PHONE_RANGE:
             raise ValueError(
                 f"Contact's phone '{phone}' is too long or short, it must be between 11 and 16 numbers")
+        
+    @classmethod
+    def verify_birthday_data(cls, birthday_data):
+        """Verifies a birthday data."""
+        try:
+            birthday_data = datetime.strptime(birthday_data, '%d-%m-%Y')
+        except ValueError as error:
+            raise ValueError("Incorrect data format '{birthday_data}', should be DD-MM-YYYY") from error
+        
+        if birthday_data >= datetime.now():
+            raise ValueError(f"Birthday '{birthday_data.date()}' must be in the past")
