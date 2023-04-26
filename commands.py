@@ -48,13 +48,12 @@ def change_number_contact(your_name: str, name: str, phone: str, old_phone: str)
         raise KeyError(f"Contact '{name.title()}' not found")
 
     contact = phone_book.get_contact(name)
-    contact_numbers = [number.phone for number in contact.phones]
 
-    if old_phone.phone not in contact_numbers:
+    if old_phone not in contact.phones:
         raise ValueError(
             f"Contact's phone '{old_phone.phone}' not found in the address book")
 
-    if phone.phone in contact_numbers:
+    if phone in contact.phones:
         raise ValueError(
             f"Contact's phone '{phone.phone}' exists in this '{name.title()}' contact")
 
@@ -105,9 +104,8 @@ def delete_contact_phone(your_name: str, name: str, phone: str) -> str:
         raise KeyError(f"Contact '{name.title()}' not found")
 
     contact = phone_book.get_contact(name)
-    contact_numbers = [number.phone for number in contact.phones]
 
-    if phone.phone not in contact_numbers:
+    if phone not in contact.phones:
         raise ValueError(
             f"Contact's phone '{phone.phone}' not found in this '{name.title()}' contact")
 
@@ -125,9 +123,8 @@ def add_number_phone_to_contact(your_name: str, name: str, phone: str) -> str:
         raise KeyError(f"Contact {name.title()} not found")
 
     contact = phone_book.get_contact(name)
-    contact_numbers = [number.phone for number in contact.phones]
 
-    if phone.phone in contact_numbers:
+    if phone in contact.phones:
         raise ValueError(
             f"Contact's phone '{phone.phone}' exists in this '{name.title()}' contact")
 
