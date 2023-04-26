@@ -2,7 +2,7 @@
 
 from datetime import datetime
 from collections import UserDict
-from fields import Name, Phone, Birthday
+from fields import Name, Birthday
 
 
 class AddressBook(UserDict):
@@ -41,19 +41,19 @@ class Record:
 
     def add_phone(self, phone):
         """Adds a new phone number to the contact."""
-        self.phones.append(Phone(phone))
+        self.phones.append(phone)
 
     def edit_phone(self, phone_number, new_phone_number):
         """Updates an existing phone number for the contact."""
         for phone in self.phones:
-            if phone.phone == phone_number:
-                phone.phone = new_phone_number
+            if phone == phone_number:
+                phone.phone = new_phone_number.phone
                 break
 
     def delete_phone(self, phone_number):
         """Removes a phone number from the contact."""
         for phone in self.phones:
-            if phone.phone == phone_number:
+            if phone == phone_number:
                 self.phones.remove(phone)
                 break
 
@@ -63,13 +63,11 @@ class Record:
 
     def days_to_birthday(self):
         """Calculate the number of days to the next birthday."""
-        if self.birthday_data:
-            now = datetime.now()
-            birthday = self.birthday_data.birthday_data
-            next_birthday = datetime(now.year, birthday.month, birthday.day)
-            if next_birthday < now:
-                next_birthday = datetime(
-                    now.year + 1, birthday.month, birthday.day)
+        now = datetime.now()
+        birthday = self.birthday_data.birthday_data
+        next_birthday = datetime(now.year, birthday.month, birthday.day)
+        if next_birthday < now:
+            next_birthday = datetime(
+                now.year + 1, birthday.month, birthday.day)
 
-            return (next_birthday - now).days
-        return '-'
+        return (next_birthday - now).days

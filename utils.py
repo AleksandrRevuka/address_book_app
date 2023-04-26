@@ -31,18 +31,3 @@ def parse_args() -> argparse.Namespace:
 
     args = parser.parse_args()
     return args
-
-
-def format_phone_number(func):
-    """Add '+' to phone's number"""
-    def add_code_phone(phone):
-        phone = func(phone)
-        return ''.join('+' + phone)
-
-    return add_code_phone
-
-
-@format_phone_number
-def sanitize_phone_number(phone: str) -> str:
-    """Clean number"""
-    return ''.join(number.strip(' , (, ), -, +') for number in phone)

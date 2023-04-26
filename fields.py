@@ -4,18 +4,10 @@ from datetime import datetime
 from string import ascii_letters, digits
 
 
-class Field:
-    """..."""
-
-    def __init__(self, value):
-        self.value = value
-
-
-class Name(Field):
+class Name:
     """Represents the name of a contact."""
 
     def __init__(self, name):
-        super().__init__(name)
         self.__name = None
         self.name = name
 
@@ -32,11 +24,10 @@ class Name(Field):
         self.__name = new_name
 
 
-class Phone(Field):
+class Phone:
     """Represents the phone number of a contact."""
 
     def __init__(self, phone):
-        super().__init__(phone)
         self.__phone = None
         self.phone = phone
 
@@ -50,14 +41,32 @@ class Phone(Field):
         """Sets the phone number of the contact if it is valid, otherwise raises an error."""
         self.__check = DataVerify
         self.__check.verify_phone(new_phone)
-        self.__phone = new_phone
+        sanitize_phone = self.sanitize_phone_number(new_phone)
+        self.__phone = sanitize_phone
+
+    def __eq__(self, other: object) -> bool:
+        return self.phone == other.phone
+
+    @staticmethod
+    def format_phone_number(func):
+        """Add '+' to phone's number"""
+        def add_code_phone(phone):
+            phone = func(phone)
+            return ''.join('+' + phone)
+
+        return add_code_phone
+
+    @staticmethod
+    @format_phone_number
+    def sanitize_phone_number(phone) -> str:
+        """Clean number"""
+        return ''.join(number.strip(' , (, ), -, +') for number in phone)
 
 
-class Birthday(Field):
+class Birthday:
     """Represents the birthday date of a contact."""
 
     def __init__(self, birthday_data):
-        super().__init__(birthday_data)
         self.__birthday_data = None
         self.birthday_data = birthday_data
 

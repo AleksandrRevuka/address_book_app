@@ -1,7 +1,7 @@
 """main"""
 
 from constants import COMMANDS
-from utils import sanitize_phone_number, parse_args
+from utils import parse_args
 from commands import (
     add_contact,
     change_number_contact,
@@ -47,51 +47,46 @@ def run_bot():
 
             if command in ('--add', '-a'):
                 if name and phone:
-                    phone = sanitize_phone_number(phone)
-                    print(add_contact(firstname, name, phone))
+                    message = add_contact(firstname, name, phone)
                 else:
                     print(
                         f"After the command '{command}' you must enter the new contact's name and new number with a space\nFor example: {command} Smith 380631234567")
 
             elif command in ('--change', '-c'):
                 if name and phone and old_phone:
-                    phone = sanitize_phone_number(phone)
-                    old_phone = sanitize_phone_number(old_phone)
-                    print(change_number_contact(
+                    message = change_number_contact(
                         firstname,
                         name,
                         phone,
-                        old_phone))
+                        old_phone)
                 else:
                     print(
                         f"After the command '{command}' you must enter existing name and new contact number and old contact number separated by a space\nFor example: {command} Smith 380631234567 +380956785434")
 
             elif command in ('--print', '-p'):
                 if name:
-                    print(print_contact(firstname, name))
+                    message = print_contact(firstname, name)
                 else:
                     print(
                         f"After the command '{command}' you must enter the existing contact's name\nFor example: {command} Smith")
 
             elif command in ('--del'):
                 if name:
-                    print(delete_contact(firstname, name))
+                    message = delete_contact(firstname, name)
                 else:
                     print(
                         f"After the command '{command}' you must enter the existing contact's name\nFor example: {command} Smith")
 
             elif command in ('--del_phone'):
                 if name:
-                    phone = sanitize_phone_number(phone)
-                    print(delete_contact_phone(firstname, name, phone))
+                    message = delete_contact_phone(firstname, name, phone)
                 else:
                     print(
                         f"After the command '{command}' you must enter the existing contact's name and phone\nFor example: {command} Smith 380631234567")
 
             elif command in ('--add_phone'):
                 if name and phone:
-                    phone = sanitize_phone_number(phone)
-                    print(add_number_phone_to_contact(firstname, name, phone))
+                    message = add_number_phone_to_contact(firstname, name, phone)
                 else:
                     print(
                         f"After the command '{command}' you must enter the existing contact's name and new number with a space\nFor example: {command} Smith 380631234567")
@@ -99,7 +94,7 @@ def run_bot():
             elif command in ('--add_birth'):
                 birthday = phone
                 if name and birthday:
-                    print(add_birthday_data(firstname, name, birthday))
+                    message = add_birthday_data(firstname, name, birthday)
                 else:
                     print(
                         f"After the command '{command}' you must enter the existing contact's name and the birthday\nFor example: {command} Smith DD-MM-YYYY")
@@ -107,22 +102,24 @@ def run_bot():
             elif command in ('--change_birth'):
                 birthday = phone
                 if name and birthday:
-                    print(change_birthday_data(firstname, name, birthday))
+                    message = change_birthday_data(firstname, name, birthday)
                 else:
                     print(
                         f"After the command '{command}' you must enter the existing contact's name and the new birthday\nFor example: {command} Smith DD-MM-YYYY")
 
             elif command in ('--show_all', '-s'):
-                print(print_all_contacts(firstname))
+                message = print_all_contacts(firstname)
 
             elif command in ('--goodbye', '--close', '--exit', '-q'):
-                print(close_bot(firstname))
+                close_bot(firstname)
 
             elif command in ('--help', '-h'):
-                print(print_help(firstname))
+                message = print_help(firstname)
 
             else:
-                print(help_from_bot(firstname))
+                message = help_from_bot(firstname)
+
+            print(message)
 
         else:
             print(
