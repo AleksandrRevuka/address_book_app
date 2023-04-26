@@ -86,7 +86,8 @@ def run_bot():
 
             elif command in ('--add_phone'):
                 if name and phone:
-                    message = add_number_phone_to_contact(firstname, name, phone)
+                    message = add_number_phone_to_contact(
+                        firstname, name, phone)
                 else:
                     print(
                         f"After the '{command}' command, you must enter the existing contact's name and new phone number separated by a space.\nFor example: '{command} Smith 380631234567'")

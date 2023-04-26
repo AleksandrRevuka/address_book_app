@@ -97,7 +97,8 @@ class DataVerify:
         """Verifies that the input string `name` is a valid name for a contact."""
 
         if not isinstance(name, str):
-            raise TypeError(f"Name must be a string, but got {type(name).__name__}")
+            raise TypeError(
+                f"Name must be a string, but got {type(name).__name__}")
 
         if len(name.strip(cls.LETTERS)) != 0:
             raise TypeError(

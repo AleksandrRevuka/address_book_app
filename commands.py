@@ -78,7 +78,8 @@ def print_contact(user_name: str, contact_name: str) -> str:
     phone_numbers = [number.phone for number in contact.phone_numbers]
     birthday = contact.birthday.birthday_date if contact.birthday else '-'
     day_to_birthday = contact.days_to_birthday()
-    table.add_row([contact_name.title(), phone_numbers, birthday, day_to_birthday])
+    table.add_row([contact_name.title(), phone_numbers,
+                  birthday, day_to_birthday])
 
     return f"{user_name}, '{contact_name.title()}':\n{table}"
 
@@ -99,7 +100,7 @@ def delete_contact(user_name: str, contact_name: str) -> str:
 def delete_contact_phone(user_name: str, contact_name: str, phone_number: str) -> str:
     """Deletes a phone number from an existing contact in the address book."""
     phone = Phone(phone_number)
-    
+
     if contact_name not in address_book:
         raise KeyError(f"The contact '{contact_name.title()}' was not found.")
 

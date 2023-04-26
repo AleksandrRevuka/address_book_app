@@ -67,6 +67,7 @@ class Record:
         birthday = self.birthday.birthday_date
         next_birthday = datetime(now.year, birthday.month, birthday.day)
         if next_birthday < now:
-            next_birthday = datetime(now.year + 1, birthday.month, birthday.day)
+            next_birthday = datetime(
+                now.year + 1, birthday.month, birthday.day)
 
         return (next_birthday - now).days
