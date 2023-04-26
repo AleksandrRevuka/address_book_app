@@ -15,8 +15,8 @@ COMMANDS = {
     "--del": 'delete_contact',
     "--del_phone": 'delete_contact_phone',
     "--add_phone": 'add_number_phone_to_contact',
-    "--add_birth": 'add_birthday_data',
-    "--change_birth": 'change_birthday_data',
+    "--add_birth": 'add_birthday_date',
+    "--change_birth": 'change_birthday_date',
     "--show_all": 'print_all_contacts',
     "-s": 'print_all_contacts',
     "--goodbye": 'close_bot',
@@ -40,10 +40,12 @@ Commands:
     -h, --help      : Show this help message.
     -a, --add       : Add a contact to the phone book.
     -c, --change    : Change a contact in the phone book.
-    -p, --phone     : Get the phone number of a contact.
+    -p, --print     : Get the phone number of a contact.
     --del           : Remove a contact from the phone book.
     --del_phone     : Remove a phone number from a contact in the phone book.
     --add_phone     : Add a new phone number to an existing contact in the phone book.
+    --add_birth"    : Add birthday date.
+    --change_birth" : Change birthday date.
     -s, --show_all  : Show all contacts in the phone book.
     --goodbye       : Close the bot.
     --close         : Close the bot.

@@ -66,22 +66,22 @@ class Phone:
 class Birthday:
     """Represents the birthday date of a contact."""
 
-    def __init__(self, birthday_data):
-        self.__birthday_data = None
-        self.birthday_data = birthday_data
+    def __init__(self, birthday_date):
+        self.__birthday_date = None
+        self.birthday_date = birthday_date
 
     @property
-    def birthday_data(self):
+    def birthday_date(self):
         """Returns the birthday date of the contact."""
-        return self.__birthday_data
+        return self.__birthday_date
 
-    @birthday_data.setter
-    def birthday_data(self, new_birthday_data):
+    @birthday_date.setter
+    def birthday_date(self, new_birthday_date):
         """Sets the birthday date of the contact if it is valid, otherwise raises an error."""
         self.__check = DataVerify
-        self.__check.verify_birthday_data(new_birthday_data)
-        self.__birthday_data = datetime.strptime(
-            new_birthday_data, '%d-%m-%Y').date()
+        self.__check.verify_birthday_data(new_birthday_date)
+        self.__birthday_date = datetime.strptime(
+            new_birthday_date, '%d-%m-%Y').date()
 
 
 class DataVerify:
@@ -97,15 +97,15 @@ class DataVerify:
         """Verifies that the input string `name` is a valid name for a contact."""
 
         if not isinstance(name, str):
-            raise TypeError(f"Name '{name.title()}' must be a string")
+            raise TypeError(f"Name must be a string, but got {type(name).__name__}")
 
         if len(name.strip(cls.LETTERS)) != 0:
             raise TypeError(
-                f"Contact's name '{name.title()}' can only contain letters")
+                f"Contact's name can only contain letters, but got '{name.title()}'")
 
         if len(name) not in cls.NAME_RANGE:
             raise ValueError(
-                f"Name '{name.title()}' length must be between {cls.NAME_RANGE[0]} and {cls.NAME_RANGE[-1]}")
+                f"Name length must be between {cls.NAME_RANGE[0]} and {cls.NAME_RANGE[-1]}, but got '{name.title()}'")
 
     @classmethod
     def verify_phone(cls, phone: str):
@@ -113,11 +113,11 @@ class DataVerify:
 
         if len(phone.strip(digits + '+')) != 0:
             raise TypeError(
-                f"Contact's phone '{phone}' can only contain digits")
+                f"Contact's phone can only contain digits, but got '{phone}'")
 
         if len(phone) not in cls.PHONE_RANGE:
             raise ValueError(
-                f"Contact's phone '{phone}' is too long or short, it must be between 11 and 16 numbers")
+                f"Contact's phone must be between 11 and 16 numbers, but got '{phone}'")
 
     @classmethod
     def verify_birthday_data(cls, birthday_data):
@@ -126,7 +126,7 @@ class DataVerify:
             birthday_data = datetime.strptime(birthday_data, '%d-%m-%Y')
         except ValueError as error:
             raise ValueError(
-                "Incorrect data format '{birthday_data}', should be DD-MM-YYYY") from error
+                f"Incorrect date format: '{birthday_data}', should be in the format DD-MM-YYYY") from error
 
         if birthday_data >= datetime.now():
             raise ValueError(
