@@ -1,5 +1,7 @@
 """address book"""
 
+import re
+import pickle
 from datetime import datetime
 from collections import UserDict
 from fields import Name, Birthday
@@ -29,6 +31,20 @@ class AddressBook(UserDict):
     def search(self):
         """Searches the address book for contacts matching the given criteria."""
         pass
+
+    def save_records_to_file(self, file_name):
+        """..."""
+        with open(file_name, "wb") as file:
+            pickle.dump(self.data, file)
+
+    def read_records_from_file(self, file_name):
+        """..."""
+        try:
+            with open(file_name, "rb") as file:
+                content = pickle.load(file)
+                self.data.update(content)
+        except FileNotFoundError as error:
+            raise f"File not found {file_name}" from error
 
 
 class Record:

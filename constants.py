@@ -1,5 +1,7 @@
 """constants"""
 
+FILE = 'address_book.bin'
+
 NUMBER_OF_CONTACTS_PER_PAGE = 2
 
 COMMANDS = {

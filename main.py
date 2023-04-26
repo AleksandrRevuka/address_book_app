@@ -1,6 +1,7 @@
 """main"""
 
-from constants import COMMANDS
+from address_book import AddressBook
+from constants import COMMANDS, FILE
 from utils import parse_args
 from commands import (
     add_contact,
@@ -35,6 +36,9 @@ def run_bot():
 
     print(say_hello_to_anyone(firstname, lastname))
 
+    address_book = AddressBook()
+    address_book.read_records_from_file(FILE)
+
     while True:
         usedr_data = input('Enter a command: ').lower()
         data = usedr_data.split()
@@ -46,72 +50,41 @@ def run_bot():
         if command in COMMANDS:
 
             if command in ('--add', '-a'):
-                if name and phone:
-                    message = add_contact(firstname, name, phone)
-                else:
-                    print(
-                        f"After the '{command}' command, you must enter the new contact's name and phone number separated by a space.\nFor example: '{command} Smith 380631234567'")
-
+                message = add_contact(address_book, firstname, name, phone)
+                        
             elif command in ('--change', '-c'):
-                if name and phone and old_phone:
-                    message = change_number_contact(
-                        firstname,
-                        name,
-                        phone,
-                        old_phone)
-                else:
-                    print(
-                        f"After the '{command}' command, you must enter the existing contact's name, the new phone number, and the old phone number, separated by spaces.\nFor example: '{command} Smith 380631234567 +380956785434'")
+                message = change_number_contact(
+                    address_book,
+                    firstname,
+                    name,
+                    phone,
+                    old_phone)
 
             elif command in ('--print', '-p'):
-                if name:
-                    message = print_contact(firstname, name)
-                else:
-                    print(
-                        f"After the '{command}' command, you must enter the existing contact's name.\nFor example: '{command} Smith'")
+                message = print_contact(address_book,firstname, name)
 
             elif command in ('--del'):
-                if name:
-                    message = delete_contact(firstname, name)
-                else:
-                    print(
-                        f"After the '{command}' command, you must enter the existing contact's name.\nFor example: '{command} Smith'")
+                message = delete_contact(address_book, firstname, name)
 
             elif command in ('--del_phone'):
-                if name:
-                    message = delete_contact_phone(firstname, name, phone)
-                else:
-                    print(
-                        f"After the '{command}' command, you must enter the existing contact's name and phone number separated by a space.\nFor example: '{command} Smith 380631234567'")
+                message = delete_contact_phone(address_book, firstname, name, phone)
 
             elif command in ('--add_phone'):
-                if name and phone:
-                    message = add_number_phone_to_contact(
-                        firstname, name, phone)
-                else:
-                    print(
-                        f"After the '{command}' command, you must enter the existing contact's name and new phone number separated by a space.\nFor example: '{command} Smith 380631234567'")
+                message = add_number_phone_to_contact(address_book, firstname, name, phone)
 
             elif command in ('--add_birth'):
                 birthday = phone
-                if name and birthday:
-                    message = add_birthday_date(firstname, name, birthday)
-                else:
-                    print(
-                        f"After the '{command}' command, you must enter the existing contact's name and birthday in the format DD-MM-YYYY.\nFor example: '{command} Smith 23-04-1987'")
+                message = add_birthday_date(address_book, firstname, name, birthday)
 
             elif command in ('--change_birth'):
                 birthday = phone
-                if name and birthday:
-                    message = change_birthday_date(firstname, name, birthday)
-                else:
-                    print(
-                        f"After the '{command}' command, you must enter the existing contact's name and new birthday in the format DD-MM-YYYY.\nFor example: '{command} Smith 23-04-1987'")
+                message = change_birthday_date(address_book, firstname, name, birthday)
 
             elif command in ('--show_all', '-s'):
-                message = print_all_contacts(firstname)
+                message = print_all_contacts(address_book, firstname)
 
             elif command in ('--goodbye', '--close', '--exit', '-q'):
+                address_book.save_records_to_file(FILE)
                 close_bot(firstname)
 
             elif command in ('--help', '-h'):
