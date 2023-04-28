@@ -12,6 +12,7 @@ from commands import (
     add_number_phone_to_contact,
     add_birthday_date,
     change_birthday_date,
+    serch_contact,
     print_all_contacts,
     help_from_bot,
     close_bot,
@@ -82,6 +83,10 @@ def run_bot():
 
             elif command in ('--show_all', '-s'):
                 message = print_all_contacts(address_book, firstname)
+
+            elif command in ('--serch'):
+                criteria = name
+                message = serch_contact(address_book, firstname, criteria)
 
             elif command in ('--goodbye', '--close', '--exit', '-q'):
                 address_book.save_records_to_file(FILE)

@@ -2,7 +2,7 @@
 
 FILE = 'address_book.bin'
 
-NUMBER_OF_CONTACTS_PER_PAGE = 2
+NUMBER_OF_CONTACTS_PER_PAGE = 5
 
 COMMANDS = {
     "--help": 'print_help',
@@ -19,6 +19,7 @@ COMMANDS = {
     "--add_phone": 'add_number_phone_to_contact',
     "--add_birth": 'add_birthday_date',
     "--change_birth": 'change_birthday_date',
+    "--serch": 'serch_contact',
     "--show_all": 'print_all_contacts',
     "-s": 'print_all_contacts',
     "--goodbye": 'close_bot',

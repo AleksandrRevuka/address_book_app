@@ -28,17 +28,33 @@ class AddressBook(UserDict):
         for i in range(0, len(records), num_elements):
             yield records[i:i+num_elements]
 
-    def search(self):
+    def search(self, criteria):
         """Searches the address book for contacts matching the given criteria."""
-        pass
+        serch_contacts = AddressBook()
+
+        if criteria.isdigit():
+            for record in self.data.values():
+                for phone_number in record.phone_numbers:
+                    if re.search(criteria, phone_number.phone):
+                        serch_contacts.add_record(record)
+
+        else:
+            for record in self.data.values():
+                if re.search(criteria, record.name.name):
+                    serch_contacts.add_record(record)
+                
+        if len(serch_contacts) == 0:
+            return f"According to this '{criteria}' criterion, no matches were found"
+        
+        return serch_contacts
 
     def save_records_to_file(self, file_name):
-        """..."""
+        """Save the data in the address book to a binary file using pickle."""
         with open(file_name, "wb") as file:
             pickle.dump(self.data, file)
 
     def read_records_from_file(self, file_name):
-        """..."""
+        """Read data from a binary file using pickle and update the address book."""
         try:
             with open(file_name, "rb") as file:
                 content = pickle.load(file)

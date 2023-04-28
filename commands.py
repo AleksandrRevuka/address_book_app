@@ -237,6 +237,24 @@ def change_birthday_date(
     return f"{user_name}, the birthday date for '{contact_name.title()}' has been changed to '{new_birthday_date}'."
 
 
+@input_error
+def serch_contact(address_book: AB, user_name: str, criteria: str):
+    """Search for contacts in an address book based on a given criteria and print the results."""
+    if  not criteria.isdigit() and not criteria.isalpha():
+        raise ValueError(f"Criteria '{criteria}' must be only numbers or letters")
+
+    if criteria:
+        result = address_book.search(criteria)
+        if isinstance(result, AB):
+            print_all_contacts(result, user_name)
+        else:
+            return result
+    else:
+        return "After command, you must enter the criteria of serch"
+    
+    return f"{user_name}, {len(result)} contacts were found based on your search criteria!"
+
+
 def close_bot(contact_name: str):
     """Close the bot"""
     sys.exit(f'{contact_name}, Good bye!')
