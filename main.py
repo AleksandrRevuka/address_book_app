@@ -43,10 +43,14 @@ def run_bot():
     while True:
         usedr_data = input('Enter a command: ').lower()
         data = usedr_data.split()
+
+        if not data:
+            continue
+
         command = data[0]
-        name = data[1] if len(data) > 1 else False
-        phone = data[2] if len(data) > 2 else False
-        old_phone = data[3] if len(data) > 3 else False
+        name = data[1] if len(data) > 1 else None
+        phone = data[2] if len(data) > 2 else None
+        old_phone = data[3] if len(data) > 3 else None
 
         if command in COMMANDS:
 
