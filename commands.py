@@ -18,11 +18,6 @@ def print_help(user_name: str) -> str:
     return f'{user_name}, this is help for the console bot program:\n{HELP}'
 
 
-def help_from_bot(user_name) -> str:
-    """Provide help from the bot."""
-    return f'Greetings, {user_name}! How can I assist you today??'
-
-
 @input_error
 def add_contact(
         address_book: AB,

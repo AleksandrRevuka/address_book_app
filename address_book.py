@@ -17,6 +17,7 @@ class AddressBook(UserDict):
     def add_record(self, record):
         """Adds a new contact record to the address book."""
         self.data[record.name.name] = record
+        self.sort_addressbool()
 
     def delete_record(self, record_name):
         """Removes a contact record from the address book."""
@@ -27,6 +28,10 @@ class AddressBook(UserDict):
         records = list(self.data.values())
         for i in range(0, len(records), num_elements):
             yield records[i:i+num_elements]
+
+    def sort_addressbool(self):
+        """The sort_addressbool function sorts the address book by name."""
+        self.data = dict(sorted(self.data.items(), key=lambda x: x[0]))
 
     def search(self, criteria):
         """Searches the address book for contacts matching the given criteria."""

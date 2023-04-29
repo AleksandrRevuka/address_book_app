@@ -39,9 +39,9 @@ class Phone:
     @phone.setter
     def phone(self, new_phone):
         """Sets the phone number of the contact if it is valid, otherwise raises an error."""
-        self.__check = DataVerify
-        self.__check.verify_phone(new_phone)
         sanitize_phone = self.sanitize_phone_number(new_phone)
+        self.__check = DataVerify
+        self.__check.verify_phone(sanitize_phone)
         self.__phone = sanitize_phone
 
     def __eq__(self, other: object) -> bool:

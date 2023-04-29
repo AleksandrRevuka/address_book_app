@@ -7,7 +7,6 @@ NUMBER_OF_CONTACTS_PER_PAGE = 5
 COMMANDS = {
     "--help": 'print_help',
     "-h": 'print_help',
-    "--hello": 'help_from_bot',
     "--add": 'add_contact',
     "-a": 'add_contact',
     "--change": 'change_number_contact',

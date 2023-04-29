@@ -14,7 +14,6 @@ from commands import (
     change_birthday_date,
     serch_contact,
     print_all_contacts,
-    help_from_bot,
     close_bot,
     print_help,
 )
@@ -23,9 +22,9 @@ from commands import (
 def say_hello_to_anyone(firstname: str, lastname: str) -> str:
     """Say hello to anyone"""
     if lastname:
-        hello_message = f'Hello, {firstname} {lastname}!'
+        hello_message = f'Hello, {firstname} {lastname}! How can I assist you today?'
     else:
-        hello_message = f'Hello, {firstname}!'
+        hello_message = f'Hello, {firstname}! How can I assist you today?'
     return hello_message
 
 
@@ -55,35 +54,49 @@ def run_bot():
         if command in COMMANDS:
 
             if command in ('--add', '-a'):
-                message = add_contact(address_book, firstname, name, phone)
-                        
+                message = add_contact(address_book,
+                                      firstname,
+                                      name,
+                                      phone)
+
             elif command in ('--change', '-c'):
-                message = change_number_contact(
-                    address_book,
-                    firstname,
-                    name,
-                    phone,
-                    old_phone)
+                message = change_number_contact(address_book,
+                                                firstname,
+                                                name,
+                                                phone,
+                                                old_phone)
 
             elif command in ('--print', '-p'):
-                message = print_contact(address_book,firstname, name)
+                message = print_contact(address_book, firstname, name)
 
             elif command in ('--del'):
                 message = delete_contact(address_book, firstname, name)
 
             elif command in ('--del_phone'):
-                message = delete_contact_phone(address_book, firstname, name, phone)
+                message = delete_contact_phone(address_book,
+                                               firstname,
+                                               name,
+                                               phone)
 
             elif command in ('--add_phone'):
-                message = add_number_phone_to_contact(address_book, firstname, name, phone)
+                message = add_number_phone_to_contact(address_book,
+                                                      firstname,
+                                                      name,
+                                                      phone)
 
             elif command in ('--add_birth'):
                 birthday = phone
-                message = add_birthday_date(address_book, firstname, name, birthday)
+                message = add_birthday_date(address_book,
+                                            firstname,
+                                            name,
+                                            birthday)
 
             elif command in ('--change_birth'):
                 birthday = phone
-                message = change_birthday_date(address_book, firstname, name, birthday)
+                message = change_birthday_date(address_book,
+                                               firstname,
+                                               name,
+                                               birthday)
 
             elif command in ('--show_all', '-s'):
                 message = print_all_contacts(address_book, firstname)
@@ -98,9 +111,6 @@ def run_bot():
 
             elif command in ('--help', '-h'):
                 message = print_help(firstname)
-
-            else:
-                message = help_from_bot(firstname)
 
             print(message)
 
