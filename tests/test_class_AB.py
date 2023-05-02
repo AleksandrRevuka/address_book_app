@@ -1,12 +1,12 @@
-"""Test class Record"""
+"""Test class AddressBook"""
 import os
 import pickle
 import unittest
 from fields import Phone
 from address_book import AddressBook, Record
 
-class TestRecord(unittest.TestCase):
-    """Tests class Record"""
+class TestAddressBook(unittest.TestCase):
+    """Tests class AddressBook"""
 
     def setUp(self) -> None:
         self.addressbook_test = AddressBook()
