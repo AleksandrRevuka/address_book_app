@@ -9,12 +9,12 @@ def input_error(func):
             return func(*args, **kwargs)
 
         except TypeError as error:
-            return f"Error: {error}"
+            return f"TypeError: {error}"
 
         except ValueError as error:
-            return f"Error: {error}"
+            return f"ValueError: {error}"
 
         except KeyError as error:
-            return f"Error: {error}"
+            return f"KeyError: {error}"
 
     return wrraper_input_error

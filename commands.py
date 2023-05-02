@@ -80,7 +80,7 @@ def print_contact(
         user_name: str,
         contact_name: str) -> str:
     """Print the phone number and other details of a contact from the phone book."""
-    if user_name:
+    if contact_name:
 
         if contact_name not in address_book:
             raise KeyError(f"The contact '{contact_name.title()}' was not found.")
@@ -107,7 +107,7 @@ def delete_contact(
         user_name: str,
         contact_name: str) -> str:
     """Delete the phone number of a contact from the phone book."""
-    if user_name:
+    if contact_name:
         if contact_name not in address_book:
             raise KeyError(f"The contact '{contact_name.title()}' was not found.")
 
@@ -235,11 +235,14 @@ def change_birthday_date(
 @input_error
 def serch_contact(address_book: AB, user_name: str, criteria: str):
     """Search for contacts in an address book based on a given criteria and print the results."""
-    if  not criteria.isdigit() and not criteria.isalpha():
-        raise ValueError(f"Criteria '{criteria}' must be only numbers or letters")
-
+   
     if criteria:
+
+        if  not criteria.isdigit() and not criteria.isalpha():
+            raise ValueError(f"Criteria '{criteria}' must be only numbers or letters")
+         
         result = address_book.search(criteria)
+        
         if isinstance(result, AB):
             print_all_contacts(result, user_name)
         else:
