@@ -60,7 +60,7 @@ class Phone:
     @format_phone_number
     def sanitize_phone_number(phone) -> str:
         """Clean number"""
-        return ''.join(number.strip(' , (, ), -, +') for number in phone)
+        return ''.join(number.strip('(, ), -, +') for number in phone)
 
 
 class Birthday:
@@ -79,7 +79,7 @@ class Birthday:
     def birthday_date(self, new_birthday_date):
         """Sets the birthday date of the contact if it is valid, otherwise raises an error."""
         self.__check = DataVerify
-        self.__check.verify_birthday_data(new_birthday_date)
+        self.__check.verify_birthday_date(new_birthday_date)
         self.__birthday_date = datetime.strptime(
             new_birthday_date, '%d-%m-%Y').date()
 
@@ -121,7 +121,7 @@ class DataVerify:
                 f"Contact's phone must be between 11 and 16 numbers, but got '{phone}'")
 
     @classmethod
-    def verify_birthday_data(cls, birthday_data):
+    def verify_birthday_date(cls, birthday_data):
         """Verifies a birthday data."""
         try:
             birthday_data = datetime.strptime(birthday_data, '%d-%m-%Y')

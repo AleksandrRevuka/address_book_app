@@ -17,7 +17,7 @@ class AddressBook(UserDict):
     def add_record(self, record):
         """Adds a new contact record to the address book."""
         self.data[record.name.name] = record
-        self.sort_addressbool()
+        self.sort_addressbook()
 
     def delete_record(self, record_name):
         """Removes a contact record from the address book."""
@@ -29,7 +29,7 @@ class AddressBook(UserDict):
         for i in range(0, len(records), num_elements):
             yield records[i:i+num_elements]
 
-    def sort_addressbool(self):
+    def sort_addressbook(self):
         """The sort_addressbool function sorts the address book by name."""
         self.data = dict(sorted(self.data.items(), key=lambda x: x[0]))
 
@@ -98,13 +98,16 @@ class Record:
         """Add a birthday data to the contact."""
         self.birthday = Birthday(birthday_date)
 
-    def days_to_birthday(self):
+    def days_to_birthday(self, current_date=None):
         """Calculate the number of days to the next birthday."""
-        now = datetime.now()
-        birthday = self.birthday.birthday_date
-        next_birthday = datetime(now.year, birthday.month, birthday.day)
-        if next_birthday < now:
-            next_birthday = datetime(
-                now.year + 1, birthday.month, birthday.day)
+        if current_date is None:
+            current_date = datetime.now()
 
-        return (next_birthday - now).days
+        birthday = self.birthday.birthday_date
+        next_birthday = datetime(current_date.year, birthday.month, birthday.day)
+
+        if next_birthday < current_date:
+            next_birthday = datetime(
+                current_date.year + 1, birthday.month, birthday.day)
+
+        return (next_birthday - current_date).days
