@@ -7,7 +7,7 @@ from prettytable import PrettyTable
 from error import input_error
 from constants import HELP, NUMBER_OF_CONTACTS_PER_PAGE
 from address_book import Record, AddressBook as AB
-from fields import Phone
+from entities import Phone, User
 
 
 # address_book = AddressBook()
@@ -30,7 +30,8 @@ def add_contact(
             raise ValueError(
                 f"The contact '{contact_name.title()}' already exists in the address book.")
         phone = Phone(phone_number)
-        contact = Record(contact_name)
+        user = User(contact_name)
+        contact = Record(user)
         contact.add_phone_number(phone)
         address_book.add_record(contact)
     else:
@@ -92,7 +93,7 @@ def print_contact(
         contact = address_book.get_contact(contact_name)
         phone_numbers = [number.phone for number in contact.phone_numbers]
         birthday = contact.birthday.birthday_date if contact.birthday else '-'
-        day_to_birthday = contact.days_to_birthday()
+        day_to_birthday = contact.days_to_birthday() if contact.birthday else '-'
         table.add_row([contact_name.title(), phone_numbers,
                     birthday, day_to_birthday])
     else:

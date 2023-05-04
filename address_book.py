@@ -4,13 +4,13 @@ import re
 import pickle
 from datetime import datetime
 from collections import UserDict
-from fields import Name, Birthday
+from entities import Phone, User, Email
 
 
 class AddressBook(UserDict):
     """A class that represents an address book containing contact records."""
 
-    def get_contact(self, name):
+    def get_contact(self, name: str):
         """Returns the contact record for the given name."""
         return self.data[name]
 
@@ -19,7 +19,7 @@ class AddressBook(UserDict):
         self.data[record.name.name] = record
         self.sort_addressbook()
 
-    def delete_record(self, record_name):
+    def delete_record(self, record_name: str):
         """Removes a contact record from the address book."""
         del self.data[record_name]
 
@@ -33,7 +33,7 @@ class AddressBook(UserDict):
         """The sort_addressbool function sorts the address book by name."""
         self.data = dict(sorted(self.data.items(), key=lambda x: x[0]))
 
-    def search(self, criteria):
+    def search(self, criteria: str):
         """Searches the address book for contacts matching the given criteria."""
         serch_contacts = AddressBook()
 
@@ -53,12 +53,12 @@ class AddressBook(UserDict):
         
         return serch_contacts
 
-    def save_records_to_file(self, file_name):
+    def save_records_to_file(self, file_name: str):
         """Save the data in the address book to a binary file using pickle."""
         with open(file_name, "wb") as file:
             pickle.dump(self.data, file)
 
-    def read_records_from_file(self, file_name):
+    def read_records_from_file(self, file_name: str):
         """Read data from a binary file using pickle and update the address book."""
         try:
             with open(file_name, "rb") as file:
@@ -70,40 +70,66 @@ class AddressBook(UserDict):
 
 class Record:
     """A class that represents a contact record in a phone book."""
+    class Subrecord:
+        """..."""
+        def __init__(self, subrecord, name_subrecord='basic'):
+            self.name = name_subrecord
+            self.subrecord = subrecord
+            
 
-    def __init__(self, name):
-        self.name = Name(name)
+    def __init__(self, user: User):
+        self.user = user
         self.phone_numbers = []
-        self.birthday = None
+        self.emails = []
 
-    def add_phone_number(self, phone_number):
+    def add_phone_number(self, phone_number: Phone):
         """Adds a new phone number to the contact."""
-        self.phone_numbers.append(phone_number)
+        subrecord_phone = self.Subrecord(phone_number)
+        self.phone_numbers.append(subrecord_phone)
+        
+    def add_email(self, email: Email):
+        """Adds a new email to the contact."""
+        subrecord_email = self.Subrecord(email)
+        self.emails.append(subrecord_email)
 
-    def edit_phone_number(self, old_phone_number, new_phone_number):
+    def edit_phone_number(self, old_phone_number: Phone, new_phone_number: Phone):
         """Updates an existing phone number for the contact."""
         for phone_number in self.phone_numbers:
-            if phone_number == old_phone_number:
-                phone_number.phone = new_phone_number.phone
+            if phone_number.subrecord == old_phone_number:
+                phone_number.subrecord.phone = new_phone_number.phone
+                break
+            
+    def edit_email(self, old_email: Email, new_email: Email):
+        """Updates an existing phone number for the contact."""
+        for email in self.emails:
+            if email.subrecord == old_email:
+                email.subrecord.email = new_email.email
                 break
 
-    def delete_phone_number(self, phone_number):
+    def delete_phone_number(self, phone_number: Phone):
         """Removes a phone number from the contact."""
         for i, number in enumerate(self.phone_numbers):
-            if number == phone_number:
+            if number.subrecord == phone_number:
                 del self.phone_numbers[i]
                 break
+            
+    def delete_email(self, del_email: Email):
+        """Removes a phone number from the contact."""
+        for i, email in enumerate(self.emails):
+            if email.subrecord == del_email:
+                del self.emails[i]
+                break
 
-    def add_birthday(self, birthday_date):
+    def add_birthday(self, birthday_date: str):
         """Add a birthday data to the contact."""
-        self.birthday = Birthday(birthday_date)
+        self.user.birthday_date = birthday_date
 
     def days_to_birthday(self, current_date=None):
         """Calculate the number of days to the next birthday."""
         if current_date is None:
             current_date = datetime.now()
 
-        birthday = self.birthday.birthday_date
+        birthday = self.user.birthday_date
         next_birthday = datetime(current_date.year, birthday.month, birthday.day)
 
         if next_birthday < current_date:

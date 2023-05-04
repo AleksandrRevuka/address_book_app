@@ -2,7 +2,7 @@
 import os
 import pickle
 import unittest
-from fields import Phone
+from entities import Phone
 from address_book import AddressBook, Record
 
 class TestAddressBook(unittest.TestCase):

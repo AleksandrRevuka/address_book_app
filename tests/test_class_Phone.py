@@ -2,7 +2,7 @@
 import unittest
 
 
-from fields import Phone
+from entities import Phone
 
 
 class TestPhone(unittest.TestCase):

@@ -1,7 +1,7 @@
 """Tests commands"""
 import unittest
 from address_book import Record, AddressBook
-from fields import Phone
+from entities import Phone
 from commands import (
     add_contact,
     change_number_contact,

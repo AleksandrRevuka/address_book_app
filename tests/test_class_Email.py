@@ -1,7 +1,7 @@
 """Tests class Birthday"""
 import unittest
 from datetime import date
-from fields import Birthday
+from entities import Birthday
 
 
 class TestBirthday(unittest.TestCase):
