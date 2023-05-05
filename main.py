@@ -4,18 +4,21 @@ from address_book import AddressBook
 from constants import COMMANDS, FILE
 from utils import parse_args
 from commands import (
+    print_help,
     add_contact,
-    change_number_contact,
     print_contact,
     delete_contact,
-    delete_contact_phone,
-    add_number_phone_to_contact,
-    add_birthday_date,
-    change_birthday_date,
+    add_phone_number_to_contact,
+    change_phone_number_contact,
+    delete_phone_number_contact,
+    add_email_to_contact,
+    change_email_contact,
+    delete_email_contact,
+    add_birthday_to_contact,
+    change_birthday_contact,
     serch_contact,
-    print_all_contacts,
+    print_contacts,
     close_bot,
-    print_help,
 )
 
 
@@ -53,59 +56,82 @@ def run_bot():
 
         if command in COMMANDS:
 
-            if command in ('--add', '-a'):
+            if command in ('--add_contact', '-ac'):
                 message = add_contact(address_book,
                                       firstname,
                                       name,
                                       phone)
 
-            elif command in ('--change', '-c'):
-                message = change_number_contact(address_book,
-                                                firstname,
-                                                name,
-                                                phone,
-                                                old_phone)
+            elif command in ('--change_phone', '-cp'):
+                message = change_phone_number_contact(address_book,
+                                                    firstname,
+                                                    name,
+                                                    phone,
+                                                    old_phone)
 
-            elif command in ('--print', '-p'):
+            elif command in ('--print_contact', '-pc'):
                 message = print_contact(address_book, firstname, name)
 
-            elif command in ('--del'):
+            elif command in ('--del_contact', '-dc'):
                 message = delete_contact(address_book, firstname, name)
 
-            elif command in ('--del_phone'):
-                message = delete_contact_phone(address_book,
-                                               firstname,
-                                               name,
-                                               phone)
+            elif command in ('--del_phone', '-dp'):
+                message = delete_phone_number_contact(address_book,
+                                                    firstname,
+                                                    name,
+                                                    phone)
 
-            elif command in ('--add_phone'):
-                message = add_number_phone_to_contact(address_book,
+            elif command in ('--add_phone', '-ap'):
+                message = add_phone_number_to_contact(address_book,
                                                       firstname,
                                                       name,
                                                       phone)
 
-            elif command in ('--add_birth'):
+            elif command in ('--add_birth', '-ab'):
                 birthday = phone
-                message = add_birthday_date(address_book,
-                                            firstname,
-                                            name,
-                                            birthday)
+                message = add_birthday_to_contact(address_book,
+                                                  firstname,
+                                                  name,
+                                                  birthday)
 
-            elif command in ('--change_birth'):
-                birthday = phone
-                message = change_birthday_date(address_book,
+            elif command in ('--add_email', '-ae'):
+                email = phone
+                message = add_email_to_contact(address_book,
                                                firstname,
                                                name,
-                                               birthday)
+                                               email)
+                
+            elif command in ('--change_email', '-ce'):
+                new_email = phone
+                old_email = old_phone
+                message = change_email_contact(address_book,
+                                               firstname,
+                                               name,
+                                               new_email,
+                                               old_email)
+                
+            elif command in ('--del_email', '-de'):
+                email = phone
+                message = delete_email_contact(address_book,
+                                               firstname,
+                                               name,
+                                               email)
 
-            elif command in ('--show_all', '-s'):
-                message = print_all_contacts(address_book, firstname)
+            elif command in ('--change_birth', '-cb'):
+                birthday = phone
+                message = change_birthday_contact(address_book,
+                                                firstname,
+                                                name,
+                                                birthday)
 
-            elif command in ('--serch'):
+            elif command in ('--show_contacts', '-s'):
+                message = print_contacts(address_book, firstname)
+
+            elif command in ('--serch', '-sc'):
                 criteria = name
                 message = serch_contact(address_book, firstname, criteria)
 
-            elif command in ('--goodbye', '--close', '--exit', '-q'):
+            elif command in ('--quit', '-q'):
                 address_book.save_records_to_file(FILE)
                 close_bot(firstname)
 

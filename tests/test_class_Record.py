@@ -29,14 +29,14 @@ class TestRecord(unittest.TestCase):
         
         self.assertEqual(self.record_test.phone_numbers[0].subrecord, Phone('+380951234567'))
 
-    def test_edit_phone_number(self):
+    def test_change_phone_number(self):
         """
         The test_edit_phone_number function tests the edit_phone_number method of the Record class.
         It creates a new record, adds an old phone number to it and then edits this phone number with a new one.
         The test checks if the list of phone numbers in this record contains only one element - our new phone number.
         """
         new_phone = Phone('380951234500')
-        self.record_test.edit_phone_number(self.phone_test, new_phone)
+        self.record_test.change_phone_number(self.phone_test, new_phone)
         self.assertEqual(self.record_test.phone_numbers[0].subrecord, new_phone)
 
     def test_delete_phone_number(self):
@@ -56,7 +56,7 @@ class TestRecord(unittest.TestCase):
         """
         self.assertEqual(self.record_test.emails[0].subrecord, Email('test_sasha@gmail.com'))
 
-    def test_edit_email(self):
+    def test_change_email(self):
         """
         The test_edit_email function tests the edit_email function in Record.py
             It creates a new email object and then calls the edit_email function on it, passing in
@@ -65,7 +65,7 @@ class TestRecord(unittest.TestCase):
         """
 
         new_email = Email('test_pasha@gmail.com')
-        self.record_test.edit_email(self.email_test, new_email)
+        self.record_test.change_email(self.email_test, new_email)
         self.assertEqual(self.record_test.emails[0].subrecord, new_email)
 
     def test_delete_email(self):

@@ -7,23 +7,40 @@ NUMBER_OF_CONTACTS_PER_PAGE = 5
 COMMANDS = {
     "--help": 'print_help',
     "-h": 'print_help',
-    "--add": 'add_contact',
-    "-a": 'add_contact',
-    "--change": 'change_number_contact',
-    "-c": 'change_number_contact',
-    "--print": 'print_contact',
-    "-p": 'print_number_contact',
-    "--del": 'delete_contact',
-    "--del_phone": 'delete_contact_phone',
-    "--add_phone": 'add_number_phone_to_contact',
-    "--add_birth": 'add_birthday_date',
-    "--change_birth": 'change_birthday_date',
+    
+    "--add_contact": 'add_contact',
+    "-ac": 'add_contact',
+    "--print_contact": 'print_contact',
+    "-pc": 'print_contact',
+    "--del_contact": 'delete_contact',
+    "-dc": 'delete_contact',
+    
+    "--add_phone": 'add_phone_number_to_contact',
+    "-ap": 'add_phone_number_to_contact',
+    "--change_phone": 'change_phone_number_contact',
+    "-cp": 'change_phone_number_contact',
+    "--del_phone": 'delete_phone_number_contact',
+    "-dp": 'delete_phone_number_contact',
+    
+    "--add_email": 'add_email_to_contact',
+    "-ae": 'add_email_to_contact',
+    "--change_email": 'change_email_contact',
+    "-ce": 'change_email_contact',
+    "--del_email": 'delete_email_contact',
+    "-de": 'delete_email_contact',
+    
+    "--add_birth": 'add_birthday_to_contact',
+    "-ab": 'add_birthday_to_contact',
+    "--change_birth": 'change_birthday_contact',
+    "-cb": 'change_birthday_contact',
+    
     "--serch": 'serch_contact',
-    "--show_all": 'print_all_contacts',
-    "-s": 'print_all_contacts',
-    "--goodbye": 'close_bot',
-    "--close": 'close_bot',
-    "--exit": 'close_bot',
+    "-sc": 'serch_contact',
+    
+    "--show_contacts": 'print_contacts',
+    "-s": 'print_contacts',
+    
+    "--quit": 'close_bot',
     "-q": 'close_bot',
 }
 

@@ -10,7 +10,7 @@ from entities import Phone, User, Email
 class AddressBook(UserDict):
     """A class that represents an address book containing contact records."""
 
-    def get_contact(self, name: str) -> User:
+    def get_contact(self, name: str):
         """Returns the contact record for the given name."""
         return self.data[name]
 
@@ -92,14 +92,14 @@ class Record:
         subrecord_email = self.Subrecord(email)
         self.emails.append(subrecord_email)
 
-    def edit_phone_number(self, old_phone_number: Phone, new_phone_number: Phone):
+    def change_phone_number(self, old_phone_number: Phone, new_phone_number: Phone):
         """Updates an existing phone number for the contact."""
         for phone_number in self.phone_numbers:
             if phone_number.subrecord == old_phone_number:
                 phone_number.subrecord.phone = new_phone_number.phone
                 break
             
-    def edit_email(self, old_email: Email, new_email: Email):
+    def change_email(self, old_email: Email, new_email: Email):
         """Updates an existing phone number for the contact."""
         for email in self.emails:
             if email.subrecord == old_email:
