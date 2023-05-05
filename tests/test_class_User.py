@@ -10,7 +10,6 @@ class TestUser(unittest.TestCase):
 
     def setUp(self) -> None:
         self.user_test = User('Sasha')
-        # self.birthday_test = Birthday('26-06-1982')
 
     def tearDown(self) -> None:
         del self.user_test

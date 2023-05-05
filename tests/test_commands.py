@@ -1,7 +1,7 @@
 """Tests commands"""
 import unittest
 from address_book import Record, AddressBook
-from entities import Phone
+from entities import Phone, User, Email
 from commands import (
     add_contact,
     change_number_contact,
@@ -20,12 +20,20 @@ class TestCommands(unittest.TestCase):
 
     def setUp(self) -> None:
         self.addressbook_test = AddressBook()
-        self.record_test = Record('Sasha')
+        self.user_test = User('Sasha')
+        self.phone_test = Phone('380951234567')
+        self.email_test = Email('test_sasha@gmail.com')
+        self.record_test = Record(self.user_test)
+        self.record_test.add_phone_number(self.phone_test)
+        self.record_test.add_email(self.email_test)
         self.user_name = 'Bob'
 
     def tearDown(self) -> None:
         del self.addressbook_test
         del self.record_test
+        del self.user_test
+        del self.phone_test
+        del self.email_test
 
     def test_add_contact_exists(self):
         """
@@ -123,7 +131,6 @@ class TestCommands(unittest.TestCase):
 
         self.addressbook_test.add_record(self.record_test)
         self.record_test.add_phone_number(Phone(old_phone_number))
-        self.record_test.add_phone_number(Phone(new_phone_number))
 
         message = change_number_contact(self.addressbook_test,
                                         self.user_name,
@@ -259,7 +266,7 @@ class TestCommands(unittest.TestCase):
         The test is successful if the message returned by the function contains 'was not found in the'
         """
         contact_name = 'Sasha'
-        phone_number = '380951234567'
+        phone_number = '380951234500'
 
         self.addressbook_test.add_record(self.record_test)
 

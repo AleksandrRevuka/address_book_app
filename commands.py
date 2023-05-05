@@ -58,11 +58,11 @@ def change_number_contact(
 
         contact = address_book.get_contact(contact_name)
 
-        if old_phone not in contact.phone_numbers:
+        if old_phone not in [phone_number.subrecord for phone_number in contact.phone_numbers]:
             raise ValueError(
                 f"The contact's phone number '{old_phone.phone}' was not found in the address book.")
 
-        if new_phone in contact.phone_numbers:
+        if new_phone in [phone_number.subrecord for phone_number in contact.phone_numbers]:
             raise ValueError(
                 f"The contact's phone number '{new_phone.phone}' already exists in this '{contact_name.title()}' contact.")
 
@@ -87,15 +87,14 @@ def print_contact(
             raise KeyError(f"The contact '{contact_name.title()}' was not found.")
 
         table = PrettyTable()
-        table.field_names = ["Contact name", "Phone number",
-                            "Birthday", "Days to Birthday"]
+        table.field_names = ["Contact name", "Phone number", "Email", "Birthday", "Days to Birthday"]
 
         contact = address_book.get_contact(contact_name)
-        phone_numbers = [number.phone for number in contact.phone_numbers]
-        birthday = contact.birthday.birthday_date if contact.birthday else '-'
-        day_to_birthday = contact.days_to_birthday() if contact.birthday else '-'
-        table.add_row([contact_name.title(), phone_numbers,
-                    birthday, day_to_birthday])
+        phone_numbers = [number.subrecord.phone for number in contact.phone_numbers]
+        emails = [email.subrecord.email for email in contact.emails]
+        birthday = contact.user.birthday_date if contact.user.birthday_date else '-'
+        day_to_birthday = contact.days_to_birthday() if contact.user.birthday_date else '-'
+        table.add_row([contact_name.title(), phone_numbers, emails, birthday, day_to_birthday])
     else:
         return "After the command, you must enter the existing contact's name.\nFor example: 'Smith'"
 
@@ -134,7 +133,7 @@ def delete_contact_phone(
 
         contact = address_book.get_contact(contact_name)
 
-        if phone not in contact.phone_numbers:
+        if phone not in [phone_number.subrecord for phone_number in contact.phone_numbers]:
             raise ValueError(
                 f"Contact's phone '{phone.phone}' was not found in the '{contact_name.title()}' contact.")
 
@@ -160,7 +159,7 @@ def add_number_phone_to_contact(
 
         contact = address_book.get_contact(contact_name)
 
-        if phone in contact.phone_numbers:
+        if phone in [phone_number.subrecord for phone_number in contact.phone_numbers]:
             raise ValueError(
                 f"The phone number '{phone.phone}' already exists in the '{contact_name.title()}' contact.")
 
@@ -177,16 +176,17 @@ def print_all_contacts(address_book: AB, user_name: str) -> str:
 
     for i, contacts in enumerate(address_book.record_iterator(NUMBER_OF_CONTACTS_PER_PAGE), 1):
         table = PrettyTable()
-        table.field_names = ["Contact Name", "Phone Number",
+        table.field_names = ["Contact Name", "Phone Number", 'Email',
                              "Birthday", "Days to Birthday"]
 
         for contact in contacts:
-            contact_name = contact.name.name
-            phone_numbers = [phone.phone for phone in contact.phone_numbers]
-            birthday = contact.birthday.birthday_date if contact.birthday else '-'
-            day_to_birthday = contact.days_to_birthday() if contact.birthday else '-'
+            contact_name = contact.user.name
+            phone_numbers = [number.subrecord.phone for number in contact.phone_numbers]
+            emails = [email.subrecord.email for email in contact.emails]
+            birthday = contact.user.birthday_date if contact.user.birthday_date else '-'
+            day_to_birthday = contact.days_to_birthday() if contact.user.birthday_date else '-'
             table.add_row(
-                [contact_name.title(), phone_numbers, birthday, day_to_birthday])
+                [contact_name.title(), phone_numbers, emails, birthday, day_to_birthday])
         print(f"{user_name}, this is page {i} of your phone book:\n{table}")
     return "End of contacts."
 

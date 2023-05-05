@@ -9,15 +9,17 @@ class TestRecord(unittest.TestCase):
 
     def setUp(self) -> None:
         self.user_test = User('Sasha')
-        self.phone = Phone('380951234567')
-        self.email = Email('test_sasha@gmail.com')
+        self.phone_test = Phone('380951234567')
+        self.email_test = Email('test_sasha@gmail.com')
         self.record_test = Record(self.user_test)
-        self.record_test.add_phone_number(self.phone)
-        self.record_test.add_email(self.email)
+        self.record_test.add_phone_number(self.phone_test)
+        self.record_test.add_email(self.email_test)
 
     def tearDown(self) -> None:
         del self.record_test
         del self.user_test
+        del self.phone_test
+        del self.email_test
 
     def test_add_phone_number(self):
         """
@@ -34,7 +36,7 @@ class TestRecord(unittest.TestCase):
         The test checks if the list of phone numbers in this record contains only one element - our new phone number.
         """
         new_phone = Phone('380951234500')
-        self.record_test.edit_phone_number(self.phone, new_phone)
+        self.record_test.edit_phone_number(self.phone_test, new_phone)
         self.assertEqual(self.record_test.phone_numbers[0].subrecord, new_phone)
 
     def test_delete_phone_number(self):
@@ -43,7 +45,7 @@ class TestRecord(unittest.TestCase):
         It creates a phone number object and adds it to a record, then deletes it from that record.
         The test passes if the list of phone numbers in that record is empty.
         """
-        self.record_test.delete_phone_number(self.phone)
+        self.record_test.delete_phone_number(self.phone_test)
         self.assertEqual(self.record_test.phone_numbers, [])
         
     def test_add_email(self):
@@ -63,7 +65,7 @@ class TestRecord(unittest.TestCase):
         """
 
         new_email = Email('test_pasha@gmail.com')
-        self.record_test.edit_email(self.email, new_email)
+        self.record_test.edit_email(self.email_test, new_email)
         self.assertEqual(self.record_test.emails[0].subrecord, new_email)
 
     def test_delete_email(self):
@@ -74,7 +76,7 @@ class TestRecord(unittest.TestCase):
             Then, it asserts that there are no emails left in record.
         """
 
-        self.record_test.delete_email(self.email)
+        self.record_test.delete_email(self.email_test)
         self.assertEqual(self.record_test.emails, [])
         
         

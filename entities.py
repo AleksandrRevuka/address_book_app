@@ -12,12 +12,12 @@ class Email:
         self.email = email
 
     @property
-    def email(self):
+    def email(self) -> str:
         """Returns the phone number of the contact."""
         return self.__email
 
     @email.setter
-    def email(self, new_email):
+    def email(self, new_email: str) -> None:
         """
         The email function takes in a string and checks to see if it is a valid email address.
             If the email address is not valid, an error message will be returned.
@@ -33,7 +33,7 @@ class Email:
 
 class User:
     """..."""
-    def __init__(self, name):
+    def __init__(self, name: str):
         self.__name = None
         self.__birthday_date = None
         self.name = name
@@ -44,7 +44,7 @@ class User:
         return self.__name
 
     @name.setter
-    def name(self, new_name):
+    def name(self, new_name: str) -> None:
         """Sets the name of the contact if it is valid, otherwise raises an error."""
         self.__check = DataVerify
         self.__check.verify_name(new_name)
@@ -56,7 +56,7 @@ class User:
         return self.__birthday_date
 
     @birthday_date.setter
-    def birthday_date(self, new_birthday_date):
+    def birthday_date(self, new_birthday_date: str) -> None:
         """Sets the birthday date of the contact if it is valid, otherwise raises an error."""
         self.__check = DataVerify
         self.__check.verify_birthday_date(new_birthday_date)
@@ -78,7 +78,7 @@ class Phone:
         return self.__phone
 
     @phone.setter
-    def phone(self, new_phone: str):
+    def phone(self, new_phone: str) -> None:
         """Sets the phone number of the contact if it is valid, otherwise raises an error."""
         sanitize_phone = self.sanitize_phone_number(new_phone)
         self.__check = DataVerify
@@ -99,7 +99,7 @@ class Phone:
 
     @staticmethod
     @format_phone_number
-    def sanitize_phone_number(phone) -> str:
+    def sanitize_phone_number(phone: str) -> str:
         """Clean number"""
         return ''.join(number.strip('(, ), -, +') for number in phone)
             
@@ -141,7 +141,7 @@ class DataVerify:
                 f"Contact's phone must be between 11 and 16 numbers, but got '{phone}'")
 
     @classmethod
-    def verify_birthday_date(cls, birthday_data):
+    def verify_birthday_date(cls, birthday_data: str):
         """Verifies a birthday data."""
         try:
             birthday_data = datetime.strptime(birthday_data, '%d-%m-%Y')
@@ -154,6 +154,8 @@ class DataVerify:
                 f"Birthday '{birthday_data.date()}' must be in the past")
 
     @classmethod
-    def verify_email(cls, email):
-        """Verifies a birthday data."""
-        # result = re.findall(r"[a-zA-Z][a-zA-Z0-9_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+", text)
+    def verify_email(cls, email: str):
+        """Verifies an email address."""
+        pattern = r"[a-zA-Z][a-zA-Z0-9_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+"
+        if not re.match(pattern, email):
+            raise ValueError(f"Invalid '{email}' email address.")

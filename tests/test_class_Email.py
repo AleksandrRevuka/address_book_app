@@ -1,48 +1,34 @@
-"""Tests class Birthday"""
+"""Tests class Email"""
 import unittest
 from datetime import date
-from entities import Birthday
+from entities import Email
 
 
 class TestBirthday(unittest.TestCase):
-    """Tests class Birthday"""
+    """Tests class Email"""
 
     def setUp(self) -> None:
-        self.birthday_test = Birthday('26-06-1982')
+        self.email_test = Email('test_sasha@gmail.com')
 
     def tearDown(self) -> None:
-        del self.birthday_test
+        del self.email_test
 
-    def test_birthday_date(self):
+    def test_set_email(self):
         """
-        The test_birthday_date function tests the birthday_date attribute of the Birthday class.
-        It does this by comparing it to a date object with year 1982, month 6, and day 26.
+        The test_set_email function tests the set_email function in the Email class.
+        It checks to see if an email address is properly assigned to a new instance of
+        the Email class.
         """
-        
-        self.assertEqual(self.birthday_test.birthday_date, date(1982, 6, 26))
+        self.assertEqual(self.email_test.email, 'test_sasha@gmail.com')
 
-    def test_set_birthday(self):
+    def test_verify_email(self):
         """
-        The test_set_birthday function tests the set_birthday function in the Birthday class.
-        It does this by setting a birthday date and then checking if it is equal to a date object.
+        The test_verify_email function tests the email verification function in the Email class.
+        It checks to see if an invalid email address is entered, and raises a ValueError exception.
         """
-
-        self.birthday_test.birthday_date = '15-02-1990'
-        self.assertEqual(self.birthday_test.birthday_date, date(1990, 2, 15))
-
-    def test_verify_birthday_date(self):
-        """
-        The test_verify_birthday_date function tests the verify_birthday_date function in the Birthday class.
-        It checks that an error is raised if a date is not entered correctly, and also checks that an error is raised if a future date is entered.
-        """
-        
         with self.assertRaises(ValueError) as error:
-            self.birthday_test.birthday_date = '31-04-2000'
-            self.assertTrue('Incorrect date format:' in str(error.exception))
-
-        with self.assertRaises(ValueError)as error:
-            self.birthday_test.birthday_date = '30-04-2030'
-            self.assertTrue('must be in the past' in str(error.exception))
+            self.email_test.email = 'test@sasha@gmail.com'
+            self.assertTrue('Invalid email address.' in str(error.exception))
 
 if __name__ == '__main__':
     unittest.main()

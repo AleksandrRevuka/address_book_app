@@ -10,24 +10,24 @@ from entities import Phone, User, Email
 class AddressBook(UserDict):
     """A class that represents an address book containing contact records."""
 
-    def get_contact(self, name: str):
+    def get_contact(self, name: str) -> User:
         """Returns the contact record for the given name."""
         return self.data[name]
 
     def add_record(self, record):
         """Adds a new contact record to the address book."""
-        self.data[record.name.name] = record
+        self.data[record.user.name] = record
         self.sort_addressbook()
 
     def delete_record(self, record_name: str):
         """Removes a contact record from the address book."""
         del self.data[record_name]
 
-    def record_iterator(self, num_elements):
+    def record_iterator(self, count_elements: int):
         """Returns a generator that yields N records at a time."""
         records = list(self.data.values())
-        for i in range(0, len(records), num_elements):
-            yield records[i:i+num_elements]
+        for i in range(0, len(records), count_elements):
+            yield records[i:i+count_elements]
 
     def sort_addressbook(self):
         """The sort_addressbool function sorts the address book by name."""
@@ -40,12 +40,12 @@ class AddressBook(UserDict):
         if criteria.isdigit():
             for record in self.data.values():
                 for phone_number in record.phone_numbers:
-                    if re.search(criteria, phone_number.phone):
+                    if re.search(criteria, phone_number.subrecord.phone):
                         serch_contacts.add_record(record)
 
         else:
             for record in self.data.values():
-                if re.search(criteria, record.name.name):
+                if re.search(criteria, record.user.name):
                     serch_contacts.add_record(record)
                 
         if len(serch_contacts) == 0:
