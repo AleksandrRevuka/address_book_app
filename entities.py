@@ -101,16 +101,16 @@ class Phone:
     @format_phone_number
     def sanitize_phone_number(phone: str) -> str:
         """Clean number"""
-        return ''.join(number.strip('(, ), -, +') for number in phone)
+        return ''.join(number.strip().strip('(, ), -, +, x, .') for number in phone)
             
             
 class DataVerify:
     """A utility class for verifying contact data"""
 
-    CYRILLIC = 'абвгґдеєёжзиіїйклмнопрстуфхцчшщъыьэюя'
+    CYRILLIC = 'абвгґдеєёжзиіїйклмнопрстуфхцчшщъыьэюя. ʼ'
     LETTERS = ascii_letters + CYRILLIC + CYRILLIC.upper()
     NAME_RANGE = range(1, 50)
-    PHONE_RANGE = range(11, 17)
+    PHONE_RANGE = range(7, 20)
 
     @classmethod
     def verify_name(cls, name: str):

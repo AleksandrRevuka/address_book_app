@@ -52,7 +52,7 @@ def print_contact(address_book: AB,
         contact = address_book.get_contact(contact_name)
         phone_numbers = [number.subrecord.phone for number in contact.phone_numbers]
         emails = [email.subrecord.email for email in contact.emails]
-        birthday = contact.user.birthday_date if contact.user.birthday_date else '-'
+        birthday = contact.user.birthday_date.strftime('%d-%m-%Y') if contact.user.birthday_date else '-'
         day_to_birthday = contact.days_to_birthday() if contact.user.birthday_date else '-'
         table.add_row([contact_name.title(), phone_numbers, emails, birthday, day_to_birthday])
     else:
@@ -166,7 +166,9 @@ def add_email_to_contact(address_book: AB,
                         user_name: str,
                         contact_name: str,
                         email: str) -> str:
-    """..."""
+    """
+    The add_email_to_contact function adds an email to a contact.
+    """
     if contact_name and email:
         
         if contact_name not in address_book:
@@ -193,7 +195,13 @@ def change_email_contact(address_book: AB,
                         contact_name: str,
                         new_email: str,
                         old_email: str) -> str:
-    """..."""
+    """
+    The change_email_contact function takes in an address book, a user name, a contact name,
+    a new email and an old email. It then checks if the contact exists in the address book. If it does not exist
+    it raises a KeyError exception with the message &quot;The contact '{contact_name}' was not found.&quot; 
+    If it does exist then it checks if the old email is one of that contacts emails. If it is not one of its emails 
+    then we raise a ValueError exception with the message &quot;Contact's email '{old_email}' was not found in this '{contact_name}'
+    """
     if contact_name and old_email and new_email:
         
         if contact_name not in address_book:
@@ -225,7 +233,9 @@ def delete_email_contact(address_book: AB,
                         user_name: str,
                         contact_name: str,
                         email: str) -> str:
-    """..."""
+    """
+    The delete_email_contact function deletes the email from the contact.
+    """
     if contact_name and email:
         
         if contact_name not in address_book:
@@ -322,7 +332,8 @@ def print_contacts(address_book: AB, user_name: str) -> str:
             contact_name = contact.user.name
             phone_numbers = [number.subrecord.phone for number in contact.phone_numbers]
             emails = [email.subrecord.email for email in contact.emails]
-            birthday = contact.user.birthday_date if contact.user.birthday_date else '-'
+            
+            birthday = contact.user.birthday_date.strftime('%d-%m-%Y') if contact.user.birthday_date else '-'
             day_to_birthday = contact.days_to_birthday() if contact.user.birthday_date else '-'
             
             table.add_row(

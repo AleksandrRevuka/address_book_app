@@ -2,7 +2,7 @@
 
 FILE = 'address_book.bin'
 
-NUMBER_OF_CONTACTS_PER_PAGE = 5
+NUMBER_OF_CONTACTS_PER_PAGE = 20
 
 COMMANDS = {
     "--help": 'print_help',
