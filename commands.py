@@ -17,14 +17,9 @@ from verify_data import (
     check_email_in_address_book,
     check_email_not_in_address_book,
 )
-from constants import HELP, NUMBER_OF_CONTACTS_PER_PAGE, FILE
+from constants import NUMBER_OF_CONTACTS_PER_PAGE, FILE
 from address_book import Record, AddressBook as AB
 from entities import Phone, User, Email
-
-
-def print_help(user_name: str) -> str:
-    """Print help for the console bot program."""
-    return f'{user_name}, this is help for the console bot program:\n{HELP}'
 
 
 @click.group()

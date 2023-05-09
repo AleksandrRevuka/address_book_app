@@ -14,7 +14,7 @@ NAME_RANGE = range(1, 50)
 PHONE_RANGE = range(7, 20)
 
 
-@input_error 
+@input_error
 def verify_name(name: str):
     """Verifies that the input string `name` is a valid name for a contact."""
 
@@ -29,9 +29,9 @@ def verify_name(name: str):
     if len(name) not in NAME_RANGE:
         raise ValueError(
             f"Name length must be between {NAME_RANGE[0]} and {NAME_RANGE[-1]}, but got '{name.title()}'")
-        
 
-@input_error 
+
+@input_error
 def check_name_in_address_book(address_book: AB, name: str):
     """
     The check_name_in_address_book function checks if a name is already in the address book.
@@ -40,9 +40,9 @@ def check_name_in_address_book(address_book: AB, name: str):
     if name in address_book:
         raise ValueError(
             f"The contact '{name.title()}' already exists in the address book.")
-        
-        
-@input_error 
+
+
+@input_error
 def check_name_not_in_address_book(address_book: AB, name: str):
     """
     The check_name_not_in_address_book function checks if the name is already in the address book.
@@ -50,10 +50,10 @@ def check_name_not_in_address_book(address_book: AB, name: str):
         the contact already exists in the address book.
     """
     if name not in address_book:
-            raise KeyError(f"The contact '{name.title()}' was not found.")
+        raise KeyError(f"The contact '{name.title()}' was not found.")
 
 
-@input_error 
+@input_error
 def verify_phone(phone: str):
     """Verifies a phone number."""
 
@@ -66,7 +66,7 @@ def verify_phone(phone: str):
             f"Contact's phone must be between 11 and 16 numbers, but got '{phone}'")
 
 
-@input_error 
+@input_error
 def check_phone_number_in_address_book(contact: Record, phone: Phone, contact_name: str):
     """
     The check_phone_number_in_address_book function checks if a phone number already exists in the address book.
@@ -77,7 +77,7 @@ def check_phone_number_in_address_book(contact: Record, phone: Phone, contact_na
             f"The phone number '{phone.phone}' already exists in the '{contact_name.title()}' contact.")
 
 
-@input_error 
+@input_error
 def check_phone_number_not_in_address_book(contact: Record, phone: Phone, contact_name: str):
     """
     The check_phone_number_not_in_address_book function checks that the phone number to be updated is in the address book.
@@ -88,7 +88,7 @@ def check_phone_number_not_in_address_book(contact: Record, phone: Phone, contac
             f"Contact's phone '{phone.phone}' was not found in the '{contact_name.title()}' contact.")
 
 
-@input_error 
+@input_error
 def verify_birthday_date(birthday_date: str):
     """Verifies a birthday data."""
     try:
@@ -102,15 +102,15 @@ def verify_birthday_date(birthday_date: str):
             f"Birthday '{birthday_date.date()}' must be in the past")
 
 
-@input_error 
+@input_error
 def verify_email(email: str):
     """Verifies an email address."""
     pattern = r"[a-zA-Z][a-zA-Z0-9_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+"
     if not re.match(pattern, email):
         raise ValueError(f"Invalid '{email}' email address.")
-    
 
-@input_error 
+
+@input_error
 def check_email_in_address_book(contact: Record, email: Phone, contact_name: str):
     """
     The check_email_in_address_book function checks if the email already exists in the contact's emails.
@@ -119,9 +119,9 @@ def check_email_in_address_book(contact: Record, email: Phone, contact_name: str
     if email in [email.subrecord for email in contact.emails]:
         raise ValueError(
             f"The contact's email '{email.email}' already exists in this '{contact_name.title()}' contact.")
-        
-        
-@input_error 
+
+
+@input_error
 def check_email_not_in_address_book(contact: Record, email: Phone, contact_name: str):
     """
     The check_email_not_in_address_book function checks to see if the email is in the contact's list of emails.
@@ -130,9 +130,14 @@ def check_email_not_in_address_book(contact: Record, email: Phone, contact_name:
     if email not in [email.subrecord for email in contact.emails]:
         raise ValueError(
             f"Contact's email '{email.email}' was not found in the '{contact_name.title()}' contact.")
-        
+
 
 @input_error
 def verify_criteria(criteria: str):
-    if  not criteria.isdigit() and not criteria.isalpha():
-        raise ValueError(f"Criteria '{criteria}' must be only numbers or letters")
+    """
+    The verify_criteria function is used to verify that the criteria entered by the user
+    is only numbers or letters.  If it is not, then a ValueError exception will be raised.
+    """
+    if not criteria.isdigit() and not criteria.isalpha():
+        raise ValueError(
+            f"Criteria '{criteria}' must be only numbers or letters")
