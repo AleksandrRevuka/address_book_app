@@ -1,20 +1,26 @@
 """error"""
 
+import sys
+import click
+
 
 def input_error(func):
     """Decorator for handling input errors"""
     def wrraper_input_error(*args, **kwargs):
         """Wrapper function for handling input errors"""
         try:
-            return func(*args, **kwargs)
+            func(*args, **kwargs)
 
         except TypeError as error:
-            return f"TypeError: {error}"
+            click.secho(f"TypeError: {error}", fg='red')
+            sys.exit('Try again!')
 
         except ValueError as error:
-            return f"ValueError: {error}"
+            click.secho(f"ValueError: {error}", fg='red')
+            sys.exit('Try again!')
 
         except KeyError as error:
-            return f"KeyError: {error}"
-
+            click.secho(f"KeyError: {error}", fg='red')
+            sys.exit('Try again!')
+        
     return wrraper_input_error
