@@ -1,9 +1,8 @@
 """Tests class Phone"""
 import unittest
 
-
-from entities import Phone
-from utils import sanitize_phone_number
+from chat_bot.utils import sanitize_phone_number
+from chat_bot.entities import Phone
 
 
 class TestPhone(unittest.TestCase):

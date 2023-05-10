@@ -2,7 +2,7 @@
 import unittest
 from datetime import date
 
-from entities import User
+from chat_bot.entities import User
 
 
 class TestUser(unittest.TestCase):

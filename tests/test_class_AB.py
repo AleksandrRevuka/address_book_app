@@ -1,22 +1,25 @@
 """Test class AddressBook"""
+
 import os
 import pickle
 import unittest
-from entities import Phone, User, Email
-from address_book import AddressBook, Record
+
+from chat_bot.entities import Phone, User, Email
+from chat_bot.address_book import Record, AddressBook as AB
+
 
 class TestAddressBook(unittest.TestCase):
     """Tests class AddressBook"""
 
     def setUp(self) -> None:
-        self.addressbook_test = AddressBook()
+        self.addressbook_test = AB()
         self.user_test = User('sasha')
         self.phone_test = Phone('380951234567')
         self.email_test = Email('test_sasha@gmail.com')
         self.record_test = Record(self.user_test)
         self.record_test.add_phone_number(self.phone_test)
         self.record_test.add_email(self.email_test)
-        
+
         current_dir = os.getcwd()
         self.test_file = os.path.join(current_dir, 'tests', 'test_file.bin')
 
@@ -64,7 +67,7 @@ class TestAddressBook(unittest.TestCase):
         It creates a contact, adds a phone number to it and then adds this contact to an addressbook.
         Then it searches for all contacts with 38095 in their phone numbers and checks if there is at least one such record.
         """
-        
+
         self.addressbook_test.add_record(self.record_test)
         addressbook_search = self.addressbook_test.search('38095')
         contact = addressbook_search.get_contact('sasha')
@@ -79,7 +82,8 @@ class TestAddressBook(unittest.TestCase):
         """
         self.addressbook_test.add_record(self.record_test)
         addressbook_search = self.addressbook_test.search('Pa')
-        self.assertTrue('criterion, no matches were found' in addressbook_search)
+        self.assertTrue(
+            'criterion, no matches were found' in addressbook_search)
 
     def test_save_records_to_file(self):
         """
@@ -88,24 +92,27 @@ class TestAddressBook(unittest.TestCase):
             loads its contents into memory, and checks that the name of one of the records is present.
         """
         self.addressbook_test.add_record(self.record_test)
-        
+
         self.addressbook_test.save_records_to_file(self.test_file)
-        
+
         with open(self.test_file, 'rb') as file:
             content = pickle.load(file)
             self.assertTrue('sasha' in content)
-            
+
     def test_read_records_from_file(self):
         """
         The test_read_records_from_file function tests the read_records_from_file function in AddressBook.py
             by creating a test file, adding a record to it, and then reading that record from the file into an addressbook object.
             The test passes if 'Sasha' is in the addressbook object.
-        """  
+        """
         with open(self.test_file, 'wb') as file:
             self.addressbook_test.add_record(self.record_test)
             pickle.dump(self.addressbook_test, file)
 
         self.addressbook_test.read_records_from_file(self.test_file)
-        
+
         self.assertTrue('sasha' in self.addressbook_test)
-        
+
+
+if __name__ == '__main__':
+    unittest.main()

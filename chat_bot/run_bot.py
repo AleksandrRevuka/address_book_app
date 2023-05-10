@@ -125,6 +125,7 @@ def add_phone_number_to_contact(addressbook: AB, contact_name: str, phone_number
     :param phone_number: str: Pass the phone number to be added to the contact
     """
     contact_name = contact_name.lower()
+    phone_number = sanitize_phone_number(phone_number)
     verify_phone(phone_number)
     phone = Phone(phone_number)
 
@@ -163,10 +164,12 @@ def change_phone_number_contact(addressbook: AB,
     check_name_not_in_address_book(addressbook, contact_name)
     contact = addressbook.get_contact(contact_name)
 
+    old_phone_number = sanitize_phone_number(old_phone_number)
     verify_phone(old_phone_number)
     old_phone = Phone(old_phone_number)
     check_phone_number_not_in_address_book(contact, old_phone, contact_name)
 
+    new_phone_number = sanitize_phone_number(new_phone_number)
     verify_phone(new_phone_number)
     new_phone = Phone(new_phone_number)
     check_phone_number_in_address_book(contact, new_phone, contact_name)
@@ -197,6 +200,7 @@ def delete_phone_number_contact(addressbook: AB,
 
     contact = addressbook.get_contact(contact_name)
 
+    phone_number = sanitize_phone_number(phone_number)
     phone = Phone(phone_number)
     check_phone_number_not_in_address_book(contact, phone, contact_name)
 

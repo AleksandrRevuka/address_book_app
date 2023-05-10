@@ -4,9 +4,9 @@ import unittest
 from unittest.mock import patch
 import io
 
-from address_book import Record, AddressBook
-from entities import Phone, User, Email
-from chat_bot import (
+from chat_bot.address_book import Record, AddressBook
+from chat_bot.entities import Phone, User, Email
+from chat_bot.run_bot import (
     add_contact,
     print_contact,
     delete_contact,
@@ -43,7 +43,7 @@ class TestChatBot(unittest.TestCase):
         del self.phone_test
         del self.email_test
 
-    def test_add_contact_exists(self):
+    def test_add_contact__with_valid_input(self):
         """
         The test_add_contact_exists function tests the add_contact function.
         It checks that if a contact with the same name already exists in an address book, 
@@ -53,10 +53,13 @@ class TestChatBot(unittest.TestCase):
         phone_test = '380951234567'
         self.addressbook_test.add_record(self.record_test)
 
-        message = add_contact(self.addressbook_test,
-                              name_test,
-                              phone_test)
-        self.assertTrue('already exists in the address book' in message)
+        with patch('sys.stdout', new=io.StringIO()) as fake_out:
+            
+            add_contact(self.addressbook_test,
+                    name_test,
+                    phone_test)
+            
+        self.assertTrue(f"The contact '{name_test.title()}' has been" in fake_out.getvalue())
 
     def test_add_contact_without_name(self):
         """
@@ -699,6 +702,10 @@ class TestChatBot(unittest.TestCase):
         contact_name = 'Sasha'
         self.addressbook_test.add_record(self.record_test)
         
-        message = print_contact(self.addressbook_test contact_name)
+        message = print_contact(self.addressbook_test, contact_name)
         
         self.assertTrue(f"{self.user_name}, '{contact_name.title()}':" in message)
+        
+
+if __name__ == '__main__':
+    unittest.main()

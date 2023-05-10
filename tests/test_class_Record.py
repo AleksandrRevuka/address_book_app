@@ -2,8 +2,11 @@
 
 import unittest
 from datetime import date, datetime
-from entities import Phone, User, Email
-from address_book import Record
+
+from chat_bot.entities import Phone, User, Email
+from chat_bot.address_book import Record
+
+
 class TestRecord(unittest.TestCase):
     """Tests class Record"""
 

@@ -1,7 +1,7 @@
 """Tests validation"""
 
 import unittest
-from validation import (
+from chat_bot.validation import (
     verify_email, 
     verify_phone, 
     verify_name, 

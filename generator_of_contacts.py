@@ -4,9 +4,9 @@ import random
 from faker import Factory
 
 
-from address_book import Record, AddressBook as AB
-from entities import Phone, User, Email
-from constants import FILE
+from chat_bot.address_book import Record, AddressBook as AB
+from chat_bot.entities import Phone, User, Email
+from chat_bot.constants import FILE
 
 def generator_contacts(n=10) -> list[dict]:
     """
