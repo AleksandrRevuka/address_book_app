@@ -2,7 +2,6 @@
 
 from datetime import datetime
 
-
 class Email:
     """..."""
     def __init__(self, email: str):
@@ -72,23 +71,8 @@ class Phone:
     @phone.setter
     def phone(self, new_phone: str) -> None:
         """Sets the phone number of the contact if it is valid, otherwise raises an error."""
-        sanitize_phone = self.sanitize_phone_number(new_phone)
-        self.__phone = sanitize_phone
+        self.__phone = new_phone
 
     def __eq__(self, other: object) -> bool:
         return self.phone == other.phone
 
-    @staticmethod
-    def format_phone_number(func):
-        """Add '+' to phone's number"""
-        def add_code_phone(phone):
-            phone = func(phone)
-            return ''.join('+' + phone)
-
-        return add_code_phone
-
-    @staticmethod
-    @format_phone_number
-    def sanitize_phone_number(phone: str) -> str:
-        """Clean number"""
-        return ''.join(number.strip().strip('(, ), -, +, x, .') for number in phone)

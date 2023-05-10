@@ -1,17 +1,13 @@
-"""verify data"""
+"""validation"""
 
 import re
-from string import ascii_letters, digits
+from string import digits
+
 from datetime import datetime
 from address_book import Record, AddressBook as AB
 from entities import Phone
-
+from constants import LETTERS, NAME_RANGE, PHONE_RANGE
 from error import input_error
-
-CYRILLIC = 'абвгґдеєёжзиіїйклмнопрстуфхцчшщъыьэюя. ʼ'
-LETTERS = ascii_letters + CYRILLIC + CYRILLIC.upper()
-NAME_RANGE = range(1, 50)
-PHONE_RANGE = range(7, 20)
 
 
 @input_error
@@ -29,6 +25,52 @@ def verify_name(name: str):
     if len(name) not in NAME_RANGE:
         raise ValueError(
             f"Name length must be between {NAME_RANGE[0]} and {NAME_RANGE[-1]}, but got '{name.title()}'")
+
+
+@input_error
+def verify_phone(phone: str):
+    """Verifies a phone number."""
+
+    if len(phone.strip(digits + '+')) != 0:
+        raise TypeError(
+            f"Contact's phone can only contain digits, but got '{phone}'")
+
+    if len(phone) not in PHONE_RANGE:
+        raise ValueError(
+            f"Contact's phone must be between 11 and 16 numbers, but got '{phone}'")
+        
+        
+@input_error
+def verify_birthday_date(birthday_date: str):
+    """Verifies a birthday data."""
+    try:
+        birthday_date = datetime.strptime(birthday_date, '%d-%m-%Y')
+    except ValueError as error:
+        raise ValueError(
+            f"Incorrect date format: '{birthday_date}', should be in the format DD-MM-YYYY") from error
+
+    if birthday_date >= datetime.now():
+        raise ValueError(
+            f"Birthday '{birthday_date.date()}' must be in the past")
+
+
+@input_error
+def verify_email(email: str):
+    """Verifies an email address."""
+    pattern = r"[a-zA-Z][a-zA-Z0-9_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+"
+    if not re.match(pattern, email):
+        raise ValueError(f"Invalid '{email}' email address.")
+
+
+@input_error
+def verify_criteria(criteria: str):
+    """
+    The verify_criteria function is used to verify that the criteria entered by the user
+    is only numbers or letters.  If it is not, then a ValueError exception will be raised.
+    """
+    if not criteria.isdigit() and not criteria.isalpha():
+        raise ValueError(
+            f"Criteria '{criteria}' must be only numbers or letters")
 
 
 @input_error
@@ -54,19 +96,6 @@ def check_name_not_in_address_book(address_book: AB, name: str):
 
 
 @input_error
-def verify_phone(phone: str):
-    """Verifies a phone number."""
-
-    if len(phone.strip(digits + '+')) != 0:
-        raise TypeError(
-            f"Contact's phone can only contain digits, but got '{phone}'")
-
-    if len(phone) not in PHONE_RANGE:
-        raise ValueError(
-            f"Contact's phone must be between 11 and 16 numbers, but got '{phone}'")
-
-
-@input_error
 def check_phone_number_in_address_book(contact: Record, phone: Phone, contact_name: str):
     """
     The check_phone_number_in_address_book function checks if a phone number already exists in the address book.
@@ -86,28 +115,6 @@ def check_phone_number_not_in_address_book(contact: Record, phone: Phone, contac
     if phone not in [phone_number.subrecord for phone_number in contact.phone_numbers]:
         raise ValueError(
             f"Contact's phone '{phone.phone}' was not found in the '{contact_name.title()}' contact.")
-
-
-@input_error
-def verify_birthday_date(birthday_date: str):
-    """Verifies a birthday data."""
-    try:
-        birthday_date = datetime.strptime(birthday_date, '%d-%m-%Y')
-    except ValueError as error:
-        raise ValueError(
-            f"Incorrect date format: '{birthday_date}', should be in the format DD-MM-YYYY") from error
-
-    if birthday_date >= datetime.now():
-        raise ValueError(
-            f"Birthday '{birthday_date.date()}' must be in the past")
-
-
-@input_error
-def verify_email(email: str):
-    """Verifies an email address."""
-    pattern = r"[a-zA-Z][a-zA-Z0-9_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+"
-    if not re.match(pattern, email):
-        raise ValueError(f"Invalid '{email}' email address.")
 
 
 @input_error
@@ -131,13 +138,3 @@ def check_email_not_in_address_book(contact: Record, email: Phone, contact_name:
         raise ValueError(
             f"Contact's email '{email.email}' was not found in the '{contact_name.title()}' contact.")
 
-
-@input_error
-def verify_criteria(criteria: str):
-    """
-    The verify_criteria function is used to verify that the criteria entered by the user
-    is only numbers or letters.  If it is not, then a ValueError exception will be raised.
-    """
-    if not criteria.isdigit() and not criteria.isalpha():
-        raise ValueError(
-            f"Criteria '{criteria}' must be only numbers or letters")

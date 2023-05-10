@@ -1,12 +1,13 @@
 """Tests commands"""
+
 import unittest
 from unittest.mock import patch
 import io
 
 from address_book import Record, AddressBook
 from entities import Phone, User, Email
-from commands import (
-     add_contact,
+from chat_bot import (
+    add_contact,
     print_contact,
     delete_contact,
     add_phone_number_to_contact,
@@ -22,12 +23,12 @@ from commands import (
 )
 
 
-class TestCommands(unittest.TestCase):
+class TestChatBot(unittest.TestCase):
     """Tests commands"""
 
     def setUp(self) -> None:
         self.addressbook_test = AddressBook()
-        self.user_test = User('Sasha')
+        self.user_test = User('sasha')
         self.phone_test = Phone('380951234567')
         self.email_test = Email('test_sasha@gmail.com')
         self.record_test = Record(self.user_test)
@@ -48,12 +49,11 @@ class TestCommands(unittest.TestCase):
         It checks that if a contact with the same name already exists in an address book, 
         the user will be notified about it.
         """
-        name_test = 'Sasha'
+        name_test = 'sasha'
         phone_test = '380951234567'
         self.addressbook_test.add_record(self.record_test)
 
         message = add_contact(self.addressbook_test,
-                              self.user_name,
                               name_test,
                               phone_test)
         self.assertTrue('already exists in the address book' in message)
@@ -68,7 +68,6 @@ class TestCommands(unittest.TestCase):
         phone_test = '380951234567'
 
         message = add_contact(self.addressbook_test,
-                              self.user_name,
                               name_test,
                               phone_test)
         self.assertTrue('After the command, you must enter the new' in message)
@@ -83,7 +82,6 @@ class TestCommands(unittest.TestCase):
         phone_test = None
 
         message = add_contact(self.addressbook_test,
-                              self.user_name,
                               name_test,
                               phone_test)
         self.assertTrue('After the command, you must enter the new' in message)
@@ -100,7 +98,6 @@ class TestCommands(unittest.TestCase):
         old_phone_number = '380951234500'
 
         message = change_phone_number_contact(self.addressbook_test,
-                                        self.user_name,
                                         contact_name,
                                         new_phone_number,
                                         old_phone_number)
@@ -120,7 +117,6 @@ class TestCommands(unittest.TestCase):
         self.addressbook_test.add_record(self.record_test)
 
         message = change_phone_number_contact(self.addressbook_test,
-                                        self.user_name,
                                         contact_name,
                                         new_phone_number,
                                         old_phone_number)
@@ -140,7 +136,6 @@ class TestCommands(unittest.TestCase):
         self.record_test.add_phone_number(Phone(old_phone_number))
 
         message = change_phone_number_contact(self.addressbook_test,
-                                        self.user_name,
                                         contact_name,
                                         new_phone_number,
                                         old_phone_number)
@@ -157,7 +152,6 @@ class TestCommands(unittest.TestCase):
         old_phone_number = '380951234500'
 
         message = change_phone_number_contact(self.addressbook_test,
-                                        self.user_name,
                                         contact_name,
                                         new_phone_number,
                                         old_phone_number)
@@ -173,7 +167,6 @@ class TestCommands(unittest.TestCase):
         old_phone_number = '380951234500'
 
         message = change_phone_number_contact(self.addressbook_test,
-                                        self.user_name,
                                         contact_name,
                                         new_phone_number,
                                         old_phone_number)
@@ -189,7 +182,6 @@ class TestCommands(unittest.TestCase):
         old_phone_number = None
 
         message = change_phone_number_contact(self.addressbook_test,
-                                        self.user_name,
                                         contact_name,
                                         new_phone_number,
                                         old_phone_number)
@@ -204,7 +196,6 @@ class TestCommands(unittest.TestCase):
         contact_name = 'Sasha'
 
         message = print_contact(self.addressbook_test,
-                                self.user_name,
                                 contact_name)
 
         self.assertTrue('was not found' in message)
@@ -218,7 +209,6 @@ class TestCommands(unittest.TestCase):
         contact_name = None
 
         message = print_contact(self.addressbook_test,
-                                self.user_name,
                                 contact_name)
 
         self.assertTrue('After the command, you must enter' in message)
@@ -232,7 +222,6 @@ class TestCommands(unittest.TestCase):
         contact_name = 'Sasha'
 
         message = delete_contact(self.addressbook_test,
-                                 self.user_name,
                                  contact_name)
         self.assertTrue('was not found' in message)
 
@@ -249,7 +238,6 @@ class TestCommands(unittest.TestCase):
         self.addressbook_test.add_record(self.record_test)
 
         message = delete_contact(self.addressbook_test,
-                                 self.user_name,
                                  contact_name)
         self.assertTrue('After the command, you must enter' in message)
 
@@ -262,7 +250,6 @@ class TestCommands(unittest.TestCase):
         phone_number = '380951234567'
 
         message = delete_phone_number_contact(self.addressbook_test,
-                                            self.user_name,
                                             contact_name,
                                             phone_number)
         self.assertTrue('was not found' in message)
@@ -278,7 +265,6 @@ class TestCommands(unittest.TestCase):
         self.addressbook_test.add_record(self.record_test)
 
         message = delete_phone_number_contact(self.addressbook_test,
-                                            self.user_name,
                                             contact_name,
                                             phone_number)
         self.assertTrue('was not found in the' in message)
@@ -293,7 +279,6 @@ class TestCommands(unittest.TestCase):
         phone_number = '380951234567'
 
         message = delete_phone_number_contact(self.addressbook_test,
-                                            self.user_name,
                                             contact_name,
                                             phone_number)
         self.assertTrue('After the command, you must enter' in message)
@@ -308,7 +293,6 @@ class TestCommands(unittest.TestCase):
         phone_number = None
 
         message = delete_phone_number_contact(self.addressbook_test,
-                                       self.user_name,
                                        contact_name,
                                        phone_number)
         self.assertTrue('After the command, you must enter' in message)
@@ -322,7 +306,6 @@ class TestCommands(unittest.TestCase):
         phone_number = '380951234567'
 
         message = add_phone_number_to_contact(self.addressbook_test,
-                                              self.user_name,
                                               contact_name,
                                               phone_number)
         self.assertTrue('was not found' in message)
@@ -339,7 +322,6 @@ class TestCommands(unittest.TestCase):
         self.record_test.add_phone_number(Phone(phone_number))
 
         message = add_phone_number_to_contact(self.addressbook_test,
-                                              self.user_name,
                                               contact_name,
                                               phone_number)
         self.assertTrue('already exists in the' in message)
@@ -353,7 +335,6 @@ class TestCommands(unittest.TestCase):
         phone_number = '380951234567'
 
         message = add_phone_number_to_contact(self.addressbook_test,
-                                              self.user_name,
                                               contact_name,
                                               phone_number)
         self.assertTrue('After the command, you must enter' in message)
@@ -368,7 +349,6 @@ class TestCommands(unittest.TestCase):
         phone_number = None
 
         message = add_phone_number_to_contact(self.addressbook_test,
-                                              self.user_name,
                                               contact_name,
                                               phone_number)
         self.assertTrue('After the command, you must enter' in message)
@@ -383,7 +363,6 @@ class TestCommands(unittest.TestCase):
         birthday_date = '26-06-1982'
 
         message = add_birthday_to_contact(self.addressbook_test,
-                                    self.user_name,
                                     contact_name,
                                     birthday_date)
         self.assertTrue('was not found' in message)
@@ -398,7 +377,6 @@ class TestCommands(unittest.TestCase):
         birthday_date = '26-06-1982'
 
         message = add_birthday_to_contact(self.addressbook_test,
-                                    self.user_name,
                                     contact_name,
                                     birthday_date)
         self.assertTrue('After the command, you must enter' in message)
@@ -412,7 +390,6 @@ class TestCommands(unittest.TestCase):
         birthday_date = None
 
         message = add_birthday_to_contact(self.addressbook_test,
-                                    self.user_name,
                                     contact_name,
                                     birthday_date)
         self.assertTrue('After the command, you must enter' in message)
@@ -427,7 +404,6 @@ class TestCommands(unittest.TestCase):
         birthday_date = '26-06-1982'
 
         message = change_birthday_contact(self.addressbook_test,
-                                       self.user_name,
                                        contact_name,
                                        birthday_date)
         self.assertTrue('was not found' in message)
@@ -442,7 +418,6 @@ class TestCommands(unittest.TestCase):
         birthday_date = '26-06-1982'
 
         message = change_birthday_contact(self.addressbook_test,
-                                       self.user_name,
                                        contact_name,
                                        birthday_date)
         self.assertTrue('After the command, you must enter' in message)
@@ -456,7 +431,6 @@ class TestCommands(unittest.TestCase):
         birthday_date = None
 
         message = change_birthday_contact(self.addressbook_test,
-                                       self.user_name,
                                        contact_name,
                                        birthday_date)
         self.assertTrue('After the command, you must enter' in message)
@@ -469,7 +443,6 @@ class TestCommands(unittest.TestCase):
         criteria = '/.,mnb'
 
         message = serch_contact(self.addressbook_test,
-                                self.user_name,
                                 criteria)
         self.assertTrue('must be only numbers or letters' in message)
 
@@ -481,7 +454,6 @@ class TestCommands(unittest.TestCase):
         criteria = None
 
         message = serch_contact(self.addressbook_test,
-                                self.user_name,
                                 criteria)
         self.assertTrue(
             'After command, you must enter the criteria of serch' in message)
@@ -496,7 +468,6 @@ class TestCommands(unittest.TestCase):
         email = 'test_sasha@gmail.com'
 
         message = add_email_to_contact(self.addressbook_test,
-                                              self.user_name,
                                               contact_name,
                                               email)
         self.assertTrue('was not found' in message)
@@ -513,7 +484,6 @@ class TestCommands(unittest.TestCase):
         self.record_test.add_email(Email(email))
 
         message = add_email_to_contact(self.addressbook_test,
-                                              self.user_name,
                                               contact_name,
                                               email)
         self.assertTrue('already exists in this' in message)
@@ -528,7 +498,6 @@ class TestCommands(unittest.TestCase):
         email = 'test_sasha@gmail.com'
 
         message = add_email_to_contact(self.addressbook_test,
-                                              self.user_name,
                                               contact_name,
                                               email)
         self.assertTrue('After the command, you must enter' in message)
@@ -542,7 +511,6 @@ class TestCommands(unittest.TestCase):
         email = None
 
         message = add_email_to_contact(self.addressbook_test,
-                                              self.user_name,
                                               contact_name,
                                               email)
         self.assertTrue('After the command, you must enter' in message)
@@ -558,7 +526,6 @@ class TestCommands(unittest.TestCase):
         old_email = 'test_sasha@gmail.com'
 
         message = change_email_contact(self.addressbook_test,
-                                        self.user_name,
                                         contact_name,
                                         new_email,
                                         old_email)
@@ -581,7 +548,6 @@ class TestCommands(unittest.TestCase):
         self.addressbook_test.add_record(self.record_test)
 
         message = change_email_contact(self.addressbook_test,
-                                        self.user_name,
                                         contact_name,
                                         new_email,
                                         old_email)
@@ -600,7 +566,6 @@ class TestCommands(unittest.TestCase):
         self.record_test.add_email(Email(new_email))
 
         message = change_email_contact(self.addressbook_test,
-                                        self.user_name,
                                         contact_name,
                                         new_email,
                                         old_email)
@@ -617,7 +582,6 @@ class TestCommands(unittest.TestCase):
         old_email = self.email_test
 
         message = change_email_contact(self.addressbook_test,
-                                        self.user_name,
                                         contact_name,
                                         new_email,
                                         old_email)
@@ -633,7 +597,6 @@ class TestCommands(unittest.TestCase):
         old_email = self.email_test
 
         message = change_email_contact(self.addressbook_test,
-                                        self.user_name,
                                         contact_name,
                                         new_email,
                                         old_email)
@@ -650,7 +613,6 @@ class TestCommands(unittest.TestCase):
         old_email = None
 
         message = change_email_contact(self.addressbook_test,
-                                        self.user_name,
                                         contact_name,
                                         new_email,
                                         old_email)
@@ -666,7 +628,6 @@ class TestCommands(unittest.TestCase):
         email = 'test_sasha@gmail.com'
 
         message = delete_email_contact(self.addressbook_test,
-                                            self.user_name,
                                             contact_name,
                                             email)
         self.assertTrue('was not found' in message)
@@ -682,7 +643,6 @@ class TestCommands(unittest.TestCase):
         self.addressbook_test.add_record(self.record_test)
 
         message = delete_email_contact(self.addressbook_test,
-                                            self.user_name,
                                             contact_name,
                                             email)
         self.assertTrue('was not found in the' in message)
@@ -697,7 +657,6 @@ class TestCommands(unittest.TestCase):
         email = 'test_sasha@gmail.com'
         
         message = delete_email_contact(self.addressbook_test,
-                                            self.user_name,
                                             contact_name,
                                             email)
         self.assertTrue('After the command, you must enter' in message)
@@ -712,7 +671,6 @@ class TestCommands(unittest.TestCase):
         email = None
 
         message = delete_email_contact(self.addressbook_test,
-                                       self.user_name,
                                        contact_name,
                                        email)
         self.assertTrue('After the command, you must enter' in message)
@@ -727,7 +685,7 @@ class TestCommands(unittest.TestCase):
         
         with patch('sys.stdout', new=io.StringIO()) as fake_out:
             
-            print_contacts(self.addressbook_test, self.user_name)
+            print_contacts(self.addressbook_test)
             
             self.assertTrue('test_sasha@gmail.com' in fake_out.getvalue())
             
@@ -741,6 +699,6 @@ class TestCommands(unittest.TestCase):
         contact_name = 'Sasha'
         self.addressbook_test.add_record(self.record_test)
         
-        message = print_contact(self.addressbook_test, self.user_name, contact_name)
+        message = print_contact(self.addressbook_test contact_name)
         
         self.assertTrue(f"{self.user_name}, '{contact_name.title()}':" in message)

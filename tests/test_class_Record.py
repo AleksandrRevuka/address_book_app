@@ -27,7 +27,7 @@ class TestRecord(unittest.TestCase):
         It creates a phone object and adds it to a record object, then checks if that phone number is in the list of numbers for that record.
         """
         
-        self.assertEqual(self.record_test.phone_numbers[0].subrecord, Phone('+380951234567'))
+        self.assertEqual(self.record_test.phone_numbers[0].subrecord, Phone('380951234567'))
 
     def test_change_phone_number(self):
         """

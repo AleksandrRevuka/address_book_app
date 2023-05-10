@@ -12,15 +12,15 @@ def input_error(func):
             func(*args, **kwargs)
 
         except TypeError as error:
-            click.secho(f"TypeError: {error}", fg='red')
+            click.secho(f"TypeError: {error}", fg='red', italic=True)
             sys.exit('Try again!')
 
         except ValueError as error:
-            click.secho(f"ValueError: {error}", fg='red')
+            click.secho(f"ValueError: {error}", fg='red', italic=True)
             sys.exit('Try again!')
 
         except KeyError as error:
-            click.secho(f"KeyError: {error}", fg='red')
+            click.secho(f"KeyError: {error}", fg='red', italic=True)
             sys.exit('Try again!')
         
     return wrraper_input_error

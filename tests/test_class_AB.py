@@ -10,7 +10,7 @@ class TestAddressBook(unittest.TestCase):
 
     def setUp(self) -> None:
         self.addressbook_test = AddressBook()
-        self.user_test = User('Sasha')
+        self.user_test = User('sasha')
         self.phone_test = Phone('380951234567')
         self.email_test = Email('test_sasha@gmail.com')
         self.record_test = Record(self.user_test)
@@ -35,8 +35,8 @@ class TestAddressBook(unittest.TestCase):
         by adding a record to an address book and then retrieving it by name.
         """
         self.addressbook_test.add_record(self.record_test)
-        contact = self.addressbook_test.get_contact('Sasha')
-        self.assertEqual(contact.user.name, 'Sasha')
+        contact = self.addressbook_test.get_contact('sasha')
+        self.assertEqual(contact.user.name, 'sasha')
 
     def test_delete_record(self):
         """
@@ -45,7 +45,7 @@ class TestAddressBook(unittest.TestCase):
             record is no longer in the address book.
         """
         self.addressbook_test.add_record(self.record_test)
-        self.addressbook_test.delete_record('Sasha')
+        self.addressbook_test.delete_record('sasha')
         self.assertFalse('Sasha' in self.addressbook_test)
 
     def test_search_name(self):
@@ -55,8 +55,8 @@ class TestAddressBook(unittest.TestCase):
             The test passes if the name of the contact is found in the search results.
         """
         self.addressbook_test.add_record(self.record_test)
-        addressbook_search = self.addressbook_test.search('Sa')
-        self.assertTrue('Sasha' in addressbook_search)
+        addressbook_search = self.addressbook_test.search('sa')
+        self.assertTrue('sasha' in addressbook_search)
 
     def test_search_phone(self):
         """
@@ -67,7 +67,7 @@ class TestAddressBook(unittest.TestCase):
         
         self.addressbook_test.add_record(self.record_test)
         addressbook_search = self.addressbook_test.search('38095')
-        contact = addressbook_search.get_contact('Sasha')
+        contact = addressbook_search.get_contact('sasha')
         record_phone = contact.phone_numbers[0].subrecord.phone
         self.assertTrue('380951234567' in record_phone)
 
@@ -93,7 +93,7 @@ class TestAddressBook(unittest.TestCase):
         
         with open(self.test_file, 'rb') as file:
             content = pickle.load(file)
-            self.assertTrue('Sasha' in content)
+            self.assertTrue('sasha' in content)
             
     def test_read_records_from_file(self):
         """
@@ -107,5 +107,5 @@ class TestAddressBook(unittest.TestCase):
 
         self.addressbook_test.read_records_from_file(self.test_file)
         
-        self.assertTrue('Sasha' in self.addressbook_test)
+        self.assertTrue('sasha' in self.addressbook_test)
         
