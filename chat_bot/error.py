@@ -1,7 +1,6 @@
 """error"""
 
 from typing import Callable
-
 import sys
 import click
 

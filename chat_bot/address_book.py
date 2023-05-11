@@ -3,7 +3,7 @@
 import re
 import pickle
 from datetime import datetime
-from typing import Union, Iterator, Optional, Any, List
+from typing import Union, Iterator, Any, List
 from collections import UserDict
 from entities import Phone, User, Email
 
