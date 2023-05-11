@@ -3,8 +3,8 @@
 import unittest
 from datetime import date, datetime
 
-from chat_bot.entities import Phone, User, Email
-from chat_bot.address_book import Record
+from entities import Phone, User, Email
+from address_book import Record
 
 
 class TestRecord(unittest.TestCase):
@@ -29,7 +29,7 @@ class TestRecord(unittest.TestCase):
         The test_add_phone_number function tests the add_phone_number function of the Record class.
         It creates a phone object and adds it to a record object, then checks if that phone number is in the list of numbers for that record.
         """
-        
+
         self.assertEqual(self.record_test.phone_numbers[0].subrecord, Phone('380951234567'))
 
     def test_change_phone_number(self):
@@ -50,7 +50,7 @@ class TestRecord(unittest.TestCase):
         """
         self.record_test.delete_phone_number(self.phone_test)
         self.assertEqual(self.record_test.phone_numbers, [])
-        
+
     def test_add_email(self):
         """
         The test_add_email function tests the add_email function in Record.py
@@ -81,8 +81,6 @@ class TestRecord(unittest.TestCase):
 
         self.record_test.delete_email(self.email_test)
         self.assertEqual(self.record_test.emails, [])
-        
-        
 
     def test_add_birthday(self):
         """
@@ -99,12 +97,12 @@ class TestRecord(unittest.TestCase):
             If they are equal, then the test passes.
         """
         current_date = datetime(2023, 1, 1)
-    
+
         self.record_test.add_birthday('1-1-2000')
 
         # with mock.patch('datetime.datetime') as datetime_mock:
         #     datetime_mock.now.return_value = current_date
-            
+
         self.assertEqual(self.record_test.days_to_birthday(current_date), 0)
 
 

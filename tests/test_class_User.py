@@ -2,7 +2,7 @@
 import unittest
 from datetime import date
 
-from chat_bot.entities import User
+from entities import User
 
 
 class TestUser(unittest.TestCase):
@@ -27,7 +27,7 @@ class TestUser(unittest.TestCase):
         The test_set_birthday_date function tests the setter for birthday_date.
         It sets the birthday_date to &quot;01-01-2000&quot; and then checks that it is equal to date(2000, 1, 1)
         """
-        self.user_test.birthday_date = "01-01-2000"
+        self.user_test.birthday_date = date(2000, 1, 1)
         self.assertEqual(self.user_test.birthday_date, date(2000, 1, 1))
 
 

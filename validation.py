@@ -4,10 +4,10 @@ import re
 from string import digits
 from datetime import datetime
 
-from error import input_error
-from constants import LETTERS, NAME_RANGE, PHONE_RANGE
-from address_book import Record, AddressBook as AB
-from entities import Phone, Email
+from my_bot import input_error
+from my_bot import LETTERS, NAME_RANGE, PHONE_RANGE
+from my_bot import Record, AddressBook as AB
+from my_bot import Phone, Email
 
 
 @input_error

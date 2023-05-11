@@ -1,6 +1,6 @@
 """Tests class Email"""
 import unittest
-from chat_bot.entities import Email
+from entities import Email
 
 
 class TestEmail(unittest.TestCase):

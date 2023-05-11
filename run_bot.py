@@ -18,7 +18,7 @@ from validation import (
     check_email_in_address_book,
     check_email_not_in_address_book,
 )
-from constants import NUMBER_OF_CONTACTS_PER_PAGE, FILE, HELP
+from constants import (NUMBER_OF_CONTACTS_PER_PAGE, FILE, HELP)
 from address_book import Record, AddressBook as AB
 from entities import Phone, User, Email
 

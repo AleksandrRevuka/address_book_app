@@ -4,8 +4,8 @@ import os
 import pickle
 import unittest
 
-from chat_bot.entities import Phone, User, Email
-from chat_bot.address_book import Record, AddressBook as AB
+from entities import Phone, User, Email
+from address_book import Record, AddressBook as AB
 
 
 class TestAddressBook(unittest.TestCase):
