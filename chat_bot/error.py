@@ -1,12 +1,15 @@
 """error"""
 
+from typing import Callable
+
 import sys
 import click
 
 
-def input_error(func):
+
+def input_error(func: Callable[..., None]) -> Callable[..., None]:
     """Decorator for handling input errors"""
-    def wrraper_input_error(*args, **kwargs):
+    def wrapper_input_error(*args: tuple, **kwargs: dict) -> None:
         """Wrapper function for handling input errors"""
         try:
             func(*args, **kwargs)
@@ -23,4 +26,4 @@ def input_error(func):
             click.secho(f"KeyError: {error}", fg='red', italic=True)
             sys.exit('Try again!')
         
-    return wrraper_input_error
+    return wrapper_input_error

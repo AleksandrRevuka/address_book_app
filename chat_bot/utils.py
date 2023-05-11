@@ -1,8 +1,10 @@
 """utils"""
 
-def format_phone_number(func):
+from typing import Callable
+
+def format_phone_number(func: Callable[..., str]) -> Callable[..., str]:
     """Add '+' to phone's number"""
-    def add_code_phone(phone):
+    def add_code_phone(phone: str) -> str:
         phone = func(phone)
         return ''.join('+' + phone)
 

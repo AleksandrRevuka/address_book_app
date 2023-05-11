@@ -25,7 +25,7 @@ from entities import Phone, User, Email
 
 @click.group(help=HELP)
 @click.pass_context
-def main(addressbook: Context):
+def main(addressbook: Context) -> None:
     """
     The main function is the entry point of the program.
     It creates an AddressBook object and reads records from a file.
@@ -43,7 +43,7 @@ def main(addressbook: Context):
 @click.pass_obj
 def add_contact(addressbook: AB,
                 contact_name: str,
-                phone_number: str):
+                phone_number: str) -> None:
     """
     Adds a contact to the phone book.
     
@@ -70,7 +70,7 @@ def add_contact(addressbook: AB,
 @main.command(name='print-contact', short_help='Print details of a contact from the addressbook.')
 @click.option('--contact_name', prompt=True, type=str, help="Example: Alex")
 @click.pass_obj
-def print_contact(addressbook: AB, contact_name: str):
+def print_contact(addressbook: AB, contact_name: str) -> None:
     """
     The print_contact function prints the phone number and other details of a contact from the addressbook.
     
@@ -97,7 +97,7 @@ def print_contact(addressbook: AB, contact_name: str):
 @main.command(name='del-contact', short_help='Deletes the phone from the addressbook')
 @click.option('--contact_name', prompt=True, type=str, help="Example: Alex")
 @click.pass_obj
-def delete_contact(addressbook: AB, contact_name: str):
+def delete_contact(addressbook: AB, contact_name: str) -> None:
     """
     The delete_contact function deletes a contact from the addressbook.
     
@@ -116,7 +116,7 @@ def delete_contact(addressbook: AB, contact_name: str):
 @click.option('--contact_name', prompt=True, type=str, help="Example: Alex")
 @click.option('--phone_number', prompt=True, type=str, help="Example: 380001112233")
 @click.pass_obj
-def add_phone_number_to_contact(addressbook: AB, contact_name: str, phone_number: str):
+def add_phone_number_to_contact(addressbook: AB, contact_name: str, phone_number: str) -> None:
     """
     The add_phone_number_to_contact function adds a phone number to an existing contact.
     
@@ -149,7 +149,7 @@ def add_phone_number_to_contact(addressbook: AB, contact_name: str, phone_number
 def change_phone_number_contact(addressbook: AB,
                                 contact_name: str,
                                 new_phone_number: str,
-                                old_phone_number: str):
+                                old_phone_number: str) -> None:
     """
     The change_phone_number_contact function is used to change the phone number of a contact in the address book.
         The function takes in an AddressBook object, a string representing the name of the contact whose phone number will be changed,
@@ -187,7 +187,7 @@ def change_phone_number_contact(addressbook: AB,
 @click.pass_obj
 def delete_phone_number_contact(addressbook: AB,
                                 contact_name: str,
-                                phone_number: str):
+                                phone_number: str) -> None:
     """
     The delete_phone_number_contact function deletes a phone number from the contact.
     
@@ -212,11 +212,11 @@ def delete_phone_number_contact(addressbook: AB,
 
 @main.command(name='add-email', short_help='Adds an email to a contact.')
 @click.option('--contact_name', prompt=True, type=str, help="Example: Alex")
-@click.option('--email', prompt=True, type=str, help="Example: Alex@gmail.com")
+@click.option('--contact_email', prompt=True, type=str, help="Example: Alex@gmail.com")
 @click.pass_obj
 def add_email_to_contact(addressbook: AB,
                         contact_name: str,
-                        email: str):
+                        contact_email: str) -> None:
     """
     The add_email_to_contact function adds an email to a contact in the address book.
     
@@ -225,13 +225,13 @@ def add_email_to_contact(addressbook: AB,
     :param email: str: Pass the email address to be added to the contact
     """
     contact_name = contact_name.lower()
-    email = email.lower()
+    contact_email = contact_email.lower()
     check_name_not_in_address_book(addressbook, contact_name)
 
     contact = addressbook.get_contact(contact_name)
 
-    verify_email(email)
-    email = Email(email)
+    verify_email(contact_email)
+    email = Email(contact_email)
 
     check_email_in_address_book(contact, email, contact_name)
 
@@ -243,13 +243,13 @@ def add_email_to_contact(addressbook: AB,
 
 @main.command(name='change-email', short_help='Changes the email of a contact.')
 @click.option('--contact_name', prompt=True, type=str, help="Example: Alex")
-@click.option('--new_email', prompt=True, type=str, help="Example: Alex@gmail.ua")
-@click.option('--old_email', prompt=True, type=str, help="Example: Alex@gmail.com")
+@click.option('--contact_new_email', prompt=True, type=str, help="Example: Alex@gmail.ua")
+@click.option('--contact_old_email', prompt=True, type=str, help="Example: Alex@gmail.com")
 @click.pass_obj
 def change_email_contact(addressbook: AB,
                         contact_name: str,
-                        new_email: str,
-                        old_email: str):
+                        contact_new_email: str,
+                        contact_old_email: str) -> None:
     """
     The change_email_contact function takes in an addressbook, a contact name,
     a new email and an old email. It then checks if the contact name is not in the 
@@ -265,17 +265,17 @@ def change_email_contact(addressbook: AB,
     :param old_email: str: Specify the email that is to be changed
     """
     contact_name = contact_name.lower()
-    new_email = new_email.lower()
-    old_email = old_email.lower()
+    contact_new_email = contact_new_email.lower()
+    contact_old_email = contact_old_email.lower()
     check_name_not_in_address_book(addressbook, contact_name)
 
     contact = addressbook.get_contact(contact_name)
 
-    old_email = Email(old_email)
+    old_email = Email(contact_old_email)
     check_email_not_in_address_book(contact, old_email, contact_name)
 
-    verify_email(new_email)
-    new_email = Email(new_email)
+    verify_email(contact_new_email)
+    new_email = Email(contact_new_email)
 
     check_email_in_address_book(contact, new_email, contact_name)
 
@@ -287,11 +287,11 @@ def change_email_contact(addressbook: AB,
 
 @main.command(name='del-email', short_help='Deletes the email from the contact.')
 @click.option('--contact_name', prompt=True, type=str, help="Example: Alex")
-@click.option('--email', prompt=True, type=str, help="Example: Alex@gmail.com")
+@click.option('--contact_email', prompt=True, type=str, help="Example: Alex@gmail.com")
 @click.pass_obj
 def delete_email_contact(addressbook: AB,
                         contact_name: str,
-                        email: str):
+                        contact_email: str) -> None:
     """
     The delete_email_contact function deletes an email from a contact.
     
@@ -300,11 +300,11 @@ def delete_email_contact(addressbook: AB,
     :param email: str: Get the email address that will be deleted from the contact
     """
     contact_name = contact_name.lower()
-    email = email.lower()
+    contact_email = contact_email.lower()
     check_name_not_in_address_book(addressbook, contact_name)
 
     contact = addressbook.get_contact(contact_name)
-    email = Email(email)
+    email = Email(contact_email)
 
     check_email_not_in_address_book(contact, email, contact_name)
 
@@ -320,7 +320,7 @@ def delete_email_contact(addressbook: AB,
 @click.pass_obj
 def add_birthday_to_contact(addressbook: AB,
                             contact_name: str,
-                            birthday_date: str):
+                            birthday_date: str) -> None:
     """
     The add_birthday_to_contact function adds a birthday to the contact.
     
@@ -348,7 +348,7 @@ def add_birthday_to_contact(addressbook: AB,
 @click.pass_obj
 def change_birthday_contact(addressbook: AB,
                             contact_name: str,
-                            new_birthday_date: str):
+                            new_birthday_date: str) -> None:
     """
     The change_birthday_contact function changes the birthday date of a contact in an address book.
     
@@ -372,7 +372,7 @@ def change_birthday_contact(addressbook: AB,
 @main.command(name='serch-contact', short_help='Search contacts in an addressbook.')
 @click.option('--criteria', prompt=True, type=str, help="Example: Alex or 380111")
 @click.pass_obj
-def serch_contact(addressbook: AB, criteria: str):
+def serch_contact(addressbook: AB, criteria: str) -> None:
     """
     The serch_contact function searches for a contact in the address book.
           
@@ -394,7 +394,7 @@ def serch_contact(addressbook: AB, criteria: str):
 
 @main.command(name='print-contacts', short_help='Print all contacts from the phone book.')
 @click.pass_obj
-def print_contacts(addressbook: AB):
+def print_contacts(addressbook: AB) -> None:
     """Print all contacts from the phone book.
     
     :param addressbook: AB: Pass the addressbook object to the function
@@ -402,7 +402,7 @@ def print_contacts(addressbook: AB):
     print_all_contacts(addressbook)
 
 
-def print_all_contacts(addressbook: AB):
+def print_all_contacts(addressbook: AB) -> None:
     """
     The print_all_contacts function prints all the contacts in the addressbook.
         It takes an AddressBook object as a parameter and returns nothing.
