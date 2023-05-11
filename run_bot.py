@@ -431,5 +431,29 @@ def print_all_contacts(addressbook: AB) -> None:
         click.secho(f"{table}", fg='blue')
 
 
+COMMANDS = {
+
+    "1": add_contact,
+    "2": print_contact,
+    "3": delete_contact,
+    
+    "4": add_phone_number_to_contact,
+    "5": change_phone_number_contact,
+    "6": delete_phone_number_contact,
+
+    "7": add_email_to_contact,
+    "8": change_email_contact,
+    "9": delete_email_contact,
+    
+    "10": add_birthday_to_contact,
+    "11": change_birthday_contact,
+    
+    "12": serch_contact,
+    
+    "13": print_contacts,
+}
+
+
+
 if __name__ == "__main__":
     main()
