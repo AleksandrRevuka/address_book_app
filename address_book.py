@@ -17,8 +17,10 @@ class AddressBook(UserDict):
 
     def add_record(self, record: 'Record') -> None:
         """Adds a new contact record to the address book."""
-        self.data[record.user.name] = record
-        self.sort_addressbook()
+        name = record.user.name
+        if name:
+            self.data[name.lower()] = record
+            self.sort_addressbook()
 
     def delete_record(self, record_name: str) -> None:
         """Removes a contact record from the address book."""

@@ -19,7 +19,7 @@ class TestUser(unittest.TestCase):
         The test_set_name function tests the set_name function in the User class.
         It checks that when a user is created, their name is correctly assigned.
         """
-        self.assertEqual(self.user_test.name, 'sasha')
+        self.assertEqual(self.user_test.name, 'Sasha')
 
    
     def test_set_birthday_date(self):

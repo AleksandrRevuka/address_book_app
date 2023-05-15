@@ -1,15 +1,14 @@
 """entities"""
-from typing import Optional
+
 from datetime import datetime, date
 
 class Email:
     """..."""
-    def __init__(self, email: str):
-        self.__email: Optional[str] = None
+    def __init__(self, email: str | None = None):
         self.email: str = email
 
     @property
-    def email(self) -> Optional[str]:
+    def email(self) -> str | None:
         """Returns the phone number of the contact."""
         return self.__email
 
@@ -20,7 +19,10 @@ class Email:
             If the email address is not valid, an error message will be returned.
             If the email address is valid, then it will return True.
         """
-        self.__email = new_email
+        if new_email is None:
+            self.__email = None
+        else:
+            self.__email = new_email
 
     def __eq__(self, other: object) -> bool:
         if isinstance(other, Email):
@@ -30,23 +32,25 @@ class Email:
 
 class User:
     """..."""
-    def __init__(self, name: str):
-        self.__name: Optional[str] = None
-        self.__birthday_date: Optional[date] = None
+    def __init__(self, name: str | None = None):
+        self.__birthday_date: date | None = None
         self.name: str = name
 
     @property
-    def name(self) -> Optional[str]:
+    def name(self) -> str | None:
         """Returns the name of the contact."""
         return self.__name
 
     @name.setter
     def name(self, new_name: str) -> None:
         """Sets the name of the contact if it is valid, otherwise raises an error."""
-        self.__name = new_name.lower()
+        if new_name is None:
+            self.__name = None
+        else:
+            self.__name = new_name
 
     @property
-    def birthday_date(self) -> Optional[date]:
+    def birthday_date(self) -> date | None:
         """Returns the birthday date of the contact."""
         return self.__birthday_date
 
@@ -57,22 +61,24 @@ class User:
 
 class Phone:
     """Represents the phone number of a contact."""
-    def __init__(self, phone: str):
-        self.__phone: Optional[str] = None
+    def __init__(self, phone: str | None = None):
         self.phone: str = phone
         
     # def __repr__(self):
     #         return self.phone
 
     @property
-    def phone(self) -> Optional[str]:
+    def phone(self) -> str | None:
         """Returns the phone number of the contact."""
         return self.__phone
 
     @phone.setter
     def phone(self, new_phone: str) -> None:
         """Sets the phone number of the contact if it is valid, otherwise raises an error."""
-        self.__phone = new_phone
+        if new_phone is None:
+            self.__phone = None
+        else:
+            self.__phone = new_phone
 
     def __eq__(self, other: object) -> bool:
         if isinstance(other, Phone):
