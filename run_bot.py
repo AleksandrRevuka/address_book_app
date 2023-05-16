@@ -51,7 +51,6 @@ def add_contact(addressbook: AB,
     :param contact_name: str: Pass the name of the contact to be added\n
     :param phone_number: str: Verify the phone number
     """
-    contact_name = contact_name.lower()
     check_name_in_address_book(addressbook, contact_name)
     verify_name(contact_name)
     phone_number = sanitize_phone_number(phone_number)
