@@ -36,7 +36,7 @@ class AddressBook(UserDict):
         """The sort_addressbool function sorts the address book by name."""
         self.data = dict(sorted(self.data.items(), key=lambda x: x[0]))
 
-    def search(self, criteria: str) -> Union[str, 'AddressBook']:
+    def search(self, criteria: str) -> Union[str, "AddressBook"]:
         """Searches the address book for contacts matching the given criteria."""
         serch_contacts = AddressBook()
 
@@ -128,7 +128,7 @@ class Record:
         birthday = datetime.strptime(birthday_date, '%d-%m-%Y').date()
         self.user.birthday_date = birthday
 
-    def days_to_birthday(self, current_date: Union[datetime, None]=None) -> Union[int, None]:
+    def days_to_birthday(self, current_date: datetime | None=None) -> int | None:
         """Calculate the number of days to the next birthday."""
         if current_date is None:
             current_date = datetime.now()

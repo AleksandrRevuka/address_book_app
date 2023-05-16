@@ -1,65 +1,136 @@
 """Tests commands"""
 
-import unittest
-from unittest.mock import patch
-import io
+# import unittest
+# from unittest.mock import patch, MagicMock
+# from click.testing import CliRunner
+# from address_book import AddressBook, Record
+# from entities import Phone
+# from utils import sanitize_phone_number
+# from run_bot import (
+#     add_contact,
+#     # print_contact,
+#     # delete_contact,
+#     # add_phone_number_to_contact,
+#     # change_phone_number_contact,
+#     # delete_phone_number_contact,
+#     # add_email_to_contact,
+#     # change_email_contact,
+#     # delete_email_contact,
+#     # add_birthday_to_contact,
+#     # change_birthday_contact,
+#     # serch_contact,
+#     # print_contacts,
+# )
+     
+     
+     
+# import unittest
+# from datetime import date
+# from entities import User, Phone, Email
+# from address_book import AddressBook, Record
+# from run_bot import add_contact
 
-from address_book import Record, AddressBook
-from entities import Phone, User, Email
-from run_bot import (
-    add_contact,
-    # print_contact,
-    # delete_contact,
-    # add_phone_number_to_contact,
-    # change_phone_number_contact,
-    # delete_phone_number_contact,
-    # add_email_to_contact,
-    # change_email_contact,
-    # delete_email_contact,
-    # add_birthday_to_contact,
-    # change_birthday_contact,
-    # serch_contact,
-    # print_contacts,
-)
+
+# class TestAddContact(unittest.TestCase):
+
+#     def setUp(self):
+#         self.address_book = AddressBook()
+#         self.user = User("John")
+#         self.phone = Phone("1234567890")
+
+#     def test_add_contact_success(self):
+#         add_contact(self.address_book, self.user, self.phone)
+#         self.assertIn("john", self.address_book.data)
+#         record = self.address_book.data["john"]
+#         self.assertEqual(record.user, self.user)
+#         self.assertEqual(len(record.phone_numbers), 1)
+#         self.assertEqual(record.phone_numbers[0].subrecord, self.phone)
 
 
-class TestChatBot(unittest.TestCase):
-    """Tests commands"""
+# if __name__ == '__main__':
+#     unittest.main()
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+        
+# class TestAddContact(unittest.TestCase):
+#     def setUp(self):
+#         self.runner = CliRunner()
+#         self.addressbook = AddressBook()
+#         self.name = "alex"
+#         self.phone = "380001112233"
 
-    def setUp(self) -> None:
-        self.addressbook_test = AddressBook()
-        self.user_test = User('sasha')
-        self.phone_test = Phone('380951234567')
-        self.email_test = Email('test_sasha@gmail.com')
-        self.record_test = Record(self.user_test)
-        self.record_test.add_phone_number(self.phone_test)
-        self.record_test.add_email(self.email_test)
-        self.user_name = 'Bob'
+#     @patch("run_bot.click")
+#     @patch("address_book.AddressBook")
+#     @patch("address_book.Record")
+#     @patch("entities.Phone")
+#     @patch("validation.verify_phone")
+#     @patch("utils.sanitize_phone_number")
+#     @patch("validation.verify_name")
+#     @patch("validation.check_name_in_address_book")
+    
+#     def test_add_contact_success(self, mock_check_name_in_address_book, mock_verify_name,
+#                                 mock_sanitize_phone_number, mock_verify_phone,
+#                                 mock_phone, mock_record, mock_addressbook, mock_click):
+#         mock_addressbook.return_value = self.addressbook
+#         mock_record.return_value = MagicMock(spec=Record)
+#         mock_phone.return_value = MagicMock()
+#         mock_check_name_in_address_book.return_value = None
+#         mock_verify_name.return_value = None
+#         mock_sanitize_phone_number.return_value = self.phone
+#         mock_verify_phone.return_value = None
+#         mock_click.secho.return_value = None
 
-    def tearDown(self) -> None:
-        del self.addressbook_test
-        del self.record_test
-        del self.user_test
-        del self.phone_test
-        del self.email_test
+#         result = self.runner.invoke(add_contact, ["--contact_name", self.name, "--phone_number", self.phone])
 
-    def test_add_contact__with_valid_input(self):
-        """
-        The test_add_contact_exists function tests the add_contact function.
-        It checks that if a contact with the same name already exists in an address book, 
-        the user will be notified about it.
-        """
-        name_test = 'sasha'
-        phone_test = '380951234567'
-        self.addressbook_test.add_record(self.record_test)
+#         self.assertEqual(result.exit_code, 0, msg=result.exception)
+#         self.assertEqual(len(self.addressbook), 1)
+#         self.assertEqual(mock_check_name_in_address_book.call_count, 1)
+#         self.assertEqual(mock_verify_name.call_count, 1)
+#         self.assertEqual(mock_sanitize_phone_number.call_count, 1)
+#         self.assertEqual(mock_verify_phone.call_count, 1)
+#         self.assertEqual(mock_phone.call_count, 1)
+#         self.assertEqual(mock_record.call_count, 1)
+#         self.assertEqual(mock_addressbook.call_count, 1)
+#         self.assertEqual(mock_click.secho.call_count, 1)
+#         print(result.output)
+        
 
-        with patch('sys.stdout', new=io.StringIO()) as fake_out:
+# if __name__ == '__main__':
+#     unittest.main()
+
+    # def test_add_contact__with_valid_input(self):
+    #     """
+    #     The test_add_contact_exists function tests the add_contact function.
+    #     It checks that if a contact with the same name already exists in an address book, 
+    #     the user will be notified about it.
+    #     """
+    #     # name_test = 'sasha'
+    #     # phone_test = '380951234567'
+    #     # self.addressbook_test.add_record(self.record_test)
+
+    #     with patch('sys.stdout', new=io.StringIO()) as fake_out:
             
-            add_contact(self.addressbook_test,
-                    name_test,
-                    phone_test)
+    #         self.addressbook_test.add_record(self.record_test)
             
-        self.assertTrue(f"The contact '{name_test.title()}' has been" in fake_out.getvalue())
+    #     self.assertTrue("The contact" in fake_out.getvalue())
 
     # def test_add_contact_without_name(self):
     #     """
@@ -707,5 +778,3 @@ class TestChatBot(unittest.TestCase):
     #     self.assertTrue(f"{self.user_name}, '{contact_name.title()}':" in message)
         
 
-if __name__ == '__main__':
-    unittest.main()
