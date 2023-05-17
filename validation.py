@@ -11,7 +11,7 @@ from entities import Phone, Email
 
 
 @input_error
-def verify_name(name: str) -> None:
+def name_validation(name: str) -> None:
     """Verifies that the input string `name` is a valid name for a contact."""
 
     if not isinstance(name, str):
@@ -28,7 +28,7 @@ def verify_name(name: str) -> None:
 
 
 @input_error
-def verify_phone(phone: str) -> None:
+def phone_validation(phone: str) -> None:
     """Verifies a phone number."""
 
     if len(phone.strip(digits + '+')) != 0:
@@ -41,21 +41,16 @@ def verify_phone(phone: str) -> None:
 
 
 @input_error
-def verify_birthday_date(birthday_date: str) -> None:
+def birthday_date_validation(birthday_date: datetime) -> None:
     """Verifies a birthday data."""
-    try:
-        birthday = datetime.strptime(birthday_date, '%d-%m-%Y')
-    except ValueError as error:
-        raise ValueError(
-            f"Incorrect date format: '{birthday_date}', should be in the format DD-MM-YYYY") from error
-
-    if birthday >= datetime.now():
-        raise ValueError(
-            f"Birthday '{birthday.date()}' must be in the past")
+    if isinstance(birthday_date, datetime):
+        if birthday_date >= datetime.now().date():
+            raise ValueError(
+                f"Birthday '{birthday_date}' must be in the past")
 
 
 @input_error
-def verify_email(email: str) -> None:
+def email_validation(email: str) -> None:
     """Verifies an email address."""
     pattern = r"[a-zA-Z][a-zA-Z0-9_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+"
     if not re.match(pattern, email):
@@ -63,7 +58,7 @@ def verify_email(email: str) -> None:
 
 
 @input_error
-def verify_criteria(criteria: str) -> None:
+def criteria_validation(criteria: str) -> None:
     """
     The verify_criteria function is used to verify that the criteria entered by the user
     is only numbers or letters.  If it is not, then a ValueError exception will be raised.

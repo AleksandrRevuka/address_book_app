@@ -1,28 +1,24 @@
 """error"""
 
 from typing import Callable
-import sys
-import click
 
 
 
-def input_error(func: Callable[..., None]) -> Callable[..., None]:
+def input_error(func):
     """Decorator for handling input errors"""
-    def wrapper_input_error(*args: tuple, **kwargs: dict) -> None:
+    def wrapper_input_error(*args: tuple, **kwargs: dict) -> str | bool:
         """Wrapper function for handling input errors"""
         try:
             func(*args, **kwargs)
+            return False
 
         except TypeError as error:
-            click.secho(f"TypeError: {error}", fg='red', italic=True)
+            return f"TypeError: {error}"
   
-
         except ValueError as error:
-            click.secho(f"ValueError: {error}", fg='red', italic=True)
-
+            return f"ValueError: {error}"
 
         except KeyError as error:
-            click.secho(f"KeyError: {error}", fg='red', italic=True)
-        return error
+            return f"KeyError: {error}"
         
     return wrapper_input_error

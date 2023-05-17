@@ -123,10 +123,10 @@ class Record:
                 del self.emails[i]
                 break
 
-    def add_birthday(self, birthday_date: str) -> None:
+    def add_birthday(self, birthday_date: datetime) -> None:
         """Add a birthday data to the contact."""
-        birthday = datetime.strptime(birthday_date, '%d-%m-%Y').date()
-        self.user.birthday_date = birthday
+        # birthday = datetime.strptime(birthday_date, '%d-%m-%Y').date()
+        self.user.birthday_date = birthday_date
 
     def days_to_birthday(self, current_date: Union[datetime, None]=None) -> Union[int, None]:
         """Calculate the number of days to the next birthday."""

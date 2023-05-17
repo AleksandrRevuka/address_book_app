@@ -20,7 +20,7 @@ class Email:
             If the email address is valid, then it will return True.
         """
         if new_email is None:
-            self.__email = None
+            self.__email: str | None = None
         else:
             self.__email = new_email
 
@@ -45,7 +45,7 @@ class User:
     def name(self, new_name: str) -> None:
         """Sets the name of the contact if it is valid, otherwise raises an error."""
         if new_name is None:
-            self.__name = None
+            self.__name: str | None = None
         else:
             self.__name = new_name
 
@@ -76,7 +76,7 @@ class Phone:
     def phone(self, new_phone: str) -> None:
         """Sets the phone number of the contact if it is valid, otherwise raises an error."""
         if new_phone is None:
-            self.__phone = None
+            self.__phone: str | None = None
         else:
             self.__phone = new_phone
 
