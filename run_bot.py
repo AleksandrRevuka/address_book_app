@@ -342,12 +342,16 @@ def print_all_contacts(addressbook: AB) -> str:
 
     for contact in addressbook.values():
         contact_name = contact.user.name
+        
         phone_numbers = [
-            number.subrecord.phone for number in contact.phone_numbers] if contact.phone_numbers else '-'
-        emails = [email.subrecord.email for email in contact.emails] if contact.emails else '-'
+            number.subrecord.phone for number in contact.phone_numbers] if contact.phone_numbers[0].subrecord.phone else '-'
+        
+        emails = [
+            email.subrecord.email for email in contact.emails] if contact.emails[0].subrecord.email else '-'
 
         birthday = contact.user.birthday_date.strftime(
             '%d-%m-%Y') if contact.user.birthday_date else '-'
+        
         day_to_birthday = contact.days_to_birthday() if contact.user.birthday_date else '-'
 
         table.add_row(
