@@ -75,7 +75,7 @@ class Record:
     """A class that represents a contact record in a phone book."""
     class Subrecord:
         """..."""
-        def __init__(self, subrecord: Any, name_subrecord: str):
+        def __init__(self, subrecord: Any, name_subrecord: str | None):
             self.name = name_subrecord
             self.subrecord = subrecord
             
@@ -85,12 +85,12 @@ class Record:
         self.phone_numbers: List['Record.Subrecord'] = []
         self.emails: List['Record.Subrecord'] = []
 
-    def add_phone_number(self, phone_number: Phone, phone_assignment: str='mobile') -> None:
+    def add_phone_number(self, phone_number: Phone, phone_assignment: str | None = None) -> None:
         """Adds a new phone number to the contact."""
         subrecord_phone = self.Subrecord(phone_number, phone_assignment)
         self.phone_numbers.append(subrecord_phone)
         
-    def add_email(self, email: Email, email_assignment: str='private') -> None:
+    def add_email(self, email: Email, email_assignment: str | None = None) -> None:
         """Adds a new email to the contact."""
         subrecord_email = self.Subrecord(email,  email_assignment)
         self.emails.append(subrecord_email)

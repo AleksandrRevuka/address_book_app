@@ -74,7 +74,8 @@ def check_name_in_address_book(address_book: AB, name: str) -> None:
     The check_name_in_address_book function checks if a name is already in the address book.
         If it is, then an error message will be raised.
     """
-    if name in address_book:
+    name = name.lower()
+    if name in (name.lower() for name in address_book):
         raise ValueError(
             f"The contact '{name.title()}' already exists in the address book.")
 
@@ -86,7 +87,8 @@ def check_name_not_in_address_book(address_book: AB, name: str) -> None:
         If it is, then a ValueError exception will be raised with an error message explaining that
         the contact already exists in the address book.
     """
-    if name not in address_book:
+    name = name.lower()
+    if name not in (name.lower() for name in address_book):
         raise KeyError(f"The contact '{name.title()}' was not found.")
 
 
