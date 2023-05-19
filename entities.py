@@ -63,9 +63,6 @@ class Phone:
     """Represents the phone number of a contact."""
     def __init__(self, phone: str | None = None):
         self.phone: str = phone
-        
-    # def __repr__(self):
-    #         return self.phone
 
     @property
     def phone(self) -> str | None:
