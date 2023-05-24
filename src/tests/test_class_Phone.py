@@ -1,8 +1,9 @@
 """Tests class Phone"""
 import unittest
 
-from utils import sanitize_phone_number
-from entities import Phone
+from src.my_addressbook.utils import sanitize_phone_number
+from src.my_addressbook.entities import Phone
+
 
 
 class TestPhone(unittest.TestCase):

@@ -1,21 +1,21 @@
+"""forms"""
 
 from datetime import datetime
 import npyscreen
 
-
-from utils import sanitize_phone_number, print_all_contacts
-from validation import (
+from src.my_addressbook.utils import sanitize_phone_number
+from src.my_addressbook.validation import (
     name_validation,
     phone_validation,
     email_validation,
     birthday_date_validation,
-    criteria_validation,
     check_name_in_address_book,
     check_name_not_in_address_book,
 )
-from constants import FILE
-from address_book import Record, AddressBook as AB
-from entities import Phone, User, Email
+from src.my_addressbook.entities import Phone, User, Email
+from src.my_addressbook.address_book import Record
+from src.my_addressbook.constants import FILE
+
 
 
 class EditContactForm(npyscreen.ActionPopup):
@@ -146,52 +146,49 @@ class AddContactForm(npyscreen.ActionForm):
         self.contact_name: npyscreen.TitleText = self.add(npyscreen.TitleText, name='Name')
         self.contact_phone_one = self.add(npyscreen.TitleText, name='Number №1')
         self.phone_assignment_one = self.add(npyscreen.TitleSelectOne,
-                                         scroll_exit=True,
-                                         max_height=4,
-                                         name='assignment',
-                                         values=['mobile',
-                                                 'home',
-                                                 'work'
-                                                 ])
+                                             scroll_exit=True,
+                                             max_height=4,
+                                             name='assignment',
+                                             values=['home',
+                                                     'mobile',
+                                                     'work'
+                                                     ])
         self.contact_phone_two = self.add_widget(npyscreen.TitleText, name='Number №2')
         self.phone_assignment_two = self.add(npyscreen.TitleSelectOne,
-                                         scroll_exit=True,
-                                         max_height=4,
-                                         name='assignment',
-                                         values=['mobile',
-                                                 'home',
-                                                 'work'
-                                                 ])
+                                             scroll_exit=True,
+                                             max_height=4,
+                                             name='assignment',
+                                             values=['home',
+                                                     'mobile',
+                                                     'work'
+                                                     ])
         self.contact_phone_three = self.add_widget(npyscreen.TitleText, name='Number №3')
         self.phone_assignment_three = self.add(npyscreen.TitleSelectOne,
-                                         scroll_exit=True,
-                                         max_height=4,
-                                         name='assignment',
-                                         values=['mobile',
-                                                 'home',
-                                                 'work'
-                                                 ])
-        # self.add_phone_button = self.add_widget(npyscreen.ButtonPress,
-        #                                         name="Add Phone",
-        #                                         when_pressed_function=self.add_phone_widget)
-        
+                                               scroll_exit=True,
+                                               max_height=4,
+                                               name='assignment',
+                                               values=['home',
+                                                       'mobile',
+                                                       'work'
+                                                       ])
+
         self.contact_email_one = self.add(npyscreen.TitleText, name='Email №1')
         self.email_assignment_one = self.add(npyscreen.TitleSelectOne,
-                                         scroll_exit=True,
-                                         max_height=3,
-                                         name='Email assignment',
-                                         values=['home',
-                                                 'work'
-                                                 ])
-        
+                                             scroll_exit=True,
+                                             max_height=3,
+                                             name='Email assignment',
+                                             values=['home',
+                                                     'work'
+                                                     ])
+
         self.contact_email_two = self.add(npyscreen.TitleText, name='Email №2')
         self.email_assignment_two = self.add(npyscreen.TitleSelectOne,
-                                         scroll_exit=True,
-                                         max_height=3,
-                                         name='Email assignment',
-                                         values=['home',
-                                                 'work'
-                                                 ])
+                                             scroll_exit=True,
+                                             max_height=3,
+                                             name='Email assignment',
+                                             values=['home',
+                                                     'work'
+                                                     ])
 
         self.contact_birth_text = self.add(npyscreen.TitleText, name='Year Birth:')
         self.contact_birth = self.add(npyscreen.TitleDateCombo, name='Date Birth:', date_format='%d-%m-%Y',)
@@ -211,41 +208,41 @@ class AddContactForm(npyscreen.ActionForm):
                 record_contact.phone_numbers[0].subrecord.phone
                 if record_contact.phone_numbers[0].subrecord.phone
                 else ''
-                )
+            )
             self.phone_assignment_one.value = record_contact.phone_numbers[0].name
-            
+
             if len(record_contact.phone_numbers) >= 2:
                 self.contact_phone_two.value = (
                     record_contact.phone_numbers[1].subrecord.phone
                     if record_contact.phone_numbers[1].subrecord.phone
                     else ''
-                    )
+                )
                 self.phone_assignment_two.value = record_contact.phone_numbers[1].name
-            
+
             if len(record_contact.phone_numbers) >= 3:
                 self.contact_phone_three.value = (
                     record_contact.phone_numbers[2].subrecord.phone
                     if record_contact.phone_numbers[2].subrecord.phone
                     else ''
-                    )
+                )
                 self.phone_assignment_three.value = record_contact.phone_numbers[2].name
-            
+
             self.contact_email_one.value = (
                 record_contact.emails[0].subrecord.email
                 if record_contact.emails[0].subrecord.email
                 else ''
-                )
+            )
             self.email_assignment_one.value = record_contact.emails[0].name
             self.contact_birth.value = record_contact.user.birthday_date
-            
+
             if len(record_contact.emails) >= 2:
                 self.contact_email_two.value = (
                     record_contact.emails[1].subrecord.email
                     if record_contact.emails[1].subrecord.email
                     else ''
-                    )
+                )
                 self.email_assignment_two.value = record_contact.emails[1].name
-                
+
             self.contact_birth.value = record_contact.user.birthday_date
 
     def after_editing(self) -> None:
@@ -256,22 +253,22 @@ class AddContactForm(npyscreen.ActionForm):
         """
         self.value = None
         self.contact_name.value = None
-        
+
         self.contact_phone_one.value = None
         self.phone_assignment_one.value = None
         self.contact_phone_two.value = None
         self.phone_assignment_two.value = None
         self.contact_phone_three.value = None
         self.phone_assignment_three.value = None
-        
+
         self.contact_email_one.value = None
         self.email_assignment_one.value = None
         self.contact_email_two.value = None
         self.email_assignment_two.value = None
-        
+
         self.contact_birth_text.value = None
         self.contact_birth.value = None
-        
+
         self.parentApp.getForm('ADD CONTACT').name = "Add contact"
 
     def data_validation(self) -> bool:
@@ -315,7 +312,7 @@ class AddContactForm(npyscreen.ActionForm):
             npyscreen.notify_confirm(message)
             self.contact_phone_two.value = None
             return False
-        
+
         if self.contact_phone_three.value:
             phone = self.contact_phone_three.value
             phone = sanitize_phone_number(phone)
@@ -334,7 +331,7 @@ class AddContactForm(npyscreen.ActionForm):
             npyscreen.notify_confirm(message)
             self.contact_email_one.value = None
             return False
-        
+
         if self.contact_email_two.value:
             email = self.contact_email_two.value
             message = email_validation(email)
@@ -374,16 +371,54 @@ class AddContactForm(npyscreen.ActionForm):
         phone_one = Phone(self.contact_phone_one.value)
         phone_two = Phone(self.contact_phone_two.value)
         phone_three = Phone(self.contact_phone_three.value)
-        
+
         user = User(self.contact_name.value)
         contact = Record(user)
-        contact.add_phone_number(phone_one, self.phone_assignment_one.value)
-        contact.add_phone_number(phone_two, self.phone_assignment_two.value)
-        contact.add_phone_number(phone_three, self.phone_assignment_three.value)
-        
-        contact.add_email(email_one, self.email_assignment_one.value)
-        contact.add_email(email_two, self.email_assignment_two.value)
-        
+        if self.phone_assignment_one.value:
+            phone_assignment_one_value = [
+                self.phone_assignment_one.value[0],
+                self.phone_assignment_one.values[self.phone_assignment_one.value[0]]
+            ]
+            contact.add_phone_number(phone_one, phone_assignment_one_value)
+        else:
+            contact.add_phone_number(phone_one)
+
+        if self.phone_assignment_two.value:
+            phone_assignment_two_value = [
+                self.phone_assignment_two.value[0],
+                self.phone_assignment_two.values[self.phone_assignment_two.value[0]]
+            ]
+            contact.add_phone_number(phone_two, phone_assignment_two_value)
+        else:
+            contact.add_phone_number(phone_two)
+
+        if self.phone_assignment_three.value:
+            phone_assignment_three_value = [
+                self.phone_assignment_three.value[0],
+                self.phone_assignment_three.values[self.phone_assignment_three.value[0]]
+            ]
+            contact.add_phone_number(phone_three, phone_assignment_three_value)
+        else:
+            contact.add_phone_number(phone_three)
+
+        if self.email_assignment_one.value:
+            email_assignment_one = [
+                self.email_assignment_one.value[0],
+                self.email_assignment_one.values[self.email_assignment_one.value[0]]
+            ]
+            contact.add_email(email_one, email_assignment_one)
+        else:
+            contact.add_email(email_one)
+
+        if self.email_assignment_two.value:
+            email_assignment_two = [
+                self.email_assignment_two.value[0],
+                self.email_assignment_two.values[self.email_assignment_two.value[0]]
+            ]
+            contact.add_email(email_two, email_assignment_two)
+        else:
+            contact.add_email(email_two)
+
         contact.add_birthday(self.contact_birth.value)
 
         self.parentApp.addressbook.add_record(contact)
@@ -424,156 +459,3 @@ class AddContactForm(npyscreen.ActionForm):
     def on_cancel(self) -> None:
         self.after_editing()
         self.parentApp.switchForm("MAIN")
-
-class MainForm(npyscreen.FormBaseNewWithMenus):
-    """..."""
-
-    def create(self) -> None:
-        """
-        The create function is called when the form is created.
-        It sets up the widgets and their initial values.
-        """
-
-        self.print_contacts_widget = self.add(npyscreen.TitlePager, name="Contacts:", begin_entry_at=9, max_height=36)
-        self.search_widget = self.add(npyscreen.TitleText, name="Search:", rely=39, begin_entry_at=10)
-        self.search_widget.when_cursor_moved = self.while_editing
-
-        self.menu = self.new_menu(name="Menu", shortcut="m")
-        self.menu.addItem("Add contact", self.add_contact, "1")
-        self.menu.addItem("Edit contact", self.edit_contact, "2")
-        self.menu.addItem("Delete contact", self.delete_contact, "3")
-        self.menu.addItem("Cloce Menu", self.close_menu, "^X")
-        self.menu.addItem("Exit", self.exit, "^E")
-
-    def while_editing(self, *args: list, **kwargs: dict) -> None:
-        if self.search_widget.value:
-            criteria = self.search_widget.value.lower()
-            message = criteria_validation(criteria)
-            if message:
-                npyscreen.notify_confirm(message, "Warning!", editw=1)
-                self.search_widget.value = ''
-                self.update_list(self.parentApp.addressbook)
-                
-            result = self.parentApp.addressbook.search(criteria)
-            if isinstance(result, AB):
-                self.update_list(result)
-            else:
-                npyscreen.notify_confirm(result, "Warning!", editw=1)
-                self.search_widget.value = ''
-                self.update_list(self.parentApp.addressbook)
-        else:
-            self.update_list(self.parentApp.addressbook)
-
-
-    def beforeEditing(self) -> None:
-        """
-        The beforeEditing function is called before the form is displayed.
-        It updates the list of contacts to be displayed in the form.
-        """
-        addressbook = self.parentApp.addressbook
-        self.update_list(addressbook)
-
-    def update_list(self, addressbook: AB) -> None:
-        """
-        The update_list function updates the list of contacts in the address book to reflect any changes 
-        that have been made.
-        """
-        contacts = print_all_contacts(addressbook)
-        self.print_contacts_widget.values = contacts.split('\n')
-        self.print_contacts_widget.display()
-
-    def add_contact(self) -> None:
-        """
-        The add_contact function allows the user to add a contact to their address book.
-        The function takes in no parameters and returns nothing. The function is called by pressing the 'Add Contact' 
-        button on the main menu screen.
-        """
-        self.parentApp.switchForm("ADD CONTACT")
-
-    def edit_contact(self) -> None:
-        """
-        The edit_contact function allows the user to edit a contact's information.
-        The function takes in self as an argument and returns None. The function then
-        switches to the EDIT CONTACT form.
-        """
-        self.parentApp.switchForm("EDIT CONTACT")
-
-    def delete_contact(self) -> None:
-        """
-        The delete_contact function allows the user to delete a contact from their address book.
-        The function takes in self as an argument and returns None. The function then switches forms
-        to the DELETE CONTACT form.
-        """
-        self.parentApp.switchForm("DELETE CONTACT")
-
-    def close_menu(self) -> None:
-        """
-        The close_menu function is a function that closes the menu.
-        """
-        self.parentApp.setNextFormPrevious()
-
-    def exit(self) -> None:
-        """
-        The exit function is used to exit the program.
-        """
-        self.on_ok()
-
-    def on_ok(self) -> None:
-        """
-        The on_ok function is called when the user presses OK on a form.
-        It will call the switchForm method of the parentApp, passing None as an argument.
-        This tells npyscreen to close all forms and exit.
-        """
-        self.parentApp.switchForm(None)
-
-
-class MyThemeWidgets(npyscreen.ThemeManager):
-    """..."""
-    default_colors = {
-        'DEFAULT': 'YELLOW_BLACK',
-        'FORMDEFAULT': 'YELLOW_BLACK',
-        'NO_EDIT': 'BLUE_BLACK',
-        'STANDOUT': 'CYAN_BLACK',
-        'CURSOR': 'WHITE_BLACK',
-        'CURSOR_INVERSE': 'BLACK_WHITE',
-        'LABEL': 'BLUE_BLACK',
-        'LABELBOLD': 'YELLOW_BLACK',
-        'CONTROL': 'GREEN_BLACK',
-        'WARNING': 'RED_BLACK',
-        'CRITICAL': 'BLACK_RED',
-        'GOOD': 'GREEN_BLACK',
-        'GOODHL': 'GREEN_BLACK',
-        'VERYGOOD': 'BLACK_GREEN',
-        'CAUTION': 'YELLOW_BLACK',
-        'CAUTIONHL': 'BLACK_YELLOW',
-    }
-
-
-class AddressBookApp(npyscreen.NPSAppManaged):
-    """..."""
-
-    def __init__(self) -> None:
-        super().__init__()
-        self.addressbook = AB()
-
-    def onStart(self) -> None:
-        """
-        The onStart function is called when the application starts.
-        It sets up the theme, reads records from a file, and adds forms to the application.
-        """
-        npyscreen.setTheme(MyThemeWidgets)
-
-        self.addressbook.read_records_from_file(FILE)
-
-        self.addForm('MAIN', MainForm, name='Addressbook',
-                     lines=42, columns=130, draw_line=10)
-        self.addForm('ADD CONTACT', AddContactForm, name='Add contact',
-                     lines=40, columns=65, draw_line=1)
-        self.addForm('EDIT CONTACT', EditContactForm, name='Edit contact',
-                     lines=20, columns=50, draw_line=1)
-        self.addForm('DELETE CONTACT', DeleteContactForm, name='Delete contact',
-                     lines=10, columns=50, draw_line=1)
-
-
-if __name__ == "__main__":
-    AddressBookApp().run()

@@ -1,6 +1,8 @@
 """Tests class Email"""
 import unittest
-from entities import Email
+
+from src.my_addressbook.entities import Email
+
 
 
 class TestEmail(unittest.TestCase):
@@ -19,6 +21,7 @@ class TestEmail(unittest.TestCase):
         the Email class.
         """
         self.assertEqual(self.email_test.email, 'test_sasha@gmail.com')
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -4,17 +4,17 @@ import random
 from faker import Factory
 
 
-from address_book import Record, AddressBook as AB
-from entities import Phone, User, Email
-from constants import FILE
-from utils import sanitize_phone_number
+from src.my_addressbook.address_book import Record, AddressBook as AB
+from src.my_addressbook.entities import Phone, User, Email
+from src.my_addressbook.constants import FILE
+from src.my_addressbook.utils import sanitize_phone_number
 
 
 def generator_contacts(n=10) -> list[dict]:
     """
     The generator_contacts function generates a list of contacts.
     """
-    locales = ['en_US', 'uk_UA']
+    locales = ['en_US'] #'uk_UA'
     locale = random.choice(locales)
     contacts = []
     for _ in range(n):

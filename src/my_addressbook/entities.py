@@ -2,8 +2,10 @@
 
 from datetime import datetime, date
 
+
 class Email:
-    """..."""
+    """Represents the email of a contact."""
+
     def __init__(self, email: str | None = None):
         self.email: str = email
 
@@ -31,7 +33,8 @@ class Email:
 
 
 class User:
-    """..."""
+    """ Class representing a user."""
+
     def __init__(self, name: str | None = None):
         self.__birthday_date: date | None = None
         self.name: str = name
@@ -59,8 +62,10 @@ class User:
         """Sets the birthday date of the contact if it is valid, otherwise raises an error."""
         self.__birthday_date = new_birthday_date
 
+
 class Phone:
     """Represents the phone number of a contact."""
+
     def __init__(self, phone: str | None = None):
         self.phone: str = phone
 

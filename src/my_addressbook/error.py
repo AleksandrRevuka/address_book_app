@@ -1,16 +1,15 @@
 """error"""
 
-from typing import Callable
+from typing import Callable, Any
 
 
-
-def input_error(func):
+def input_error(func: Callable[..., Any]) -> Callable[..., str]:
     """Decorator for handling input errors"""
-    def wrapper_input_error(*args: tuple, **kwargs: dict) -> str | bool:
+    def wrapper_input_error(*args: tuple) -> str:
         """Wrapper function for handling input errors"""
         try:
-            func(*args, **kwargs)
-            return False
+            func(*args)
+            return ""
 
         except TypeError as error:
             return f"TypeError: {error}"

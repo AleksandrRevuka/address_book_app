@@ -3,8 +3,9 @@
 import unittest
 from datetime import date, datetime
 
-from entities import Phone, User, Email
-from address_book import Record
+from src.my_addressbook.entities import Phone, User, Email
+from src.my_addressbook.address_book import Record
+
 
 
 class TestRecord(unittest.TestCase):
@@ -27,7 +28,8 @@ class TestRecord(unittest.TestCase):
     def test_add_phone_number(self):
         """
         The test_add_phone_number function tests the add_phone_number function of the Record class.
-        It creates a phone object and adds it to a record object, then checks if that phone number is in the list of numbers for that record.
+        It creates a phone object and adds it to a record object, then checks if that phone number is in the
+        list of numbers for that record.
         """
 
         self.assertEqual(self.record_test.phone_numbers[0].subrecord, Phone('380951234567'))
