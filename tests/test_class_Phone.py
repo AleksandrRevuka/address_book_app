@@ -1,8 +1,8 @@
 """Tests class Phone"""
 import unittest
 
-from src.my_addressbook.utils import sanitize_phone_number
-from src.my_addressbook.entities import Phone
+from my_address_book.utils import sanitize_phone_number
+from my_address_book.entities import Phone
 
 
 

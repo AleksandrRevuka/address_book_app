@@ -3,8 +3,8 @@
 import unittest
 from datetime import date, datetime
 
-from src.my_addressbook.entities import Phone, User, Email
-from src.my_addressbook.address_book import Record
+from my_address_book.entities import Phone, User, Email
+from my_address_book.address_book import Record
 
 
 

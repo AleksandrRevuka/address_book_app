@@ -6,7 +6,7 @@ from datetime import datetime
 from typing import Union, Any, List
 from collections import UserDict
 
-from my_addressbook.entities import Phone, User, Email
+from my_address_book.entities import Phone, User, Email
 
 
 class AddressBook(UserDict):

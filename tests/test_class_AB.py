@@ -4,8 +4,8 @@ import os
 import pickle
 import unittest
 
-from src.my_addressbook.entities import Phone, User, Email
-from src.my_addressbook.address_book import Record, AddressBook as AB
+from my_address_book.entities import Phone, User, Email
+from my_address_book.address_book import Record, AddressBook as AB
 
 
 
@@ -22,7 +22,7 @@ class TestAddressBook(unittest.TestCase):
         self.record_test.add_email(self.email_test)
 
         current_dir = os.getcwd()
-        self.test_file = os.path.join(current_dir, 'src/tests', 'test_file.bin')
+        self.test_file = os.path.join(current_dir, 'tests', 'test_file.bin')
 
     def tearDown(self) -> None:
         if os.path.exists(self.test_file):

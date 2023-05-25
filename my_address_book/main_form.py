@@ -2,9 +2,9 @@
 
 import npyscreen
 
-from my_addressbook.utils import print_all_contacts
-from my_addressbook.validation import criteria_validation
-from my_addressbook.address_book import AddressBook as AB
+from my_address_book.utils import print_all_contacts
+from my_address_book.validation import criteria_validation
+from my_address_book.address_book import AddressBook as AB
 
 
 class MainForm(npyscreen.FormBaseNewWithMenus):

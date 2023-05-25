@@ -3,8 +3,8 @@
 from datetime import datetime
 import npyscreen
 
-from my_addressbook.utils import sanitize_phone_number
-from my_addressbook.validation import (
+from my_address_book.utils import sanitize_phone_number
+from my_address_book.validation import (
     name_validation,
     phone_validation,
     email_validation,
@@ -12,9 +12,9 @@ from my_addressbook.validation import (
     check_name_in_address_book,
     check_name_not_in_address_book,
 )
-from my_addressbook.entities import Phone, User, Email
-from my_addressbook.address_book import Record
-from my_addressbook.constants import FILE
+from my_address_book.entities import Phone, User, Email
+from my_address_book.address_book import Record
+from my_address_book.constants import FILE
 
 
 class EditContactForm(npyscreen.ActionPopup):

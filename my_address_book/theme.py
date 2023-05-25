@@ -2,7 +2,6 @@
 import npyscreen
 
 
-
 class MyThemeWidgets(npyscreen.ThemeManager):
     """..."""
     default_colors = {
