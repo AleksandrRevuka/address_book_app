@@ -2,10 +2,9 @@
 
 import npyscreen
 
-from src.my_addressbook.utils import print_all_contacts
-from src.my_addressbook.validation import criteria_validation
-from src.my_addressbook.address_book import AddressBook as AB
-
+from my_addressbook.utils import print_all_contacts
+from my_addressbook.validation import criteria_validation
+from my_addressbook.address_book import AddressBook as AB
 
 
 class MainForm(npyscreen.FormBaseNewWithMenus):
@@ -25,7 +24,7 @@ class MainForm(npyscreen.FormBaseNewWithMenus):
         self.menu.addItem("Add contact", self.add_contact, "1")
         self.menu.addItem("Edit contact", self.edit_contact, "2")
         self.menu.addItem("Delete contact", self.delete_contact, "3")
-        self.menu.addItem("Cloce Menu", self.close_menu, "^X")
+        self.menu.addItem("Close Menu", self.close_menu, "^X")
         self.menu.addItem("Exit", self.exit, "^E")
 
     def while_editing(self, *args: list, **kwargs: dict) -> None:

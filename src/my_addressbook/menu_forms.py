@@ -3,8 +3,8 @@
 from datetime import datetime
 import npyscreen
 
-from src.my_addressbook.utils import sanitize_phone_number
-from src.my_addressbook.validation import (
+from my_addressbook.utils import sanitize_phone_number
+from my_addressbook.validation import (
     name_validation,
     phone_validation,
     email_validation,
@@ -12,10 +12,9 @@ from src.my_addressbook.validation import (
     check_name_in_address_book,
     check_name_not_in_address_book,
 )
-from src.my_addressbook.entities import Phone, User, Email
-from src.my_addressbook.address_book import Record
-from src.my_addressbook.constants import FILE
-
+from my_addressbook.entities import Phone, User, Email
+from my_addressbook.address_book import Record
+from my_addressbook.constants import FILE
 
 
 class EditContactForm(npyscreen.ActionPopup):
@@ -56,8 +55,7 @@ class EditContactForm(npyscreen.ActionPopup):
         It checks if a contact name has been entered, and if so, it passes that value to
         the ADD CONTACT form and switches to that form.
         """
-        respon = self.check_name()
-        if respon:
+        if self.check_name():
             self.parentApp.getForm('ADD CONTACT').value = self.contact_name_for_change.value.lower()
             self.parentApp.getForm('ADD CONTACT').name = "Edit contact"
             self.parentApp.switchForm('ADD CONTACT')
@@ -442,8 +440,7 @@ class AddContactForm(npyscreen.ActionForm):
         If it's a new contact, it calls add_contact() to create a new record in AddressBook with all of its information; 
         if it's an existing contact, change_contact() is called instead.
         """
-        respon = self.data_validation()
-        if respon:
+        if self.data_validation():
             if not self.value:
                 message = self.add_contact()
                 self.after_editing()

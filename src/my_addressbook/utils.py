@@ -3,7 +3,7 @@
 from typing import Callable
 from prettytable import PrettyTable
 
-from src.my_addressbook.address_book import AddressBook as AB
+from my_addressbook.address_book import AddressBook as AB
 
 
 def format_phone_number(func: Callable[..., str]) -> Callable[..., str]:

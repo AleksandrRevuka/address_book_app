@@ -4,9 +4,9 @@ import re
 from string import digits
 from datetime import datetime
 
-from src.my_addressbook.error import input_error
-from src.my_addressbook.constants import LETTERS, NAME_RANGE, PHONE_RANGE
-from src.my_addressbook.address_book import AddressBook as AB
+from my_addressbook.error import input_error
+from my_addressbook.constants import LETTERS, NAME_RANGE, PHONE_RANGE
+from my_addressbook.address_book import AddressBook as AB
 
 
 @input_error
@@ -73,7 +73,7 @@ def check_name_in_address_book(address_book: AB, name: str) -> None:
     The check_name_in_address_book function checks if a name is already in the address book.
         If it is, then an error message will be raised.
     """
-    name = name.lower()
+    name.lower()
     if name in (name.lower() for name in address_book):
         raise ValueError(
             f"The contact '{name.title()}' already exists in the address book.")

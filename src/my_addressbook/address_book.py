@@ -6,7 +6,7 @@ from datetime import datetime
 from typing import Union, Any, List
 from collections import UserDict
 
-from src.my_addressbook.entities import Phone, User, Email
+from my_addressbook.entities import Phone, User, Email
 
 
 class AddressBook(UserDict):
@@ -28,28 +28,28 @@ class AddressBook(UserDict):
         del self.data[record_name]
 
     def sort_addressbook(self) -> None:
-        """The sort_addressbool function sorts the address book by name."""
+        """The sort_addressbook function sorts the address book by name."""
         self.data = dict(sorted(self.data.items(), key=lambda x: x[0]))
 
     def search(self, criteria: str) -> Union[str, 'AddressBook']:
         """Searches the address book for contacts matching the given criteria."""
-        serch_contacts = AddressBook()
+        search_contacts = AddressBook()
 
         if criteria.isdigit():
             for record in self.data.values():
                 for phone_number in record.phone_numbers:
                     if re.search(criteria, phone_number.subrecord.phone):
-                        serch_contacts.add_record(record)
+                        search_contacts.add_record(record)
 
         else:
             for name, record in self.data.items():
                 if re.search(criteria, name):
-                    serch_contacts.add_record(record)
-                
-        if len(serch_contacts) == 0:
+                    search_contacts.add_record(record)
+
+        if len(search_contacts) == 0:
             return f"According to this '{criteria}' criterion, no matches were found"
-        
-        return serch_contacts
+
+        return search_contacts
 
     def save_records_to_file(self, file_name: str) -> None:
         """Save the data in the address book to a binary file using pickle."""
@@ -68,24 +68,25 @@ class AddressBook(UserDict):
 
 class Record:
     """A class that represents a contact record in a phone book."""
+
     class Subrecord:
         """..."""
+
         def __init__(self, subrecord: Any, name_subrecord: list | None):
             self.name = name_subrecord
             self.subrecord = subrecord
-            
 
     def __init__(self, user: User):
         self.user = user
         self.phone_numbers: List['Record.Subrecord'] = []
         self.emails: List['Record.Subrecord'] = []
 
-    def add_phone_number(self, phone_number: Phone, phone_assignment: list | None=None) -> None:
+    def add_phone_number(self, phone_number: Phone, phone_assignment: list | None = None) -> None:
         """Adds a new phone number to the contact."""
         subrecord_phone = self.Subrecord(phone_number, phone_assignment)
         self.phone_numbers.append(subrecord_phone)
-        
-    def add_email(self, email: Email, email_assignment: list | None=None) -> None:
+
+    def add_email(self, email: Email, email_assignment: list | None = None) -> None:
         """Adds a new email to the contact."""
         subrecord_email = self.Subrecord(email, email_assignment)
         self.emails.append(subrecord_email)
@@ -94,7 +95,7 @@ class Record:
         """Add a birthday data to the contact."""
         self.user.birthday_date = birthday_date
 
-    def days_to_birthday(self, current_date: Union[datetime, None]=None) -> Union[int, None]:
+    def days_to_birthday(self, current_date: Union[datetime, None] = None) -> Union[int, None]:
         """Calculate the number of days to the next birthday."""
         if current_date is None:
             current_date = datetime.now()
@@ -102,7 +103,7 @@ class Record:
         birthday = self.user.birthday_date
         if birthday is None:
             return None
-        
+
         next_birthday = datetime(current_date.year, birthday.month, birthday.day)
 
         if next_birthday < current_date:
