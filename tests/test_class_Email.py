@@ -1,7 +1,7 @@
 """Tests class Email"""
 import unittest
 
-from src.my_addressbook.entities import Email
+from my_address_book.entities import Email
 
 
 

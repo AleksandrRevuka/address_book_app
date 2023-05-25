@@ -2,7 +2,7 @@
 import unittest
 from datetime import date
 
-from src.my_addressbook.entities import User
+from my_address_book.entities import User
 
 
 class TestUser(unittest.TestCase):

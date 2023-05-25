@@ -4,9 +4,9 @@ import re
 from string import digits
 from datetime import datetime
 
-from my_addressbook.error import input_error
-from my_addressbook.constants import LETTERS, NAME_RANGE, PHONE_RANGE
-from my_addressbook.address_book import AddressBook as AB
+from my_address_book.error import input_error
+from my_address_book.constants import LETTERS, NAME_RANGE, PHONE_RANGE
+from my_address_book.address_book import AddressBook as AB
 
 
 @input_error

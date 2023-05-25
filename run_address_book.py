@@ -2,11 +2,11 @@
 
 import npyscreen
 
-from my_addressbook.constants import FILE
-from my_addressbook.address_book import AddressBook as AB
-from my_addressbook.theme import MyThemeWidgets
-from my_addressbook.menu_forms import EditContactForm, DeleteContactForm, AddContactForm
-from my_addressbook.main_form import MainForm
+from my_address_book.constants import FILE
+from my_address_book.address_book import AddressBook as AB
+from my_address_book.theme import MyThemeWidgets
+from my_address_book.menu_forms import EditContactForm, DeleteContactForm, AddContactForm
+from my_address_book.main_form import MainForm
 
 
 class AddressBookApp(npyscreen.NPSAppManaged):

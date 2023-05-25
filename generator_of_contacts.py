@@ -4,10 +4,10 @@ import random
 from faker import Factory
 
 
-from src.my_addressbook.address_book import Record, AddressBook as AB
-from src.my_addressbook.entities import Phone, User, Email
-from src.my_addressbook.constants import FILE
-from src.my_addressbook.utils import sanitize_phone_number
+from my_address_book.address_book import Record, AddressBook as AB
+from my_address_book.entities import Phone, User, Email
+from my_address_book.constants import FILE
+from my_address_book.utils import sanitize_phone_number
 
 
 def generator_contacts(n=10) -> list[dict]:
