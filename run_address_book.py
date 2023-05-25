@@ -30,7 +30,7 @@ class AddressBookApp(npyscreen.NPSAppManaged):
         self.addForm('ADD CONTACT', AddContactForm, name='Add contact',
                      lines=40, columns=65, draw_line=1)
         self.addForm('EDIT CONTACT', EditContactForm, name='Edit contact',
-                     lines=20, columns=50, draw_line=1)
+                     lines=10, columns=50, draw_line=1)
         self.addForm('DELETE CONTACT', DeleteContactForm, name='Delete contact',
                      lines=10, columns=50, draw_line=1)
 
