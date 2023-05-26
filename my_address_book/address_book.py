@@ -96,16 +96,17 @@ class Record:
 
     Attributes:
         user (User): The User object representing the user details of the contact.
-        phone_numbers (List[Record.Subrecord]): A list of Subrecord objects representing the phone numbers of the contact.
+        phone_numbers (List[Record.Subrecord]): A list of Subrecord objects representing the phone numbers of 
+        the contact.
         emails (List[Record.Subrecord]): A list of Subrecord objects representing the emails of the contact.
 
     Methods:
         add_phone_number: Adds a new phone number to the contact.
-        
+
         add_email: Adds a new email to the contact.
-        
+
         add_birthday: Adds a birthday date to the contact.
-        
+
         days_to_birthday: Calculates the number of days until the next birthday of the contact.
     """
 
