@@ -280,7 +280,7 @@ class AddContactForm(npyscreen.ActionForm):
             record_contact: Record = self.parentApp.addressbook.get_contact(self.value)
 
             self.contact_name.value = record_contact.user.name
-            
+
             if len(record_contact.phone_numbers) >= 1:
                 self.contact_phone_one.value = (
                     record_contact.phone_numbers[0].subrecord.phone
@@ -312,7 +312,6 @@ class AddContactForm(npyscreen.ActionForm):
                     else None
                 )
                 self.email_assignment_one.value = record_contact.emails[0].name
-                
 
             if len(record_contact.emails) >= 2:
                 self.contact_email_two.value = (
@@ -402,7 +401,7 @@ class AddContactForm(npyscreen.ActionForm):
 
         if self.contact_email_one.value:
             message_error = email_validation(self.contact_email_one.value)
-            
+
         if message_error:
             npyscreen.notify_confirm(message_error)
             self.contact_email_one.value = None
@@ -410,7 +409,7 @@ class AddContactForm(npyscreen.ActionForm):
 
         if self.contact_email_two.value:
             message_error = email_validation(self.contact_email_two.value)
-            
+
         if message_error:
             npyscreen.notify_confirm(message_error)
             self.contact_email_two.value = None
@@ -443,10 +442,9 @@ class AddContactForm(npyscreen.ActionForm):
 
         user = User(self.contact_name.value)
         contact = Record(user)
-        
+
         if self.contact_phone_one.value:
             phone_one = Phone(self.contact_phone_one.value)
-            
             if self.phone_assignment_one.value:
                 phone_assignment_one_value = [
                     self.phone_assignment_one.value[0],
@@ -456,10 +454,8 @@ class AddContactForm(npyscreen.ActionForm):
             else:
                 contact.add_phone_number(phone_one)
 
-
         if self.contact_phone_two.value:
             phone_two = Phone(self.contact_phone_two.value)
-            
             if self.phone_assignment_two.value:
                 phone_assignment_two_value = [
                     self.phone_assignment_two.value[0],
@@ -469,10 +465,8 @@ class AddContactForm(npyscreen.ActionForm):
             else:
                 contact.add_phone_number(phone_two)
 
-
         if self.contact_phone_three.value:
             phone_three = Phone(self.contact_phone_three.value)
-            
             if self.phone_assignment_three.value:
                 phone_assignment_three_value = [
                     self.phone_assignment_three.value[0],
@@ -482,10 +476,8 @@ class AddContactForm(npyscreen.ActionForm):
             else:
                 contact.add_phone_number(phone_three)
 
-
         if self.contact_email_one.value:
             email_one = Email(self.contact_email_one.value)
-            
             if self.email_assignment_one.value:
                 email_assignment_one = [
                     self.email_assignment_one.value[0],
@@ -495,10 +487,8 @@ class AddContactForm(npyscreen.ActionForm):
             else:
                 contact.add_email(email_one)
 
-
         if self.contact_email_two.value:
             email_two = Email(self.contact_email_two.value)
-            
             if self.email_assignment_two.value:
                 email_assignment_two = [
                     self.email_assignment_two.value[0],
@@ -547,4 +537,3 @@ class AddContactForm(npyscreen.ActionForm):
     def on_cancel(self) -> None:
         self.after_editing()
         self.parentApp.switchForm("MAIN")
-        
