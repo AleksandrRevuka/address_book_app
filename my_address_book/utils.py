@@ -51,7 +51,7 @@ def print_all_contacts(addressbook: AB) -> str:
 
         phone_numbers: list[str] = []
         for number in contact.phone_numbers:
-            if number.subrecord.phone != '':
+            if number.subrecord.phone is not None:
                 if number.name:
                     phone_numbers.append(number.subrecord.phone + f"({number.name[1]})")
                 else:
@@ -63,7 +63,7 @@ def print_all_contacts(addressbook: AB) -> str:
 
         emails: list[str] = []
         for email in contact.emails:
-            if email.subrecord.email != '':
+            if email.subrecord.email is not None:
                 if email.name:
                     emails.append(email.subrecord.email + f"({email.name[1]})")
                 else:

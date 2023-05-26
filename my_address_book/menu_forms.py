@@ -280,18 +280,20 @@ class AddContactForm(npyscreen.ActionForm):
             record_contact: Record = self.parentApp.addressbook.get_contact(self.value)
 
             self.contact_name.value = record_contact.user.name
-            self.contact_phone_one.value = (
-                record_contact.phone_numbers[0].subrecord.phone
-                if record_contact.phone_numbers[0].subrecord.phone
-                else ''
-            )
-            self.phone_assignment_one.value = record_contact.phone_numbers[0].name
+            
+            if len(record_contact.phone_numbers) >= 1:
+                self.contact_phone_one.value = (
+                    record_contact.phone_numbers[0].subrecord.phone
+                    if record_contact.phone_numbers[0].subrecord.phone
+                    else None
+                )
+                self.phone_assignment_one.value = record_contact.phone_numbers[0].name
 
             if len(record_contact.phone_numbers) >= 2:
                 self.contact_phone_two.value = (
                     record_contact.phone_numbers[1].subrecord.phone
                     if record_contact.phone_numbers[1].subrecord.phone
-                    else ''
+                    else None
                 )
                 self.phone_assignment_two.value = record_contact.phone_numbers[1].name
 
@@ -299,23 +301,24 @@ class AddContactForm(npyscreen.ActionForm):
                 self.contact_phone_three.value = (
                     record_contact.phone_numbers[2].subrecord.phone
                     if record_contact.phone_numbers[2].subrecord.phone
-                    else ''
+                    else None
                 )
                 self.phone_assignment_three.value = record_contact.phone_numbers[2].name
 
-            self.contact_email_one.value = (
-                record_contact.emails[0].subrecord.email
-                if record_contact.emails[0].subrecord.email
-                else ''
-            )
-            self.email_assignment_one.value = record_contact.emails[0].name
-            self.contact_birth.value = record_contact.user.birthday_date
+            if len(record_contact.emails) >= 1:
+                self.contact_email_one.value = (
+                    record_contact.emails[0].subrecord.email
+                    if record_contact.emails[0].subrecord.email
+                    else None
+                )
+                self.email_assignment_one.value = record_contact.emails[0].name
+                
 
             if len(record_contact.emails) >= 2:
                 self.contact_email_two.value = (
                     record_contact.emails[1].subrecord.email
                     if record_contact.emails[1].subrecord.email
-                    else ''
+                    else None
                 )
                 self.email_assignment_two.value = record_contact.emails[1].name
 
@@ -354,72 +357,68 @@ class AddContactForm(npyscreen.ActionForm):
         """
 
         name = self.contact_name.value
-        message = name_validation(name)
-        if message:
-            npyscreen.notify_confirm(message)
+        message_error = name_validation(name)
+        if message_error:
+            npyscreen.notify_confirm(message_error)
             self.contact_name.value = None
             return False
 
         if self.value != name.lower():
-            message = check_name_in_address_book(self.parentApp.addressbook, name)
-            if message:
-                npyscreen.notify_confirm(message)
+            message_error = check_name_in_address_book(self.parentApp.addressbook, name)
+            if message_error:
+                npyscreen.notify_confirm(message_error)
                 self.contact_name.value = None
                 return False
 
         if self.contact_phone_one.value:
-            phone = self.contact_phone_one.value
-            phone = sanitize_phone_number(phone)
-            message = phone_validation(phone)
+            phone = sanitize_phone_number(self.contact_phone_one.value)
+            message_error = phone_validation(phone)
             self.contact_phone_one.value = phone
 
-        if message:
-            npyscreen.notify_confirm(message)
+        if message_error:
+            npyscreen.notify_confirm(message_error)
             self.contact_phone_one.value = None
             return False
 
         if self.contact_phone_two.value:
-            phone = self.contact_phone_two.value
-            phone = sanitize_phone_number(phone)
-            message = phone_validation(phone)
+            phone = sanitize_phone_number(self.contact_phone_two.value)
+            message_error = phone_validation(phone)
             self.contact_phone_two.value = phone
 
-        if message:
-            npyscreen.notify_confirm(message)
+        if message_error:
+            npyscreen.notify_confirm(message_error)
             self.contact_phone_two.value = None
             return False
 
         if self.contact_phone_three.value:
-            phone = self.contact_phone_three.value
-            phone = sanitize_phone_number(phone)
-            message = phone_validation(phone)
+            phone = sanitize_phone_number(self.contact_phone_three.value)
+            message_error = phone_validation(phone)
             self.contact_phone_three.value = phone
 
-        if message:
-            npyscreen.notify_confirm(message)
+        if message_error:
+            npyscreen.notify_confirm(message_error)
             self.contact_phone_three.value = None
             return False
 
         if self.contact_email_one.value:
-            email = self.contact_email_one.value
-            message = email_validation(email)
-        if message:
-            npyscreen.notify_confirm(message)
+            message_error = email_validation(self.contact_email_one.value)
+            
+        if message_error:
+            npyscreen.notify_confirm(message_error)
             self.contact_email_one.value = None
             return False
 
         if self.contact_email_two.value:
-            email = self.contact_email_two.value
-            message = email_validation(email)
-        if message:
-            npyscreen.notify_confirm(message)
+            message_error = email_validation(self.contact_email_two.value)
+            
+        if message_error:
+            npyscreen.notify_confirm(message_error)
             self.contact_email_two.value = None
             return False
 
-        birthday = self.contact_birth.value
-        message = birthday_date_validation(birthday)
-        if message:
-            npyscreen.notify_confirm(message)
+        message_error = birthday_date_validation(self.contact_birth.value)
+        if message_error:
+            npyscreen.notify_confirm(message_error)
             self.contact_birth.value = None
             return False
 
@@ -442,58 +441,72 @@ class AddContactForm(npyscreen.ActionForm):
         and saves it to file.
         """
 
-        email_one = Email(self.contact_email_one.value)
-        email_two = Email(self.contact_email_two.value)
-        phone_one = Phone(self.contact_phone_one.value)
-        phone_two = Phone(self.contact_phone_two.value)
-        phone_three = Phone(self.contact_phone_three.value)
-
         user = User(self.contact_name.value)
         contact = Record(user)
-        if self.phone_assignment_one.value:
-            phone_assignment_one_value = [
-                self.phone_assignment_one.value[0],
-                self.phone_assignment_one.values[self.phone_assignment_one.value[0]]
-            ]
-            contact.add_phone_number(phone_one, phone_assignment_one_value)
-        else:
-            contact.add_phone_number(phone_one)
+        
+        if self.contact_phone_one.value:
+            phone_one = Phone(self.contact_phone_one.value)
+            
+            if self.phone_assignment_one.value:
+                phone_assignment_one_value = [
+                    self.phone_assignment_one.value[0],
+                    self.phone_assignment_one.values[self.phone_assignment_one.value[0]]
+                ]
+                contact.add_phone_number(phone_one, phone_assignment_one_value)
+            else:
+                contact.add_phone_number(phone_one)
 
-        if self.phone_assignment_two.value:
-            phone_assignment_two_value = [
-                self.phone_assignment_two.value[0],
-                self.phone_assignment_two.values[self.phone_assignment_two.value[0]]
-            ]
-            contact.add_phone_number(phone_two, phone_assignment_two_value)
-        else:
-            contact.add_phone_number(phone_two)
 
-        if self.phone_assignment_three.value:
-            phone_assignment_three_value = [
-                self.phone_assignment_three.value[0],
-                self.phone_assignment_three.values[self.phone_assignment_three.value[0]]
-            ]
-            contact.add_phone_number(phone_three, phone_assignment_three_value)
-        else:
-            contact.add_phone_number(phone_three)
+        if self.contact_phone_two.value:
+            phone_two = Phone(self.contact_phone_two.value)
+            
+            if self.phone_assignment_two.value:
+                phone_assignment_two_value = [
+                    self.phone_assignment_two.value[0],
+                    self.phone_assignment_two.values[self.phone_assignment_two.value[0]]
+                ]
+                contact.add_phone_number(phone_two, phone_assignment_two_value)
+            else:
+                contact.add_phone_number(phone_two)
 
-        if self.email_assignment_one.value:
-            email_assignment_one = [
-                self.email_assignment_one.value[0],
-                self.email_assignment_one.values[self.email_assignment_one.value[0]]
-            ]
-            contact.add_email(email_one, email_assignment_one)
-        else:
-            contact.add_email(email_one)
 
-        if self.email_assignment_two.value:
-            email_assignment_two = [
-                self.email_assignment_two.value[0],
-                self.email_assignment_two.values[self.email_assignment_two.value[0]]
-            ]
-            contact.add_email(email_two, email_assignment_two)
-        else:
-            contact.add_email(email_two)
+        if self.contact_phone_three.value:
+            phone_three = Phone(self.contact_phone_three.value)
+            
+            if self.phone_assignment_three.value:
+                phone_assignment_three_value = [
+                    self.phone_assignment_three.value[0],
+                    self.phone_assignment_three.values[self.phone_assignment_three.value[0]]
+                ]
+                contact.add_phone_number(phone_three, phone_assignment_three_value)
+            else:
+                contact.add_phone_number(phone_three)
+
+
+        if self.contact_email_one.value:
+            email_one = Email(self.contact_email_one.value)
+            
+            if self.email_assignment_one.value:
+                email_assignment_one = [
+                    self.email_assignment_one.value[0],
+                    self.email_assignment_one.values[self.email_assignment_one.value[0]]
+                ]
+                contact.add_email(email_one, email_assignment_one)
+            else:
+                contact.add_email(email_one)
+
+
+        if self.contact_email_two.value:
+            email_two = Email(self.contact_email_two.value)
+            
+            if self.email_assignment_two.value:
+                email_assignment_two = [
+                    self.email_assignment_two.value[0],
+                    self.email_assignment_two.values[self.email_assignment_two.value[0]]
+                ]
+                contact.add_email(email_two, email_assignment_two)
+            else:
+                contact.add_email(email_two)
 
         contact.add_birthday(self.contact_birth.value)
 
