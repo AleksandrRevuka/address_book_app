@@ -1,4 +1,19 @@
-"""forms"""
+"""
+The module provides the EditContactForm, DeleteContactForm, and AddContactForm classes for managing 
+contacts in an address book application.
+
+Classes:
+    EditContactForm(npyscreen.ActionPopup):
+        A form for editing a contact's information.
+
+    DeleteContactForm(npyscreen.ActionPopup):
+        A form for deleting a contact from the address book.
+        
+    AddContactForm(npyscreen.ActionForm):
+        A form for adding a new contact to the address book.
+
+"""
+
 
 from datetime import datetime
 import npyscreen
@@ -18,7 +33,17 @@ from my_address_book.constants import FILE
 
 
 class EditContactForm(npyscreen.ActionPopup):
-    """..."""
+    """
+    A form class for editing contact information.
+
+    This form allows the user to edit a contact's name. It checks if the entered name exists in the address book,
+    displays a message if it does, and prompts the user to enter another name. If the name is valid,
+    the form switches to the ADD CONTACT form to edit the contact.
+
+    Attributes:
+        contact_name_for_change (npyscreen.TitleText): The widget for entering the contact name.
+
+    """
 
     def create(self) -> None:
         """
@@ -69,7 +94,17 @@ class EditContactForm(npyscreen.ActionPopup):
 
 
 class DeleteContactForm(npyscreen.ActionPopup):
-    """..."""
+    """
+    A form class for deleting a contact.
+
+    This form allows the user to enter the name of a contact to delete. It checks if the entered name exists
+    in the address book and prompts the user to confirm the deletion. If confirmed, the contact is deleted
+    from the address book and saved to file.
+
+    Attributes:
+        contact_name_for_del (npyscreen.TitleText): The widget for entering the contact name to delete.
+
+    """
 
     def create(self) -> None:
         """
@@ -133,7 +168,50 @@ class DeleteContactForm(npyscreen.ActionPopup):
 
 
 class AddContactForm(npyscreen.ActionForm):
-    """..."""
+    """
+    This class represents a form for adding or editing a contact in an address book.
+
+    Attributes:
+        value (str): 
+            The value representing the contact to be edited (optional).
+        contact_name (npyscreen.TitleText): 
+            The widget for entering the contact's name.
+        contact_phone_one (npyscreen.TitleText): 
+            The widget for entering the first phone number.
+        phone_assignment_one (npyscreen.TitleSelectOne): 
+            The widget for selecting the assignment of the first phone number.
+        contact_phone_two (npyscreen.TitleText): 
+            The widget for entering the second phone number.
+        phone_assignment_two (npyscreen.TitleSelectOne): 
+            The widget for selecting the assignment of the second phone number.
+        contact_phone_three (npyscreen.TitleText): 
+            The widget for entering the third phone number.
+        phone_assignment_three (npyscreen.TitleSelectOne): 
+            The widget for selecting the assignment of the third phone number.
+        contact_email_one (npyscreen.TitleText): 
+            The widget for entering the first email address.
+        email_assignment_one (npyscreen.TitleSelectOne): 
+            The widget for selecting the assignment of the first email address.
+        contact_email_two (npyscreen.TitleText): 
+            The widget for entering the second email address.
+        email_assignment_two (npyscreen.TitleSelectOne): 
+            The widget for selecting the assignment of the second email address.
+        contact_birth_text (npyscreen.TitleText): 
+            The widget for entering the year of birth.
+        contact_birth (npyscreen.TitleDateCombo): 
+            The widget for selecting the date of birth.
+
+    Methods:
+        create(): Sets up the form and its widgets.
+        beforeEditing(): Populates the form with data from the contact to be edited (if provided).
+        after_editing(): Resets the form's values after editing is completed.
+        data_validation(): Validates the data entered by the user.
+        while_editing(*args, **kwargs): Converts the year of birth to a full date format while the user is editing.
+        add_contact(): Creates a new contact object and adds it to the address book.
+        change_contact(): Updates an existing contact with the modified information.
+        on_ok(): Called when the user presses OK on the form, performs validation and adds or updates the contact.
+        on_cancel(): Called when the user cancels the form, resets the form's values and returns to the main form.
+    """
 
     def create(self) -> None:
         """
@@ -456,3 +534,4 @@ class AddContactForm(npyscreen.ActionForm):
     def on_cancel(self) -> None:
         self.after_editing()
         self.parentApp.switchForm("MAIN")
+        

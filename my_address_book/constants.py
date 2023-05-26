@@ -1,4 +1,10 @@
-"""constants"""
+"""
+The constants module provides constant values used in the address book application.
+
+This module defines various constant values used in the application, such as file paths,
+number of contacts per page, and ranges for name and phone number lengths.
+"""
+
 import os
 from string import ascii_letters
 

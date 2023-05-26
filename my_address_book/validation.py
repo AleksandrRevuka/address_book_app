@@ -1,4 +1,20 @@
-"""validation"""
+"""
+This module provides functions for validating and checking various input parameters related to an address book.
+
+Functions:
+
+    name_validation(name: str) -> None: Verifies that a given name is a valid name for a contact.
+    phone_validation(phone: str) -> None: Verifies that a given phone number is valid.
+    birthday_date_validation(birthday_date: datetime) -> None: Verifies that a given birthday date is valid.
+    email_validation(email: str) -> None: Verifies that a given email address is valid.
+    criteria_validation(criteria: str) -> None: 
+                                        Verifies that a given criteria string only contains numbers or letters.
+    check_name_in_address_book(address_book: AB, name: str) -> None: 
+                                                            Checks if a given name already exists in the address book.
+    check_name_not_in_address_book(address_book: AB, name: str) -> None: 
+                                                            Checks if a given name does not exist in the address book.
+
+"""
 
 import re
 from string import digits
@@ -11,7 +27,9 @@ from my_address_book.address_book import AddressBook as AB
 
 @input_error
 def name_validation(name: str) -> None:
-    """Verifies that the input string `name` is a valid name for a contact."""
+    """
+    Verifies that the input string `name` is a valid name for a contact.
+    """
 
     if not isinstance(name, str):
         raise TypeError(
@@ -28,7 +46,9 @@ def name_validation(name: str) -> None:
 
 @input_error
 def phone_validation(phone: str) -> None:
-    """Verifies a phone number."""
+    """
+    Verifies a phone number.
+    """
 
     if len(phone.strip(digits + '+')) != 0:
         raise TypeError(
@@ -41,7 +61,9 @@ def phone_validation(phone: str) -> None:
 
 @input_error
 def birthday_date_validation(birthday_date: datetime) -> None:
-    """Verifies a birthday data."""
+    """
+    Verifies a birthday data.
+    """
     if isinstance(birthday_date, datetime):
         if birthday_date >= datetime.now().date():
             raise ValueError(
@@ -50,7 +72,9 @@ def birthday_date_validation(birthday_date: datetime) -> None:
 
 @input_error
 def email_validation(email: str) -> None:
-    """Verifies an email address."""
+    """
+    Verifies an email address.
+    """
     pattern = r"[a-zA-Z][a-zA-Z0-9_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+"
     if not re.match(pattern, email):
         raise ValueError(f"Invalid '{email}' email address.")
@@ -89,4 +113,3 @@ def check_name_not_in_address_book(address_book: AB, name: str) -> None:
     name = name.lower()
     if name not in (name.lower() for name in address_book):
         raise KeyError(f"The contact '{name.title()}' was not found.")
-

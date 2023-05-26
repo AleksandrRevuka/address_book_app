@@ -1,4 +1,10 @@
-"""main form"""
+"""
+The module provides the MainForm class, which represents the main form of the address book application.
+
+Classes:
+    MainForm(npyscreen.FormBaseNewWithMenus):
+        The main form of the address book application, displaying the list of contacts and providing menu options.
+"""
 
 import npyscreen
 
@@ -8,7 +14,29 @@ from my_address_book.address_book import AddressBook as AB
 
 
 class MainForm(npyscreen.FormBaseNewWithMenus):
-    """..."""
+    """
+    MainForm is the main form of the address book application.
+
+    This form displays the list of contacts, allows searching for contacts,
+    and provides menu options for adding, editing, and deleting contacts.
+
+    Attributes:
+        print_contacts_widget (npyscreen.TitlePager): Widget to display the list of contacts.
+        search_widget (npyscreen.TitleText): Widget for searching contacts.
+        menu (npyscreen.Menu): Menu object for accessing various options.
+
+    Methods:
+        create: Called when the form is created, sets up the widgets and their initial values.
+        while_editing: Called when editing the search criteria, performs search and updates the contact list.
+        beforeEditing: Called before the form is displayed, updates the list of contacts.
+        update_list: Updates the list of contacts in the address book to reflect any changes.
+        add_contact: Allows the user to add a contact to the address book.
+        edit_contact: Allows the user to edit a contact's information.
+        delete_contact: Allows the user to delete a contact from the address book.
+        close_menu: Closes the menu.
+        exit: Exits the program.
+        on_ok: Called when the user presses OK on a form, closes all forms and exits.
+    """
 
     def create(self) -> None:
         """
@@ -106,3 +134,4 @@ class MainForm(npyscreen.FormBaseNewWithMenus):
         This tells npyscreen to close all forms and exit.
         """
         self.parentApp.switchForm(None)
+        

@@ -1,9 +1,24 @@
-"""Theme"""
+"""
+Theme module provides the MyThemeWidgets class for customizing the appearance of npyscreen widgets.
+
+Classes:
+    MyThemeWidgets(npyscreen.ThemeManager):
+        A class for defining a custom theme for npyscreen widgets.
+"""
+
 import npyscreen
 
 
 class MyThemeWidgets(npyscreen.ThemeManager):
-    """..."""
+    """
+    A class for defining a custom theme for npyscreen widgets.
+
+    Inherits from npyscreen.ThemeManager.
+
+    Attributes:
+        default_colors (dict): A dictionary defining the default color scheme for different widget elements.
+    """
+    
     default_colors = {
         'DEFAULT': 'MAGENTA_BLACK',
         'FORMDEFAULT': 'YELLOW_BLACK',

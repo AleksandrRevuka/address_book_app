@@ -1,4 +1,9 @@
-"""run menu"""
+"""
+The AddressBookApp module provides an application for managing an address book.
+
+The module defines the `AddressBookApp` class, which extends the `npyscreen.NPSAppManaged` class
+and provides functionality for creating and running the address book application.
+"""
 
 import npyscreen
 
@@ -10,7 +15,20 @@ from my_address_book.main_form import MainForm
 
 
 class AddressBookApp(npyscreen.NPSAppManaged):
-    """..."""
+    """
+    AddressBookApp is an application for managing an address book.
+
+    This class extends the npyscreen.NPSAppManaged class, which provides a framework for building 
+    console-based applications using npyscreen library.
+
+    Attributes:
+        addressbook (AB): An instance of the AB class, representing the address book.
+
+    Methods:
+        __init__: Initializes the AddressBookApp object.
+        onStart: Called when the application starts, sets up the theme, reads records from a file, 
+        and adds forms to the application.
+    """
 
     def __init__(self) -> None:
         super().__init__()

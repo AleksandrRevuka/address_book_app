@@ -1,4 +1,12 @@
-"""utils"""
+"""
+This module provides functions for managing an address book and printing its contacts.
+
+Functions:
+    format_phone_number(func: Callable[..., str]) -> Callable[..., str]: 
+                                                    A decorator function that adds a '+' sign to a phone number.
+    sanitize_phone_number(phone: str) -> str: Cleans a phone number by removing unnecessary characters.
+    print_all_contacts(addressbook: AB) -> str: Prints all the contacts in an address book in a formatted table.
+"""
 
 from typing import Callable
 from prettytable import PrettyTable
@@ -7,7 +15,9 @@ from my_address_book.address_book import AddressBook as AB
 
 
 def format_phone_number(func: Callable[..., str]) -> Callable[..., str]:
-    """Add '+' to phone's number"""
+    """
+    Add '+' to phone's number
+    """
     def add_code_phone(phone: str) -> str:
         phone = func(phone)
         return ''.join('+' + phone)
@@ -17,7 +27,9 @@ def format_phone_number(func: Callable[..., str]) -> Callable[..., str]:
 
 @format_phone_number
 def sanitize_phone_number(phone: str) -> str:
-    """Clean number"""
+    """
+    Clean number
+    """
     return ''.join(number.strip().strip('(, ), -, +, x, .') for number in phone)
 
 

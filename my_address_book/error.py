@@ -1,12 +1,22 @@
-"""error"""
+"""
+error module provides the input_error decorator for handling input errors.
+
+Functions:
+    input_error(func: Callable[..., Any]) -> Callable[..., str]:
+        Decorator for handling input errors.
+"""
 
 from typing import Callable, Any
 
 
 def input_error(func: Callable[..., Any]) -> Callable[..., str]:
-    """Decorator for handling input errors"""
+    """
+    Decorator for handling input errors
+    """
     def wrapper_input_error(*args: tuple) -> str:
-        """Wrapper function for handling input errors"""
+        """
+        Wrapper function for handling input errors
+        """
         try:
             func(*args)
             return ""
