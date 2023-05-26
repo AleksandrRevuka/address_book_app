@@ -43,7 +43,6 @@ class MainForm(npyscreen.FormBaseNewWithMenus):
         The create function is called when the form is created.
         It sets up the widgets and their initial values.
         """
-
         self.print_contacts_widget = self.add(npyscreen.TitlePager, name="Contacts:", begin_entry_at=9, max_height=36)
         self.search_widget = self.add(npyscreen.TitleText, name="Search:", rely=39, begin_entry_at=10)
         self.search_widget.when_cursor_moved = self.while_editing
@@ -58,10 +57,10 @@ class MainForm(npyscreen.FormBaseNewWithMenus):
     def while_editing(self, *args: list, **kwargs: dict) -> None:
         if self.search_widget.value:
             criteria = self.search_widget.value.lower()
-            message = criteria_validation(criteria)
-            if message:
-                npyscreen.notify_confirm(message, "Warning!", editw=1)
-                self.search_widget.value = ''
+            message_error = criteria_validation(criteria)
+            if message_error:
+                npyscreen.notify_confirm(message_error, "Warning!", editw=1)
+                self.search_widget.value = ""
                 self.update_list(self.parentApp.addressbook)
 
             result = self.parentApp.addressbook.search(criteria)
@@ -69,7 +68,7 @@ class MainForm(npyscreen.FormBaseNewWithMenus):
                 self.update_list(result)
             else:
                 npyscreen.notify_confirm(result, "Warning!", editw=1)
-                self.search_widget.value = ''
+                self.search_widget.value = ""
                 self.update_list(self.parentApp.addressbook)
         else:
             self.update_list(self.parentApp.addressbook)
