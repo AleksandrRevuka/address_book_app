@@ -64,10 +64,9 @@ def birthday_date_validation(birthday_date: datetime) -> None:
     """
     Verifies a birthday data.
     """
-    if isinstance(birthday_date, datetime):
-        if birthday_date >= datetime.now().date():
-            raise ValueError(
-                f"Birthday '{birthday_date}' must be in the past")
+    if birthday_date >= datetime.now().date():
+        raise ValueError(
+            f"Birthday '{birthday_date}' must be in the past")
 
 
 @input_error
@@ -97,10 +96,8 @@ def check_name_in_address_book(address_book: AB, name: str) -> None:
     The check_name_in_address_book function checks if a name is already in the address book.
         If it is, then an error message will be raised.
     """
-    name.lower()
-    if name in (name.lower() for name in address_book):
-        raise ValueError(
-            f"The contact '{name.title()}' already exists in the address book.")
+    if name.lower() in (name_contact for name_contact in address_book):
+        raise ValueError(f"The contact '{name.title()}' already exists in the address book.")
 
 
 @input_error
@@ -110,6 +107,5 @@ def check_name_not_in_address_book(address_book: AB, name: str) -> None:
         If it is, then a ValueError exception will be raised with an error message explaining that
         the contact already exists in the address book.
     """
-    name = name.lower()
-    if name not in (name.lower() for name in address_book):
-        raise KeyError(f"The contact '{name.title()}' was not found.")
+    if name.lower() not in (name_contact.lower() for name_contact in address_book):
+        raise KeyError(f"The contact {name.title()} was not found.")

@@ -218,6 +218,7 @@ class AddContactForm(npyscreen.ActionForm):
         The create function is called when the form is created.
         It sets up the widgets and their initial values.
         """
+        
         self.value = None
         self.contact_name: npyscreen.TitleText = self.add(npyscreen.TitleText, name='Name')
         self.contact_phone_one = self.add(npyscreen.TitleText, name='Number №1')
