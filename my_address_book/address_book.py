@@ -159,6 +159,9 @@ class Record:
         if birthday is None:
             return None
 
-        next_birthday = datetime(current_date.year + 1, birthday.month, birthday.day)
+        next_birthday = datetime(current_date.year, birthday.month, birthday.day)
+        
+        if next_birthday < current_date:
+            next_birthday = datetime(current_date.year + 1, birthday.month, birthday.day)
 
         return (next_birthday - current_date).days

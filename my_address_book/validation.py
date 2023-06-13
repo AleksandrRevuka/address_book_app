@@ -64,9 +64,9 @@ def birthday_date_validation(birthday_date: datetime) -> None:
     """
     Verifies a birthday data.
     """
-    if birthday_date >= datetime.now().date():
-        raise ValueError(
-            f"Birthday '{birthday_date}' must be in the past")
+    if isinstance(birthday_date, datetime):
+        if birthday_date >= datetime.now().date():
+            raise ValueError(f"Birthday '{birthday_date}' must be in the past")
 
 
 @input_error
