@@ -12,6 +12,7 @@ from typing import Callable
 from prettytable import PrettyTable
 
 from my_address_book.address_book import AddressBook as AB
+from my_address_book.notes_book import NotesBook as NB
 
 
 def format_phone_number(func: Callable[..., str]) -> Callable[..., str]:
@@ -41,10 +42,12 @@ def print_all_contacts(addressbook: AB) -> str:
     :param addressbook: AB: Pass the addressbook object to the function
     """
     table = PrettyTable()
-    table.field_names = ["Contact Name", "Phone Number", "Email", "Birthday", "Days to Birthday"]
+    phone_length = "Phone Number".ljust(20)
+    emain_length = "Email".ljust(40)
+    table.field_names = ["Contact Name", phone_length, emain_length, "Birthday", "Days to Birthday"]
     table.align["Contact Name"] = "l"
-    table.align["Phone Number"] = "l"
-    table.align["Email"] = "l"
+    table.align[phone_length] = "l"
+    table.align[emain_length] = "l"
 
     for contact in addressbook.values():
         contact_name = contact.user.name
@@ -75,7 +78,26 @@ def print_all_contacts(addressbook: AB) -> str:
 
         day_to_birthday = contact.days_to_birthday() if contact.user.birthday_date else '-'
 
-        table.add_row([contact_name.title(), phone_numbers_for_table,
+        table.add_row([contact_name, phone_numbers_for_table,
                       emails_for_table, birthday, day_to_birthday], divider=True)
+
+    return str(table)
+
+
+def print_all_notes(notesbook: NB) -> str:
+    table = PrettyTable()
+    note_length = "Note".ljust(80)
+    table.field_names = ["#", "Note name", note_length, "Create date"]
+    table.align["Note name"] = "l"
+    table.align [note_length] = "l"
+    table.align["Create date"] = "l"
+
+    for key, record in notesbook.items():
+        number_note_for_table = key
+        name_note_for_table = record.note.name_note #if record.note.name_note else '-'
+        note_for_table = record.note.note
+        date_note_for_table = '\n'.join(str(record.date_of_creation).split())
+
+        table.add_row([number_note_for_table, name_note_for_table, note_for_table, date_note_for_table], divider=True)
 
     return str(table)

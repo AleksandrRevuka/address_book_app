@@ -138,3 +138,62 @@ class Phone:
         if isinstance(other, Phone):
             return self.phone == other.phone
         return False
+
+
+class Note:
+    """
+    A class that represents a note.
+
+    Attributes:
+        note (str | None): The content of the note.
+        __name_note (str | None): The name of the note (private attribute).
+
+    Methods:
+        note() -> str | None:
+            Returns the content of the note.
+        note(new_note: str) -> None:
+            Sets the content of the note.
+        name_note() -> str | None:
+            Returns the name of the note.
+        name_note(new_name_note: str) -> None:
+            Sets the name of the note.
+    """
+
+    def __init__(self, note: str | None = None):
+        self.note: str = note
+        self.__name_note: str | None = None
+
+    @property
+    def note(self) -> str | None:
+        """
+        The note function returns the note of a given instance of the class.
+        """
+        return self.__note
+
+    @note.setter
+    def note(self, new_note: str) -> None:
+        """
+        The note function takes a string and assigns it to the note attribute of an object.
+        If no string is passed, then the note attribute is set to None.
+        """
+
+        if new_note is None:
+            self.__note: str | None = None
+        else:
+            self.__note = new_note
+
+    @property
+    def name_note(self) -> str | None:
+        """
+        The name_note function returns the name of a note.
+        """
+
+        return self.__name_note
+
+    @name_note.setter
+    def name_note(self, new_name_note: str) -> None:
+        """
+        The name_note function takes a string as an argument and assigns it to the name_note attribute of the class.
+        """
+
+        self.__name_note = new_name_note

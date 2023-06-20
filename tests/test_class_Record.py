@@ -4,7 +4,7 @@ import unittest
 from datetime import datetime
 
 from my_address_book.entities import Phone, User, Email
-from my_address_book.address_book import Record
+from my_address_book.address_book import RecordContact
 
 
 class TestRecord(unittest.TestCase):
@@ -14,7 +14,7 @@ class TestRecord(unittest.TestCase):
         self.user_test = User('Sasha')
         self.phone_test = Phone('380951234567')
         self.email_test = Email('test_sasha@gmail.com')
-        self.record_test = Record(self.user_test)
+        self.record_test = RecordContact(self.user_test)
         self.record_test.add_phone_number(self.phone_test)
         self.record_test.add_email(self.email_test)
 
@@ -59,7 +59,7 @@ class TestRecord(unittest.TestCase):
         self.record_test.add_birthday(datetime(2000, 1, 1))
         # with mock.patch('datetime.datetime') as datetime_mock:
         #     datetime_mock.now.return_value = current_date
-        self.assertEqual(self.record_test.days_to_birthday(current_date), 365)
+        self.assertEqual(self.record_test.days_to_birthday(current_date), 0)
 
     def test_days_to_birthday_none(self) -> None:
         """

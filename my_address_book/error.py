@@ -6,14 +6,14 @@ Functions:
         Decorator for handling input errors.
 """
 
-from typing import Callable, Any
+from typing import Callable, Any, Union
 
 
-def input_error(func: Callable[..., Any]) -> Callable[..., str]:
+def input_error(func: Callable[..., Any]) -> Callable[..., Union[str, Exception]]:
     """
     Decorator for handling input errors
     """
-    def wrapper_input_error(*args: tuple) -> str:
+    def wrapper_input_error(*args: tuple) -> Union[str, Exception]:
         """
         Wrapper function for handling input errors
         """

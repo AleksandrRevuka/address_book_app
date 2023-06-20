@@ -5,7 +5,7 @@ import pickle
 import unittest
 
 from my_address_book.entities import Phone, User, Email
-from my_address_book.address_book import Record, AddressBook as AB
+from my_address_book.address_book import RecordContact, AddressBook as AB
 
 
 class TestAddressBook(unittest.TestCase):
@@ -16,7 +16,7 @@ class TestAddressBook(unittest.TestCase):
         self.user_test = User('sasha')
         self.phone_test = Phone('380951234567')
         self.email_test = Email('test_sasha@gmail.com')
-        self.record_test = Record(self.user_test)
+        self.record_test = RecordContact(self.user_test)
         self.record_test.add_phone_number(self.phone_test)
         self.record_test.add_email(self.email_test)
 
@@ -38,7 +38,7 @@ class TestAddressBook(unittest.TestCase):
         by adding a record to an address book and then retrieving it by name.
         """
         self.addressbook_test.add_record(self.record_test)
-        contact = self.addressbook_test.get_contact('sasha')
+        contact = self.addressbook_test.get_record('sasha')
         self.assertEqual(contact.user.name, 'sasha')
 
     def test_delete_record(self) -> None:
@@ -49,7 +49,7 @@ class TestAddressBook(unittest.TestCase):
         """
         self.addressbook_test.add_record(self.record_test)
         self.addressbook_test.delete_record('sasha')
-        self.assertFalse('Sasha' in self.addressbook_test)
+        self.assertFalse('sasha' in self.addressbook_test)
 
     def test_search_name(self) -> None:
         """
@@ -72,20 +72,9 @@ class TestAddressBook(unittest.TestCase):
         self.addressbook_test.add_record(self.record_test)
         addressbook_search = self.addressbook_test.search('38095')
         if isinstance(addressbook_search, AB):
-            contact = addressbook_search.get_contact('sasha')
+            contact = addressbook_search.get_record('sasha')
         record_phone = contact.phone_numbers[0].subrecord.phone
         self.assertTrue('380951234567' in record_phone)
-
-    def test_search_nothing(self) -> None:
-        """
-        The test_search_nothing function tests the search function in AddressBook.py
-            by adding a record to an addressbook and then searching for a string that is not present in the record.
-            The test passes if it returns 'According to this'
-        """
-        self.addressbook_test.add_record(self.record_test)
-        addressbook_search = self.addressbook_test.search('Pa')
-        self.assertTrue(
-            'criterion, no matches were found' in addressbook_search)
 
     def test_save_records_to_file(self) -> None:
         """

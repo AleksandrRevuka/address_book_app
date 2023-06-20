@@ -4,13 +4,12 @@ import unittest
 from datetime import datetime, timedelta
 
 from my_address_book.entities import User
-from my_address_book.address_book import AddressBook as AB, Record
+from my_address_book.address_book import AddressBook as AB, RecordContact
 from my_address_book.validation import (
     name_validation,
     phone_validation,
     birthday_date_validation,
     email_validation,
-    criteria_validation,
     check_name_in_address_book,
     check_name_not_in_address_book,
 )
@@ -112,18 +111,9 @@ class TestValidation(unittest.TestCase):
         It checks that an error is raised if a date is not entered correctly, 
         and also checks that an error is raised if a future date is entered.
         """
-        birthday_date = datetime.now() + timedelta(days=1)
-        message_error = birthday_date_validation(birthday_date.date())
-        self.assertEqual(f"ValueError: Birthday '{birthday_date.date()}' must be in the past", message_error)
-
-    def test_criteria_validation_with_invalid_input(self) -> None:
-        """
-        The test_verify_criteria_with_invalid_input function tests the verify_criteria function with invalid input.
-                The test is successful if the SystemExit exception is raised and an error message is printed to stdout.
-        """
-        criteria = '_'
-        message_error = criteria_validation(criteria)
-        self.assertEqual("ValueError: Criteria '_' must be only numbers or letters", message_error)
+        birthday_date = datetime.now().date() + timedelta(days=1)
+        message_error = birthday_date_validation(birthday_date)
+        self.assertEqual(f"ValueError: Birthday '{birthday_date}' must be in the past", message_error)
 
     def test_check_name_in_address_book(self) -> None:
         """
@@ -131,12 +121,12 @@ class TestValidation(unittest.TestCase):
         If it is, then a message will be returned to inform that this contact already exists.
         """
         address_book = AB()
-        contact = Record(User("Alex"))
+        contact = RecordContact(User("Alex"))
         address_book.add_record(contact)
         name = "Alex"
 
         message_error = check_name_in_address_book(address_book, name)
-        self.assertEqual(f"ValueError: The contact '{name.title()}' already exists in the address book.", message_error)
+        self.assertEqual(f"ValueError: The contact '{name}' already exists in the address book.", message_error)
 
     def test_check_name_not_in_address_book(self) -> None:
         """
@@ -144,12 +134,12 @@ class TestValidation(unittest.TestCase):
             If it is, then an error message will be returned.
         """
         address_book = AB()
-        contact = Record(User("Alex"))
+        contact = RecordContact(User("Alex"))
         address_book.add_record(contact)
         name = "Olya"
 
         message_error = check_name_not_in_address_book(address_book, name)
-        self.assertEqual(f"KeyError: 'The contact {name.title()} was not found.'", message_error)
+        self.assertEqual(f"KeyError: 'The contact {name} was not found.'", message_error)
 
 
 if __name__ == '__main__':

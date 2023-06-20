@@ -28,8 +28,8 @@ from my_address_book.validation import (
     check_name_not_in_address_book,
 )
 from my_address_book.entities import Phone, User, Email
-from my_address_book.address_book import Record
-from my_address_book.constants import FILE
+from my_address_book.records import RecordContact
+from my_address_book.constants import FILE_AB
 
 
 class EditContactForm(npyscreen.ActionPopup):
@@ -69,7 +69,7 @@ class EditContactForm(npyscreen.ActionPopup):
         name = self.contact_name_for_change.value
         message = check_name_not_in_address_book(self.parentApp.addressbook, name)
         if message:
-            npyscreen.notify_confirm(message)
+            npyscreen.notify_confirm(message, "Error", editw=1)
             self.contact_name_for_change.value = None
             return False
         return True
@@ -81,7 +81,7 @@ class EditContactForm(npyscreen.ActionPopup):
         the ADD CONTACT form and switches to that form.
         """
         if self.check_name():
-            self.parentApp.getForm('ADD CONTACT').value = self.contact_name_for_change.value.lower()
+            self.parentApp.getForm('ADD CONTACT').value = self.contact_name_for_change.value
             self.parentApp.getForm('ADD CONTACT').name = "Edit contact"
             self.parentApp.switchForm('ADD CONTACT')
 
@@ -131,7 +131,7 @@ class DeleteContactForm(npyscreen.ActionPopup):
         name = self.contact_name_for_del.value
         message = check_name_not_in_address_book(self.parentApp.addressbook, name)
         if message:
-            npyscreen.notify_confirm(message)
+            npyscreen.notify_confirm(message, "Error", editw=1)
             self.contact_name_for_del.value = None
             return False
         return True
@@ -141,9 +141,9 @@ class DeleteContactForm(npyscreen.ActionPopup):
         The delete_contact function is called when the user presses the 'Delete Contact' button.
         It deletes a contact from the address book, and saves it to file.
         """
-        self.parentApp.addressbook.delete_record(self.contact_name_for_del.value.lower())
-        self.parentApp.addressbook.save_records_to_file(FILE)
-        return f"The contact '{self.contact_name_for_del.value.title()}' has been deleted."
+        self.parentApp.addressbook.delete_record(self.contact_name_for_del.value)
+        self.parentApp.addressbook.save_records_to_file(FILE_AB)
+        return f"The contact '{self.contact_name_for_del.value}' has been deleted."
 
     def on_ok(self) -> None:
         """
@@ -278,7 +278,7 @@ class AddContactForm(npyscreen.ActionForm):
         The self argument refers to the Form itself, not a widget on it.
         """
         if self.value:
-            record_contact: Record = self.parentApp.addressbook.get_contact(self.value)
+            record_contact: RecordContact = self.parentApp.addressbook.get_record(self.value)
 
             self.contact_name.value = record_contact.user.name
 
@@ -359,14 +359,14 @@ class AddContactForm(npyscreen.ActionForm):
         name = self.contact_name.value
         message_error = name_validation(name)
         if message_error:
-            npyscreen.notify_confirm(message_error)
+            npyscreen.notify_confirm(message_error, "Error", editw=1)
             self.contact_name.value = None
             return False
 
-        if self.value != name.lower():
+        if self.value != name:
             message_error = check_name_in_address_book(self.parentApp.addressbook, name)
             if message_error:
-                npyscreen.notify_confirm(message_error)
+                npyscreen.notify_confirm(message_error, "Error", editw=1)
                 self.contact_name.value = None
                 return False
 
@@ -376,7 +376,7 @@ class AddContactForm(npyscreen.ActionForm):
             self.contact_phone_one.value = phone
 
         if message_error:
-            npyscreen.notify_confirm(message_error)
+            npyscreen.notify_confirm(message_error, "Error", editw=1)
             self.contact_phone_one.value = None
             return False
 
@@ -386,7 +386,7 @@ class AddContactForm(npyscreen.ActionForm):
             self.contact_phone_two.value = phone
 
         if message_error:
-            npyscreen.notify_confirm(message_error)
+            npyscreen.notify_confirm(message_error, "Error", editw=1)
             self.contact_phone_two.value = None
             return False
 
@@ -396,7 +396,7 @@ class AddContactForm(npyscreen.ActionForm):
             self.contact_phone_three.value = phone
 
         if message_error:
-            npyscreen.notify_confirm(message_error)
+            npyscreen.notify_confirm(message_error, "Error", editw=1)
             self.contact_phone_three.value = None
             return False
 
@@ -404,7 +404,7 @@ class AddContactForm(npyscreen.ActionForm):
             message_error = email_validation(self.contact_email_one.value)
 
         if message_error:
-            npyscreen.notify_confirm(message_error)
+            npyscreen.notify_confirm(message_error, "Error", editw=1)
             self.contact_email_one.value = None
             return False
 
@@ -412,13 +412,13 @@ class AddContactForm(npyscreen.ActionForm):
             message_error = email_validation(self.contact_email_two.value)
 
         if message_error:
-            npyscreen.notify_confirm(message_error)
+            npyscreen.notify_confirm(message_error, "Error", editw=1)
             self.contact_email_two.value = None
             return False
 
         message_error = birthday_date_validation(self.contact_birth.value)
         if message_error:
-            npyscreen.notify_confirm(message_error)
+            npyscreen.notify_confirm(message_error, "Error", editw=1)
             self.contact_birth.value = None
             return False
 
@@ -442,7 +442,7 @@ class AddContactForm(npyscreen.ActionForm):
         """
 
         user = User(self.contact_name.value)
-        contact = Record(user)
+        contact = RecordContact(user)
 
         if self.contact_phone_one.value:
             phone_one = Phone(self.contact_phone_one.value)
@@ -498,12 +498,12 @@ class AddContactForm(npyscreen.ActionForm):
                 contact.add_email(email_two, email_assignment_two)
             else:
                 contact.add_email(email_two)
-
+        
         contact.add_birthday(self.contact_birth.value)
 
         self.parentApp.addressbook.add_record(contact)
-        self.parentApp.addressbook.save_records_to_file(FILE)
-        return f"The contact '{self.contact_name.value.title()}' has been added"
+        self.parentApp.addressbook.save_records_to_file(FILE_AB)
+        return f"The contact '{self.contact_name.value}' has been added"
 
     def change_contact(self) -> str:
         """
@@ -512,7 +512,7 @@ class AddContactForm(npyscreen.ActionForm):
         """
         self.parentApp.addressbook.delete_record(self.value)
         message = self.add_contact()
-        message = f"The contact '{self.contact_name.value.title()}' has been updated"
+        message = f"The contact '{self.contact_name.value}' has been updated"
         return message
 
     def on_ok(self) -> None:

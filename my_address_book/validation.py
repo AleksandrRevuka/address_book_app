@@ -21,8 +21,9 @@ from string import digits
 from datetime import datetime
 
 from my_address_book.error import input_error
-from my_address_book.constants import LETTERS, NAME_RANGE, PHONE_RANGE
+from my_address_book.constants import LETTERS, NAME_RANGE, PHONE_RANGE, NOTE_LEN
 from my_address_book.address_book import AddressBook as AB
+from my_address_book.notes_book import NotesBook as NB
 
 
 @input_error
@@ -62,11 +63,10 @@ def phone_validation(phone: str) -> None:
 @input_error
 def birthday_date_validation(birthday_date: datetime) -> None:
     """
-    Verifies a birthday data.
+    Verifies a birthday date.
     """
-    if isinstance(birthday_date, datetime):
-        if birthday_date >= datetime.now().date():
-            raise ValueError(f"Birthday '{birthday_date}' must be in the past")
+    if birthday_date >= datetime.now().date():
+        raise ValueError(f"Birthday '{birthday_date}' must be in the past")
 
 
 @input_error
@@ -80,14 +80,11 @@ def email_validation(email: str) -> None:
 
 
 @input_error
-def criteria_validation(criteria: str) -> None:
-    """
-    The verify_criteria function is used to verify that the criteria entered by the user
-    is only numbers or letters.  If it is not, then a ValueError exception will be raised.
-    """
-    if not criteria.isdigit() and not criteria.isalpha():
+def note_validation(note: str) -> None:
+    """..."""
+    if len(note) < NOTE_LEN:
         raise ValueError(
-            f"Criteria '{criteria}' must be only numbers or letters")
+            f"Note length must be more {NOTE_LEN}, but got '{note}'")
 
 
 @input_error
@@ -96,8 +93,8 @@ def check_name_in_address_book(address_book: AB, name: str) -> None:
     The check_name_in_address_book function checks if a name is already in the address book.
         If it is, then an error message will be raised.
     """
-    if name.lower() in (name_contact for name_contact in address_book):
-        raise ValueError(f"The contact '{name.title()}' already exists in the address book.")
+    if name in (name_contact for name_contact in address_book):
+        raise ValueError(f"The contact '{name}' already exists in the address book.")
 
 
 @input_error
@@ -107,5 +104,16 @@ def check_name_not_in_address_book(address_book: AB, name: str) -> None:
         If it is, then a ValueError exception will be raised with an error message explaining that
         the contact already exists in the address book.
     """
-    if name.lower() not in (name_contact.lower() for name_contact in address_book):
-        raise KeyError(f"The contact {name.title()} was not found.")
+    if name not in (name_contact for name_contact in address_book):
+        raise KeyError(f"The contact {name} was not found.")
+
+
+@input_error
+def check_number_not_in_notes_book(notes_book: NB, number: str) -> None:
+    """
+    The check_number_not_in_notes_book function checks if the number is in the notes book.
+    If it is not, then a KeyError will be raised.
+    """
+
+    if number not in (number_note for number_note in notes_book):
+        raise KeyError(f"The note {number} was not found.")

@@ -4,7 +4,7 @@ import unittest
 
 from my_address_book.utils import print_all_contacts
 from my_address_book.entities import Phone, User, Email
-from my_address_book.address_book import Record, AddressBook as AB
+from my_address_book.address_book import RecordContact, AddressBook as AB
 
 
 class TestPrintContacts(unittest.TestCase):
@@ -15,7 +15,7 @@ class TestPrintContacts(unittest.TestCase):
         self.user_test = User('sasha')
         self.phone_test = Phone('380951234567')
         self.email_test = Email('test_sasha@gmail.com')
-        self.record_test = Record(self.user_test)
+        self.record_test = RecordContact(self.user_test)
 
     def tearDown(self) -> None:
         del self.addressbook_test
@@ -34,7 +34,8 @@ class TestPrintContacts(unittest.TestCase):
         self.addressbook_test.add_record(self.record_test)
 
         result = print_all_contacts(self.addressbook_test)
-        expected_output = "| Sasha        | 380951234567 | test_sasha@gmail.com |    -     |        -         |"
+        print(result)
+        expected_output = "| sasha        | 380951234567         | test_sasha@gmail.com                     |    -     |        -         |"
 
         self.assertTrue(expected_output in result)
 
@@ -48,7 +49,7 @@ class TestPrintContacts(unittest.TestCase):
         self.addressbook_test.add_record(self.record_test)
 
         result = print_all_contacts(self.addressbook_test)
-        expected_output = "| Sasha        | 380951234567(home) | test_sasha@gmail.com(home) |    -     |        -         |"
+        expected_output = "| sasha        | 380951234567(home)   | test_sasha@gmail.com(home)               |    -     |        -         |"
 
         self.assertTrue(expected_output in result)
 
@@ -60,7 +61,7 @@ class TestPrintContacts(unittest.TestCase):
         self.addressbook_test.add_record(self.record_test)
 
         result = print_all_contacts(self.addressbook_test)
-        expected_output = "| Sasha        | -            | -     |    -     |        -         |"
+        expected_output = "| sasha        | -                    | -                                        |    -     |        -         |"
 
         self.assertTrue(expected_output in result)
 

@@ -9,33 +9,26 @@ Classes:
 import npyscreen
 
 from my_address_book.utils import print_all_contacts
-from my_address_book.validation import criteria_validation
 from my_address_book.address_book import AddressBook as AB
+from my_address_book.interface_main_form import MainForm
 
 
-class MainForm(npyscreen.FormBaseNewWithMenus):
+class MainFormAB(MainForm):
     """
     MainForm is the main form of the address book application.
 
     This form displays the list of contacts, allows searching for contacts,
     and provides menu options for adding, editing, and deleting contacts.
 
-    Attributes:
-        print_contacts_widget (npyscreen.TitlePager): Widget to display the list of contacts.
-        search_widget (npyscreen.TitleText): Widget for searching contacts.
-        menu (npyscreen.Menu): Menu object for accessing various options.
-
     Methods:
         create: Called when the form is created, sets up the widgets and their initial values.
-        while_editing: Called when editing the search criteria, performs search and updates the contact list.
-        beforeEditing: Called before the form is displayed, updates the list of contacts.
-        update_list: Updates the list of contacts in the address book to reflect any changes.
         add_contact: Allows the user to add a contact to the address book.
         edit_contact: Allows the user to edit a contact's information.
         delete_contact: Allows the user to delete a contact from the address book.
-        close_menu: Closes the menu.
-        exit: Exits the program.
-        on_ok: Called when the user presses OK on a form, closes all forms and exits.
+        while_editing: Called when editing the search criteria, performs search and updates the contact list.
+        search_contact: 
+        beforeEditing: Called before the form is displayed, updates the list of contacts.
+        update_list: Updates the list of contacts in the address book to reflect any changes.
     """
 
     def create(self) -> None:
@@ -43,35 +36,36 @@ class MainForm(npyscreen.FormBaseNewWithMenus):
         The create function is called when the form is created.
         It sets up the widgets and their initial values.
         """
-        self.print_contacts_widget = self.add(npyscreen.TitlePager, name="Contacts:", begin_entry_at=9, max_height=36)
-        self.search_widget = self.add(npyscreen.TitleText, name="Search:", rely=39, begin_entry_at=10)
-        self.search_widget.when_cursor_moved = self.while_editing
+        self.print_widget = self.add(npyscreen.TitlePager, name="Contacts:", begin_entry_at=9, max_height=36)
+        self.search_widget: npyscreen.TitleText = self.add(npyscreen.TitleText, name="Search:", rely=39, begin_entry_at=10)
+        self.search_widget.when_value_edited = self.while_editing
 
         self.menu = self.new_menu(name="Menu", shortcut="m")
         self.menu.addItem("Add contact", self.add_contact, "1")
         self.menu.addItem("Edit contact", self.edit_contact, "2")
         self.menu.addItem("Delete contact", self.delete_contact, "3")
+        self.menu.addItem("Notesbook", self.notesbook_fotm, "4")
         self.menu.addItem("Close Menu", self.close_menu, "^X")
         self.menu.addItem("Exit", self.exit, "^E")
 
     def while_editing(self, *args: list, **kwargs: dict) -> None:
-        if self.search_widget.value:
-            criteria = self.search_widget.value.lower()
-            message_error = criteria_validation(criteria)
-            if message_error:
-                npyscreen.notify_confirm(message_error, "Warning!", editw=1)
-                self.search_widget.value = ""
-                self.update_list(self.parentApp.addressbook)
+        addressbook = self.parentApp.addressbook
+        self.search_contact(addressbook)
 
-            result = self.parentApp.addressbook.search(criteria)
-            if isinstance(result, AB):
-                self.update_list(result)
-            else:
-                npyscreen.notify_confirm(result, "Warning!", editw=1)
-                self.search_widget.value = ""
-                self.update_list(self.parentApp.addressbook)
+    def search_contact(self, addressbook: AB):
+        """
+        The search_contact function is used to search for a contact in the address book.
+        It takes two arguments: self and addressbook. The first argument, self, is an instance of the MainForm class 
+        that contains all of the widgets on our form. The second argument, addressbook, is an instance of AddressBook 
+        class that contains all contacts from our database.
+        """
+
+        if self.search_widget.value:
+            criteria = self.search_widget.value
+            searched_contacts = addressbook.search(criteria)
+            self.update_list(searched_contacts)
         else:
-            self.update_list(self.parentApp.addressbook)
+            self.update_list(addressbook)
 
     def beforeEditing(self) -> None:
         """
@@ -87,8 +81,8 @@ class MainForm(npyscreen.FormBaseNewWithMenus):
         that have been made.
         """
         contacts = print_all_contacts(addressbook)
-        self.print_contacts_widget.values = contacts.split('\n')
-        self.print_contacts_widget.display()
+        self.print_widget.values = contacts.split('\n')
+        self.print_widget.display()
 
     def add_contact(self) -> None:
         """
@@ -114,23 +108,5 @@ class MainForm(npyscreen.FormBaseNewWithMenus):
         """
         self.parentApp.switchForm("DELETE CONTACT")
 
-    def close_menu(self) -> None:
-        """
-        The close_menu function is a function that closes the menu.
-        """
-        self.parentApp.setNextFormPrevious()
-
-    def exit(self) -> None:
-        """
-        The exit function is used to exit the program.
-        """
-        self.on_ok()
-
-    def on_ok(self) -> None:
-        """
-        The on_ok function is called when the user presses OK on a form.
-        It will call the switchForm method of the parentApp, passing None as an argument.
-        This tells npyscreen to close all forms and exit.
-        """
-        self.parentApp.switchForm(None)
-        
+    def notesbook_fotm(self) -> None:
+        self.parentApp.switchForm("NOTE MAIN")
