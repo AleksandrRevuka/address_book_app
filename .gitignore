@@ -2,6 +2,8 @@ com.txt
 .vscode
 .idea
 generator_of_contacts.py
+box_1.py
+box.py
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

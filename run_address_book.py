@@ -10,15 +10,12 @@ import npyscreen
 from my_address_book.constants import FILE_AB, FILE_NB
 from my_address_book.address_book import AddressBook as AB
 from my_address_book.notes_book import NotesBook as NB
-from my_address_book.theme import MyThemeWidgets
+from my_address_book.theme import MyThemeApp
 from my_address_book.menu_forms_AB import EditContactForm, DeleteContactForm, AddContactForm
 from my_address_book.menu_forms_NB import EditNoteForm, DeleteNoteForm, AddNoteForm
 from my_address_book.main_form_AB import MainFormAB
 from my_address_book.main_form_NB import MainFormNB
 
-from my_address_book.entities import Note
-from my_address_book.records import RecordNote
-from my_address_book.utils import print_all_notes
 
 class AddressBookApp(npyscreen.NPSAppManaged):
     """
@@ -46,7 +43,7 @@ class AddressBookApp(npyscreen.NPSAppManaged):
         The onStart function is called when the application starts.
         It sets up the theme, reads records from a file, and adds forms to the application.
         """
-        npyscreen.setTheme(MyThemeWidgets)
+        npyscreen.setTheme(MyThemeApp)
 
         self.addressbook.read_records_from_file(FILE_AB)
         
@@ -71,34 +68,4 @@ class AddressBookApp(npyscreen.NPSAppManaged):
                      lines=10, columns=50, draw_line=1)
 
 if __name__ == "__main__":
-    # notesbook = NB()
-    # note = Note('Hello World')
-    # record_note = RecordNote(note)
-    # record_note.add_note_name('Hi')
-    # notesbook.add_record(record_note)
-    # notesbook.save_records_to_file(FILE_NB)
-    
-    # note = Note('Hello BRO')
-    # record_note = RecordNote(note)
-    # record_note.add_note_name('Hi Bro')
-    # notesbook.add_record(record_note)
-    # notesbook.save_records_to_file(FILE_NB)
-    
-    # note = Note('Hello')
-    # record_note = RecordNote(note)
-    # notesbook.add_record(record_note)
-    # notesbook.save_records_to_file(FILE_NB)
-    
-    # notesbook.read_records_from_file(FILE_NB)
-    
-    # note = Note('Hello BRO')
-    # record_note = RecordNote(note)
-    # record_note.add_note_name('Hi Bro')
-    # notesbook.add_record(record_note)
-    # notesbook.save_records_to_file(FILE_NB)
-    
-    # print(print_all_notes(notesbook))
-    
-    # notesbook.delete_record(2)
-    # notesbook.save_records_to_file(FILE_NB)
     AddressBookApp().run()

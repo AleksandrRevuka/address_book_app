@@ -125,7 +125,7 @@ class DeleteNoteForm(npyscreen.ActionPopup):
             return False
         return True
 
-    def delete_contact(self) -> str:
+    def delete_note(self) -> str:
         """
         The delete_contact function deletes a contact from the notesbook.
         """
@@ -143,7 +143,7 @@ class DeleteNoteForm(npyscreen.ActionPopup):
         
         respon = self.check_number_note()
         if respon:
-            message = self.delete_contact()
+            message = self.delete_note()
             npyscreen.notify_confirm(message, "Delete!", editw=1)
 
             self.parentApp.switchForm("NOTE MAIN")

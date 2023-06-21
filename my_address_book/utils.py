@@ -42,8 +42,8 @@ def print_all_contacts(addressbook: AB) -> str:
     :param addressbook: AB: Pass the addressbook object to the function
     """
     table = PrettyTable()
-    phone_length = "Phone Number".ljust(20)
-    emain_length = "Email".ljust(40)
+    phone_length = "Phone Number".ljust(25)
+    emain_length = "Email".ljust(36)
     table.field_names = ["Contact Name", phone_length, emain_length, "Birthday", "Days to Birthday"]
     table.align["Contact Name"] = "l"
     table.align[phone_length] = "l"
@@ -86,15 +86,16 @@ def print_all_contacts(addressbook: AB) -> str:
 
 def print_all_notes(notesbook: NB) -> str:
     table = PrettyTable()
-    note_length = "Note".ljust(80)
-    table.field_names = ["#", "Note name", note_length, "Create date"]
-    table.align["Note name"] = "l"
+    name_length = "Note name".ljust(21)
+    note_length = "Note".ljust(68)
+    table.field_names = ["#", name_length, note_length, "Create date"]
+    table.align[name_length] = "l"
     table.align [note_length] = "l"
     table.align["Create date"] = "l"
 
     for key, record in notesbook.items():
         number_note_for_table = key
-        name_note_for_table = record.note.name_note #if record.note.name_note else '-'
+        name_note_for_table = record.note.name_note if record.note.name_note else '-'
         note_for_table = record.note.note
         date_note_for_table = '\n'.join(str(record.date_of_creation).split())
 

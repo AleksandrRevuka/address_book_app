@@ -17,6 +17,10 @@ class IBook(ABC):
         pass
 
     @abstractmethod
+    def sort_book(self) -> None:
+         pass
+
+    @abstractmethod
     def save_records_to_file(self, file_name: str):
         pass
 

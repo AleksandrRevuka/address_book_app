@@ -33,7 +33,7 @@ class MainFormNB(MainForm):
         self.menu.addItem("Add note", self.add_note, "1")
         self.menu.addItem("Edit note", self.edit_note, "2")
         self.menu.addItem("Delete note", self.delete_note, "3")
-        self.menu.addItem("Addressbook", self.addressbook_form, "4")
+        self.menu.addItem("Addressbook", self.to_addressbook_form, "4")
         self.menu.addItem("Close Menu", self.close_menu, "^X")
         self.menu.addItem("Exit", self.exit, "^E")
 
@@ -48,7 +48,7 @@ class MainFormNB(MainForm):
         notesbook: NB = self.parentApp.notesbook
         self.search_note(notesbook)
 
-    def search_note(self, notesbook: NB):
+    def search_note(self, notesbook: NB) -> None:
         """
         The search_note function is used to search for notes in the NotesBook.
         It takes two arguments: self and notesbook.
@@ -111,7 +111,7 @@ class MainFormNB(MainForm):
         """
         self.parentApp.switchForm("DELETE NOTE")
 
-    def addressbook_form(self):
+    def to_addressbook_form(self):
         """
         The addressbook_form function is the main function of the addressbook_form module.
         It creates a form that allows users to add, edit, and delete entries in their address book.

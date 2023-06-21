@@ -9,7 +9,7 @@ Classes:
 import npyscreen
 
 
-class MyThemeWidgets(npyscreen.ThemeManager):
+class MyThemeApp(npyscreen.ThemeManager):
     """
     A class for defining a custom theme for npyscreen widgets.
 

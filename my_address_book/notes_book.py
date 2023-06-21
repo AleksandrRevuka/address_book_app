@@ -2,27 +2,13 @@
 ...
 """
 import re
-from typing import Union
-from abc import ABC, abstractmethod
 
 from my_address_book.interface_book import Book
 from my_address_book.records import RecordNote
 from my_address_book.constants import PUNCTUATION
 
 
-class INotesBook(ABC):
-    """Interface NotesBook"""
-
-    @abstractmethod
-    def add_record(self, record: RecordNote):
-        pass
-
-    @abstractmethod
-    def search(self, criteria: str):
-        pass
-
-
-class NotesBook(Book, INotesBook):
+class NotesBook(Book):
     """
     A class that represents a notes book containing note records.
 
@@ -41,10 +27,10 @@ class NotesBook(Book, INotesBook):
         """
         Adds a new note record to the notes book.
         """
-        note_num: str = self.note_number()
+        note_num: str = self._note_number()
         self.data[note_num] = record
 
-    def search(self, criteria: str) -> Union[str, 'NotesBook']:
+    def search(self, criteria: str) -> 'NotesBook':
         search_notes = NotesBook()
         
         if criteria[0] not in PUNCTUATION:
@@ -61,17 +47,17 @@ class NotesBook(Book, INotesBook):
         
         return search_notes
 
-    def note_number(self) -> str:
+    def _note_number(self) -> str:
         """
         The note_number function is used to number the notes in a notebook.
         It takes the length of the data list and adds 1 to it, returning that value as a string.
         """
 
-        self.re_numbering()
+        self._re_numbering()
         length_notesbook = len(self.data)
         return str(length_notesbook + 1)
 
-    def re_numbering(self) -> None:
+    def _re_numbering(self) -> None:
         """
         The re_numbering function takes a dictionary of records and re-numbers the keys in order.
         This is useful when deleting records, as it ensures that there are no gaps in the numbering.

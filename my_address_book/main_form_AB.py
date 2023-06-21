@@ -44,7 +44,7 @@ class MainFormAB(MainForm):
         self.menu.addItem("Add contact", self.add_contact, "1")
         self.menu.addItem("Edit contact", self.edit_contact, "2")
         self.menu.addItem("Delete contact", self.delete_contact, "3")
-        self.menu.addItem("Notesbook", self.notesbook_fotm, "4")
+        self.menu.addItem("Notesbook", self.to_notesbook_fotm, "4")
         self.menu.addItem("Close Menu", self.close_menu, "^X")
         self.menu.addItem("Exit", self.exit, "^E")
 
@@ -52,7 +52,7 @@ class MainFormAB(MainForm):
         addressbook = self.parentApp.addressbook
         self.search_contact(addressbook)
 
-    def search_contact(self, addressbook: AB):
+    def search_contact(self, addressbook: AB) -> None:
         """
         The search_contact function is used to search for a contact in the address book.
         It takes two arguments: self and addressbook. The first argument, self, is an instance of the MainForm class 
@@ -108,5 +108,5 @@ class MainFormAB(MainForm):
         """
         self.parentApp.switchForm("DELETE CONTACT")
 
-    def notesbook_fotm(self) -> None:
+    def to_notesbook_fotm(self) -> None:
         self.parentApp.switchForm("NOTE MAIN")
