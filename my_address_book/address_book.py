@@ -61,14 +61,17 @@ class AddressBook(Book):
 
     def _birthday_in_next_days(self, search_contacts: 'AddressBook', criteria: str) -> 'AddressBook':
 
+        
         if criteria[0] == "-" and criteria[1:].isdigit():
             for record in self.data.values():
-                if int(criteria[1:]) >= record.days_to_birthday():
-                    search_contacts.add_record(record)
+                if record.days_to_birthday():
+                    if int(criteria[1:]) >= record.days_to_birthday():
+                        search_contacts.add_record(record)
 
         if criteria[0] == "+" and criteria[1:].isdigit():
             for record in self.data.values():
-                if int(criteria[1:]) <= record.days_to_birthday():
-                    search_contacts.add_record(record)
+                if record.days_to_birthday():
+                    if int(criteria[1:]) <= record.days_to_birthday():
+                        search_contacts.add_record(record)
 
         return search_contacts

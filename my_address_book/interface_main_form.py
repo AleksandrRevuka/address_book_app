@@ -1,9 +1,9 @@
 """..."""
-from abc import ABC, abstractmethod
+from abc import ABCMeta, abstractmethod
 import npyscreen
 
 
-class IMainForm(ABC):
+class IMainForm(npyscreen.FormBaseNewWithMenus, metaclass=ABCMeta):
     """..."""
 
     @abstractmethod
@@ -19,7 +19,7 @@ class IMainForm(ABC):
         pass
 
 
-class MainForm(IMainForm, npyscreen.FormBaseNewWithMenus):
+class MainForm(IMainForm):
     """
     MainFormStorage is the main form of the application.
 

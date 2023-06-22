@@ -35,7 +35,7 @@ class TestPrintContacts(unittest.TestCase):
 
         result = print_all_contacts(self.addressbook_test)
         print(result)
-        expected_output = "| sasha        | 380951234567         | test_sasha@gmail.com                     |    -     |        -         |"
+        expected_output = "| sasha        | 380951234567              | test_sasha@gmail.com                 |    -     |        -         |"
 
         self.assertTrue(expected_output in result)
 
@@ -49,7 +49,7 @@ class TestPrintContacts(unittest.TestCase):
         self.addressbook_test.add_record(self.record_test)
 
         result = print_all_contacts(self.addressbook_test)
-        expected_output = "| sasha        | 380951234567(home)   | test_sasha@gmail.com(home)               |    -     |        -         |"
+        expected_output = "| sasha        | 380951234567(home)        | test_sasha@gmail.com(home)           |    -     |        -         |"
 
         self.assertTrue(expected_output in result)
 
@@ -61,7 +61,7 @@ class TestPrintContacts(unittest.TestCase):
         self.addressbook_test.add_record(self.record_test)
 
         result = print_all_contacts(self.addressbook_test)
-        expected_output = "| sasha        | -                    | -                                        |    -     |        -         |"
+        expected_output = "| sasha        | -                         | -                                    |    -     |        -         |"
 
         self.assertTrue(expected_output in result)
 

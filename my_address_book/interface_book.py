@@ -1,12 +1,12 @@
 """..."""
 import pickle
 from collections import UserDict
-from abc import ABC, abstractmethod
+from abc import ABCMeta, abstractmethod
 
 from my_address_book.records import RecordNote, RecordContact
 
 
-class IBook(ABC):
+class IBook(UserDict, metaclass=ABCMeta):
     """Interface Book"""
     @abstractmethod
     def get_record(self, name: str):
@@ -29,7 +29,7 @@ class IBook(ABC):
         pass
 
 
-class Book(IBook, UserDict):
+class Book(IBook):
     """
     This class represents an address book.
 

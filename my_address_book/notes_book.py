@@ -38,9 +38,10 @@ class NotesBook(Book):
                 
                 if re.search(criteria.lower(), record.note.note.lower()):
                     search_notes.add_record(record)
-                    
-                if re.search(criteria.lower(), record.note.name_note.lower()):
-                    search_notes.add_record(record)
+                
+                if record.note.name_note:
+                    if re.search(criteria.lower(), record.note.name_note.lower()):
+                        search_notes.add_record(record)
                     
                 if re.search(criteria, record.date_of_creation):
                     search_notes.add_record(record)

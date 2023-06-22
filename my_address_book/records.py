@@ -1,5 +1,5 @@
 
-from datetime import datetime
+from datetime import datetime, date
 from typing import Union, List, Any
 
 from my_address_book.entities import User, Phone, Email, Note
@@ -113,16 +113,17 @@ class RecordContact:
         """
         Calculate the number of days to the next birthday.
         """
-        if current_date is None:
+        if current_date is None:  # this check is required for the test
             current_date = datetime.now()
 
         birthday = self.user.birthday_date
-        if birthday is None:
-            return None
+        
+        if isinstance(birthday,  date):
+            next_birthday = datetime(current_date.year, birthday.month, birthday.day)
 
-        next_birthday = datetime(current_date.year, birthday.month, birthday.day)
-
-        if next_birthday < current_date:
-            next_birthday = datetime(current_date.year + 1, birthday.month, birthday.day)
-
+            if next_birthday < current_date:
+                next_birthday = datetime(current_date.year + 1, birthday.month, birthday.day)
+        else:
+             return None
+         
         return (next_birthday - current_date).days

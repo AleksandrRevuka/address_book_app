@@ -18,7 +18,7 @@ Functions:
 
 import re
 from string import digits
-from datetime import datetime
+from datetime import datetime, date
 
 from my_address_book.error import input_error
 from my_address_book.constants import LETTERS, NAME_RANGE, PHONE_RANGE, NOTE_LEN
@@ -61,12 +61,13 @@ def phone_validation(phone: str) -> None:
 
 
 @input_error
-def birthday_date_validation(birthday_date: datetime) -> None:
+def birthday_date_validation(birthday_date: date) -> None:
     """
     Verifies a birthday date.
     """
-    if birthday_date >= datetime.now().date():
-        raise ValueError(f"Birthday '{birthday_date}' must be in the past")
+    if isinstance(birthday_date, date):
+        if birthday_date >= datetime.now().date():
+            raise ValueError(f"Birthday '{birthday_date}' must be in the past")
 
 
 @input_error
