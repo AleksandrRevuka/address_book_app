@@ -1,8 +1,8 @@
 import npyscreen
 
-from my_address_book.utils import print_all_notes
-from my_address_book.notes_book import NotesBook as NB
 from my_address_book.interface_main_form import MainForm
+from my_address_book.notes_book import NotesBook as NB
+from my_address_book.utils import print_all_notes
 
 
 class MainFormNB(MainForm):
@@ -14,7 +14,7 @@ class MainFormNB(MainForm):
 
     Methods:
         while_editing: Called when editing the search criteria, performs search and updates the contact list.
-        search_contact: 
+        search_contact:
         beforeEditing: Called before the form is displayed, updates the list of contacts.
         update_list: Updates the list of contacts in the address book to reflect any changes.
     """
@@ -39,9 +39,9 @@ class MainFormNB(MainForm):
 
     def while_editing(self, *args: list, **kwargs: dict) -> None:
         """
-        The while_editing function is a function that is called every time the user presses a key while editing 
-        the widget. It takes two arguments: self and *args, **kwargs. The self argument refers to the widget itself, 
-        and args/kwargs are arguments passed in by npyscreen when it calls this function (they're not used here). 
+        The while_editing function is a function that is called every time the user presses a key while editing
+        the widget. It takes two arguments: self and *args, **kwargs. The self argument refers to the widget itself,
+        and args/kwargs are arguments passed in by npyscreen when it calls this function (they're not used here).
         This function searches for notes that match what's currently in the search box.
         """
 
@@ -53,8 +53,8 @@ class MainFormNB(MainForm):
         The search_note function is used to search for notes in the NotesBook.
         It takes two arguments: self and notesbook.
         The first argument, self, is a reference to the current form object (SearchForm).
-        The second argument, notesbook, is a reference to an instance of NotesBook class. 
-        This function uses criteria_validation function from criteria_validation module 
+        The second argument, notesbook, is a reference to an instance of NotesBook class.
+        This function uses criteria_validation function from criteria_validation module
         to validate user input before searching for it in the NotesBook instance.
         """
 
@@ -78,24 +78,24 @@ class MainFormNB(MainForm):
         """
         The update_list function is used to update the list of notes in the main form.
         It takes a NotesBook object as an argument and returns None. It updates the values
-        of self.print_widget, which is a MultiLineEdit widget that displays all of the 
+        of self.print_widget, which is a MultiLineEdit widget that displays all of the
         notes in notessbook.
         """
 
         contacts = print_all_notes(notessbook)
-        self.print_widget.values = contacts.split('\n')
+        self.print_widget.values = contacts.split("\n")
         self.print_widget.display()
 
-    def add_note(self):
+    def add_note(self) -> None:
         """
         The add_note function is called when the user presses the &quot;Add Note&quot; button on
-        the MainForm. It switches to a new form, AddNoteForm, which allows the user to 
+        the MainForm. It switches to a new form, AddNoteForm, which allows the user to
         enter information about a note they want to add.
         """
 
         self.parentApp.switchForm("ADD NOTE")
 
-    def edit_note(self):
+    def edit_note(self) -> None:
         """
         The edit_note function is called when the user presses the 'e' key while on a note.
         It switches to the EDIT NOTE form, which allows users to edit their notes.
@@ -103,7 +103,7 @@ class MainFormNB(MainForm):
 
         self.parentApp.switchForm("EDIT NOTE")
 
-    def delete_note(self):
+    def delete_note(self) -> None:
         """
         The delete_note function is called when the user presses the delete note button on
         the main form. It switches to a new form, which allows the user to select a note from
@@ -111,7 +111,7 @@ class MainFormNB(MainForm):
         """
         self.parentApp.switchForm("DELETE NOTE")
 
-    def to_addressbook_form(self):
+    def to_addressbook_form(self) -> None:
         """
         The addressbook_form function is the main function of the addressbook_form module.
         It creates a form that allows users to add, edit, and delete entries in their address book.

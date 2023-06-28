@@ -1,15 +1,15 @@
 """Tests class Phone"""
 import unittest
 
-from my_address_book.utils import sanitize_phone_number
 from my_address_book.entities import Phone
+from my_address_book.utils import sanitize_phone_number
 
 
 class TestPhone(unittest.TestCase):
     """Tests class Phone"""
 
     def setUp(self) -> None:
-        self.phone_test = Phone('380951234567')
+        self.phone_test = Phone("380951234567")
         self.phone_test_none = Phone()
 
     def tearDown(self) -> None:
@@ -21,7 +21,7 @@ class TestPhone(unittest.TestCase):
         It checks if a phone number is correctly formatted and stored in an instance of
         the Phone class.
         """
-        self.assertEqual(self.phone_test.phone, '380951234567')
+        self.assertEqual(self.phone_test.phone, "380951234567")
 
     def test_set_phone_none(self) -> None:
         """
@@ -33,10 +33,10 @@ class TestPhone(unittest.TestCase):
 
     def test_eq_phones(self) -> None:
         """The test_eq_phones function tests the equality of two phone numbers."""
-        phone_test = Phone('380951234567')
+        phone_test = Phone("380951234567")
         self.assertEqual(phone_test, self.phone_test)
-        
-        phone_test_invalid = '380951234567'
+
+        phone_test_invalid = "380951234567"
         self.assertNotEqual(phone_test_invalid, self.phone_test)
 
     def test_sanitize_phone_number(self) -> None:
@@ -45,9 +45,9 @@ class TestPhone(unittest.TestCase):
         It takes a phone number as an argument and returns it with all non-numeric characters removed.
         """
 
-        phone_test = sanitize_phone_number('38(095)123-45-67')
-        self.assertEqual(phone_test, '+380951234567')
+        phone_test = sanitize_phone_number("38(095)123-45-67")
+        self.assertEqual(phone_test, "+380951234567")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

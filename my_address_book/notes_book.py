@@ -3,9 +3,9 @@
 """
 import re
 
+from my_address_book.constants import PUNCTUATION
 from my_address_book.interface_book import Book
 from my_address_book.records import RecordNote
-from my_address_book.constants import PUNCTUATION
 
 
 class NotesBook(Book):
@@ -23,29 +23,28 @@ class NotesBook(Book):
             Re-numbers the note records in the book to ensure sequential numbering.
     """
 
-    def add_record(self, record: 'RecordNote') -> None:
+    def add_record(self, record: "RecordNote") -> None:
         """
         Adds a new note record to the notes book.
         """
         note_num: str = self._note_number()
         self.data[note_num] = record
 
-    def search(self, criteria: str) -> 'NotesBook':
+    def search(self, criteria: str) -> "NotesBook":
         search_notes = NotesBook()
-        
+
         if criteria[0] not in PUNCTUATION:
             for record in self.data.values():
-                
                 if re.search(criteria.lower(), record.note.note.lower()):
                     search_notes.add_record(record)
-                
+
                 if record.note.name_note:
                     if re.search(criteria.lower(), record.note.name_note.lower()):
                         search_notes.add_record(record)
-                    
+
                 if re.search(criteria, record.date_of_creation):
                     search_notes.add_record(record)
-        
+
         return search_notes
 
     def _note_number(self) -> str:

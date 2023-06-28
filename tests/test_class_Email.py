@@ -8,10 +8,10 @@ class TestEmail(unittest.TestCase):
     """Tests class Email"""
 
     def setUp(self) -> None:
-        self.email_test = Email('test_sasha@gmail.com')
-        self.email_test_second = Email('test_sasha@gmail.com')
+        self.email_test = Email("test_sasha@gmail.com")
+        self.email_test_second = Email("test_sasha@gmail.com")
         self.email_test_none = Email()
-        self.non_email = 'test_sasha@gmail.com'
+        self.non_email = "test_sasha@gmail.com"
 
     def tearDown(self) -> None:
         del self.email_test
@@ -22,7 +22,7 @@ class TestEmail(unittest.TestCase):
         It checks to see if an email address is properly assigned to a new instance of
         the Email class.
         """
-        self.assertEqual(self.email_test.email, 'test_sasha@gmail.com')
+        self.assertEqual(self.email_test.email, "test_sasha@gmail.com")
 
     def test_set_email_none(self) -> None:
         """
@@ -40,5 +40,6 @@ class TestEmail(unittest.TestCase):
         self.assertNotEqual(self.email_test, self.email_test_none)
         self.assertNotEqual(self.email_test, self.non_email)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

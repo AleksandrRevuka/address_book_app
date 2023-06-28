@@ -1,19 +1,20 @@
 """Test class Record"""
-
 import unittest
 from datetime import datetime
 
-from my_address_book.entities import Phone, User, Email
 from my_address_book.address_book import RecordContact
+from my_address_book.entities import Email
+from my_address_book.entities import Phone
+from my_address_book.entities import User
 
 
 class TestRecord(unittest.TestCase):
     """Tests class Record"""
 
     def setUp(self) -> None:
-        self.user_test = User('Sasha')
-        self.phone_test = Phone('380951234567')
-        self.email_test = Email('test_sasha@gmail.com')
+        self.user_test = User("Sasha")
+        self.phone_test = Phone("380951234567")
+        self.email_test = Email("test_sasha@gmail.com")
         self.record_test = RecordContact(self.user_test)
         self.record_test.add_phone_number(self.phone_test)
         self.record_test.add_email(self.email_test)
@@ -31,7 +32,7 @@ class TestRecord(unittest.TestCase):
         list of numbers for that record.
         """
 
-        self.assertEqual(self.record_test.phone_numbers[0].subrecord, Phone('380951234567'))
+        self.assertEqual(self.record_test.phone_numbers[0].subrecord, Phone("380951234567"))
 
     def test_add_email(self) -> None:
         """
@@ -39,7 +40,7 @@ class TestRecord(unittest.TestCase):
             The test_add_email function takes a self parameter, which is an instance of the TestRecord class.
             The assertEquals method compares two values and returns True if they are equal, or False otherwise.
         """
-        self.assertEqual(self.record_test.emails[0].subrecord, Email('test_sasha@gmail.com'))
+        self.assertEqual(self.record_test.emails[0].subrecord, Email("test_sasha@gmail.com"))
 
     def test_add_birthday(self) -> None:
         """
@@ -69,5 +70,6 @@ class TestRecord(unittest.TestCase):
         current_date = datetime(2023, 1, 1)
         self.assertEqual(self.record_test.days_to_birthday(current_date), None)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

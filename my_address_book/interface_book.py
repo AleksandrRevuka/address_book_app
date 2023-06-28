@@ -1,31 +1,35 @@
 """..."""
+import locale
 import pickle
+from abc import ABCMeta
+from abc import abstractmethod
 from collections import UserDict
-from abc import ABCMeta, abstractmethod
 
-from my_address_book.records import RecordNote, RecordContact
+from my_address_book.records import RecordContact
+from my_address_book.records import RecordNote
 
 
 class IBook(UserDict, metaclass=ABCMeta):
     """Interface Book"""
+
     @abstractmethod
-    def get_record(self, name: str):
+    def get_record(self, name: str) -> RecordContact | RecordNote:
         pass
 
     @abstractmethod
-    def delete_record(self, record_name: str):
+    def delete_record(self, record_name: str) -> None:
         pass
 
     @abstractmethod
     def sort_book(self) -> None:
-         pass
-
-    @abstractmethod
-    def save_records_to_file(self, file_name: str):
         pass
 
     @abstractmethod
-    def read_records_from_file(self, file_name: str):
+    def save_records_to_file(self, file_name: str) -> None:
+        pass
+
+    @abstractmethod
+    def read_records_from_file(self, file_name: str) -> None:
         pass
 
 
@@ -45,7 +49,8 @@ class Book(IBook):
         read_records_from_file(file_name: str) -> None:
             Reads data from a binary file using pickle and updates the address book.
     """
-    def get_record(self, name: str) -> RecordNote | RecordContact:
+
+    def get_record(self, name: str) -> RecordContact | RecordNote:
         """
         Returns the contact record for the given name.
         """
@@ -61,7 +66,7 @@ class Book(IBook):
         """
         The sort_addressbook function sorts the address book by name.
         """
-        self.data = dict(sorted(self.data.items(), key=lambda x: x[0]))
+        self.data = dict(sorted(self.data.items(), key=lambda x: locale.strxfrm(x[0])))
 
     def save_records_to_file(self, file_name: str) -> None:
         """

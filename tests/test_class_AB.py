@@ -1,11 +1,13 @@
 """Test class AddressBook"""
-
 import os
 import pickle
 import unittest
 
-from my_address_book.entities import Phone, User, Email
-from my_address_book.address_book import RecordContact, AddressBook as AB
+from my_address_book.address_book import AddressBook as AB
+from my_address_book.entities import Email
+from my_address_book.entities import Phone
+from my_address_book.entities import User
+from my_address_book.records import RecordContact
 
 
 class TestAddressBook(unittest.TestCase):
@@ -13,15 +15,15 @@ class TestAddressBook(unittest.TestCase):
 
     def setUp(self) -> None:
         self.addressbook_test = AB()
-        self.user_test = User('sasha')
-        self.phone_test = Phone('380951234567')
-        self.email_test = Email('test_sasha@gmail.com')
+        self.user_test = User("sasha")
+        self.phone_test = Phone("380951234567")
+        self.email_test = Email("test_sasha@gmail.com")
         self.record_test = RecordContact(self.user_test)
         self.record_test.add_phone_number(self.phone_test)
         self.record_test.add_email(self.email_test)
 
         current_dir = os.getcwd()
-        self.test_file = os.path.join(current_dir, 'tests', 'test_file.bin')
+        self.test_file = os.path.join(current_dir, "tests", "test_file.bin")
 
     def tearDown(self) -> None:
         if os.path.exists(self.test_file):
@@ -38,8 +40,8 @@ class TestAddressBook(unittest.TestCase):
         by adding a record to an address book and then retrieving it by name.
         """
         self.addressbook_test.add_record(self.record_test)
-        contact = self.addressbook_test.get_record('sasha')
-        self.assertEqual(contact.user.name, 'sasha')
+        contact: RecordContact = self.addressbook_test.get_record("sasha")
+        self.assertEqual(contact.user.name, "sasha")
 
     def test_delete_record(self) -> None:
         """
@@ -48,8 +50,8 @@ class TestAddressBook(unittest.TestCase):
             record is no longer in the address book.
         """
         self.addressbook_test.add_record(self.record_test)
-        self.addressbook_test.delete_record('sasha')
-        self.assertFalse('sasha' in self.addressbook_test)
+        self.addressbook_test.delete_record("sasha")
+        self.assertFalse("sasha" in self.addressbook_test)
 
     def test_search_name(self) -> None:
         """
@@ -58,23 +60,23 @@ class TestAddressBook(unittest.TestCase):
             The test passes if the name of the contact is found in the search results.
         """
         self.addressbook_test.add_record(self.record_test)
-        addressbook_search = self.addressbook_test.search('sa')
-        self.assertTrue('sasha' in addressbook_search)
+        addressbook_search = self.addressbook_test.search("sa")
+        self.assertTrue("sasha" in addressbook_search)
 
     def test_search_phone(self) -> None:
         """
         The test_search_phone function tests the search function of the AddressBook class.
         It creates a contact, adds a phone number to it and then adds this contact to an addressbook.
-        Then it searches for all contacts with 38095 in their phone numbers and checks if there is at 
+        Then it searches for all contacts with 38095 in their phone numbers and checks if there is at
         least one such record.
         """
 
         self.addressbook_test.add_record(self.record_test)
-        addressbook_search = self.addressbook_test.search('38095')
+        addressbook_search = self.addressbook_test.search("38095")
         if isinstance(addressbook_search, AB):
-            contact = addressbook_search.get_record('sasha')
+            contact: RecordContact = addressbook_search.get_record("sasha")
         record_phone = contact.phone_numbers[0].subrecord.phone
-        self.assertTrue('380951234567' in record_phone)
+        self.assertTrue("380951234567" in record_phone)
 
     def test_save_records_to_file(self) -> None:
         """
@@ -86,27 +88,27 @@ class TestAddressBook(unittest.TestCase):
 
         self.addressbook_test.save_records_to_file(self.test_file)
 
-        with open(self.test_file, 'rb') as file:
+        with open(self.test_file, "rb") as file:
             content = pickle.load(file)
-            self.assertTrue('sasha' in content)
+            self.assertTrue("sasha" in content)
 
     def test_read_records_from_file(self) -> None:
         """
         The test_read_records_from_file function tests the read_records_from_file function in AddressBook.py
-            by creating a test file, adding a record to it, and then reading that record from the file into 
+            by creating a test file, adding a record to it, and then reading that record from the file into
             an addressbook object. The test passes if 'Sasha' is in the addressbook object.
         """
-        with open(self.test_file, 'wb') as file:
+        with open(self.test_file, "wb") as file:
             self.addressbook_test.add_record(self.record_test)
             pickle.dump(self.addressbook_test, file)
 
         self.addressbook_test.read_records_from_file(self.test_file)
 
-        self.assertTrue('sasha' in self.addressbook_test)
+        self.assertTrue("sasha" in self.addressbook_test)
 
     def test_read_records_from_file_file_not_found(self) -> None:
         """
-        The test_read_records_from_file_FileNotFound function tests the read_records_from_file function in 
+        The test_read_records_from_file_FileNotFound function tests the read_records_from_file function in
         AddressBook.py to ensure that it raises a FileNotFoundError when an invalid file name is passed to it.
         """
 
@@ -117,5 +119,5 @@ class TestAddressBook(unittest.TestCase):
         self.assertEqual(f"File not found {file_name}", str(error.exception))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

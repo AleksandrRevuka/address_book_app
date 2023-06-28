@@ -5,12 +5,11 @@ Classes:
     MainForm(npyscreen.FormBaseNewWithMenus):
         The main form of the address book application, displaying the list of contacts and providing menu options.
 """
-
 import npyscreen
 
-from my_address_book.utils import print_all_contacts
 from my_address_book.address_book import AddressBook as AB
 from my_address_book.interface_main_form import MainForm
+from my_address_book.utils import print_all_contacts
 
 
 class MainFormAB(MainForm):
@@ -26,7 +25,7 @@ class MainFormAB(MainForm):
         edit_contact: Allows the user to edit a contact's information.
         delete_contact: Allows the user to delete a contact from the address book.
         while_editing: Called when editing the search criteria, performs search and updates the contact list.
-        search_contact: 
+        search_contact:
         beforeEditing: Called before the form is displayed, updates the list of contacts.
         update_list: Updates the list of contacts in the address book to reflect any changes.
     """
@@ -55,8 +54,8 @@ class MainFormAB(MainForm):
     def search_contact(self, addressbook: AB) -> None:
         """
         The search_contact function is used to search for a contact in the address book.
-        It takes two arguments: self and addressbook. The first argument, self, is an instance of the MainForm class 
-        that contains all of the widgets on our form. The second argument, addressbook, is an instance of AddressBook 
+        It takes two arguments: self and addressbook. The first argument, self, is an instance of the MainForm class
+        that contains all of the widgets on our form. The second argument, addressbook, is an instance of AddressBook
         class that contains all contacts from our database.
         """
 
@@ -77,17 +76,17 @@ class MainFormAB(MainForm):
 
     def update_list(self, addressbook: AB) -> None:
         """
-        The update_list function updates the list of contacts in the address book to reflect any changes 
+        The update_list function updates the list of contacts in the address book to reflect any changes
         that have been made.
         """
         contacts = print_all_contacts(addressbook)
-        self.print_widget.values = contacts.split('\n')
+        self.print_widget.values = contacts.split("\n")
         self.print_widget.display()
 
     def add_contact(self) -> None:
         """
         The add_contact function allows the user to add a contact to their address book.
-        The function takes in no parameters and returns nothing. The function is called by pressing the 'Add Contact' 
+        The function takes in no parameters and returns nothing. The function is called by pressing the 'Add Contact'
         button on the main menu screen.
         """
         self.parentApp.switchForm("ADD CONTACT")

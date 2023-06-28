@@ -4,6 +4,8 @@ com.txt
 generator_of_contacts.py
 box_1.py
 box.py
+structure.txt
+.pre-commit-config.yaml
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

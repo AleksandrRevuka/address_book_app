@@ -9,7 +9,7 @@ class TestUser(unittest.TestCase):
     """Tests class Name"""
 
     def setUp(self) -> None:
-        self.user_test = User('Sasha')
+        self.user_test = User("Sasha")
         self.user_test_none = User()
 
     def tearDown(self) -> None:
@@ -20,7 +20,7 @@ class TestUser(unittest.TestCase):
         The test_set_name function tests the set_name function in the User class.
         It checks that when a user is created, their name is correctly assigned.
         """
-        self.assertEqual(self.user_test.name, 'Sasha')
+        self.assertEqual(self.user_test.name, "Sasha")
 
     def test_set_birthday_date(self) -> None:
         """
@@ -31,5 +31,5 @@ class TestUser(unittest.TestCase):
         self.assertEqual(self.user_test.birthday_date, date(2000, 1, 1))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

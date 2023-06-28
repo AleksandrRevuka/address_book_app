@@ -1,8 +1,13 @@
+from datetime import date
+from datetime import datetime
+from typing import Any
+from typing import List
+from typing import Union
 
-from datetime import datetime, date
-from typing import Union, List, Any
-
-from my_address_book.entities import User, Phone, Email, Note
+from my_address_book.entities import Email
+from my_address_book.entities import Note
+from my_address_book.entities import Phone
+from my_address_book.entities import User
 
 
 class RecordNote:
@@ -21,32 +26,33 @@ class RecordNote:
         make_date_of_creation() -> datetime:
             Creates and returns the current date as the date of creation.
     """
+
     def __init__(self, note: Note):
         self.note: Note = note
-        self.date_of_creation: datetime = self.make_date_of_creation()
+        self.date_of_creation: str = self.make_date_of_creation()
 
-    def add_note_name(self, note_name: str):
+    def add_note_name(self, note_name: str) -> None:
         """
         The add_note_name function adds a note name to the note object.
         """
-        
+
         self.note.name_note = note_name
 
-    def add_note(self, note_new: str):
+    def add_note(self, note_new: str) -> None:
         """
         The add_note function adds a note to the user's profile.
         """
-        
+
         self.note.note = note_new
 
-    def make_date_of_creation(self):
+    def make_date_of_creation(self) -> str:
         """
         The make_date_of_creation function creates a date of creation for the user.
         The function takes in no arguments and returns the current date.
         """
-        
+
         current_date = datetime.now()
-        return current_date.strftime('%d-%m-%Y %H:%M:%S')
+        return current_date.strftime("%d-%m-%Y %H:%M:%S")
 
 
 class RecordContact:
@@ -57,7 +63,7 @@ class RecordContact:
 
     Attributes:
         user (User): The User object representing the user details of the contact.
-        phone_numbers (List[Record.Subrecord]): A list of Subrecord objects representing the phone numbers of 
+        phone_numbers (List[Record.Subrecord]): A list of Subrecord objects representing the phone numbers of
         the contact.
         emails (List[Record.Subrecord]): A list of Subrecord objects representing the emails of the contact.
 
@@ -86,8 +92,8 @@ class RecordContact:
 
     def __init__(self, user: User):
         self.user = user
-        self.phone_numbers: List['RecordContact.Subrecord'] = []
-        self.emails: List['RecordContact.Subrecord'] = []
+        self.phone_numbers: List["RecordContact.Subrecord"] = []
+        self.emails: List["RecordContact.Subrecord"] = []
 
     def add_phone_number(self, phone_number: Phone, phone_assignment: list | None = None) -> None:
         """
@@ -117,13 +123,13 @@ class RecordContact:
             current_date = datetime.now()
 
         birthday = self.user.birthday_date
-        
-        if isinstance(birthday,  date):
+
+        if isinstance(birthday, date):
             next_birthday = datetime(current_date.year, birthday.month, birthday.day)
 
             if next_birthday < current_date:
                 next_birthday = datetime(current_date.year + 1, birthday.month, birthday.day)
         else:
-             return None
-         
+            return None
+
         return (next_birthday - current_date).days

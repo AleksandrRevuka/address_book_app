@@ -1,0 +1,28 @@
+[tool.poetry]
+name = "chat-bot-go-it"
+version = "0.1.0"
+description = ""
+authors = ["Revuka Oleksandr <a.revuka@gmail.com>"]
+readme = "README.md"
+packages = [{include = "chat_bot_go_it"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+npyscreen = "^4.10.5"
+prettytable = "^3.8.0"
+
+
+[tool.poetry.group.dev.dependencies]
+ipython = "^8.14.0"
+mypy = "^1.4.1"
+black = "^23.3.0"
+flake8 = "^6.0.0"
+coverage = "^7.2.7"
+pre-commit = "^3.3.3"
+autoflake = "^2.2.0"
+pyupgrade = "^3.7.0"
+reorder-python-imports = "^3.10.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

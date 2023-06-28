@@ -1,10 +1,11 @@
 """..."""
 import npyscreen
 
-from my_address_book.validation import check_number_not_in_notes_book, note_validation
+from my_address_book.constants import FILE_NB
 from my_address_book.entities import Note
 from my_address_book.records import RecordNote
-from my_address_book.constants import FILE_NB
+from my_address_book.validation import check_number_not_in_notes_book
+from my_address_book.validation import note_validation
 
 
 class EditNoteForm(npyscreen.ActionPopup):
@@ -29,15 +30,15 @@ class EditNoteForm(npyscreen.ActionPopup):
         It should be used to create all of the widgets that will be displayed on the form.
         The function takes no arguments and returns nothing.
         """
-        
-        self.number_note_for_change = self.add(npyscreen.TitleText, name='Number note')
+
+        self.number_note_for_change = self.add(npyscreen.TitleText, name="Number note")
 
     def beforeEditing(self) -> None:
         """
         The beforeEditing function is called before the form is displayed.
         It allows you to set up the form, and populate it with data from your application.
         """
-        
+
         self.number_note_for_change.value = None
 
     def check_number_note(self) -> bool:
@@ -46,7 +47,7 @@ class EditNoteForm(npyscreen.ActionPopup):
         If it is, then the function returns False and a message appears on screen.
         Otherwise, it returns True.
         """
-        
+
         name = self.number_note_for_change.value
         message = check_number_not_in_notes_book(self.parentApp.notesbook, name)
         if message:
@@ -60,18 +61,18 @@ class EditNoteForm(npyscreen.ActionPopup):
         The on_ok function is called when the user presses OK.
         It checks if the number of note is in notes book, and then it changes form to ADD NOTE with value from this form.
         """
-        
+
         if self.check_number_note():
-            self.parentApp.getForm('ADD NOTE').value = self.number_note_for_change.value
-            self.parentApp.getForm('ADD NOTE').name = "Edit note"
-            self.parentApp.switchForm('ADD NOTE')
+            self.parentApp.getForm("ADD NOTE").value = self.number_note_for_change.value
+            self.parentApp.getForm("ADD NOTE").name = "Edit note"
+            self.parentApp.switchForm("ADD NOTE")
 
     def on_cancel(self) -> None:
         """
         The on_cancel function is called when the user presses the cancel button.
         It will return to the previous form, which in this case is NOTE MAIN.
         """
-        
+
         self.parentApp.switchForm("NOTE MAIN")
 
 
@@ -98,8 +99,8 @@ class DeleteNoteForm(npyscreen.ActionPopup):
         It should be used to create all of the widgets that will be displayed on the form.
         The function takes no arguments and returns nothing.
         """
-        
-        self.number_note_for_del = self.add(npyscreen.TitleText, name='Number note')
+
+        self.number_note_for_del = self.add(npyscreen.TitleText, name="Number note")
 
     def beforeEditing(self) -> None:
         """
@@ -107,7 +108,7 @@ class DeleteNoteForm(npyscreen.ActionPopup):
         It allows you to perform any actions that are required to prepare for the user's interaction with your form.
         For example, if you need to populate a list of choices from a database, this would be where you would do it.
         """
-        
+
         self.number_note_for_del.value = None
 
     def check_number_note(self) -> bool:
@@ -116,7 +117,7 @@ class DeleteNoteForm(npyscreen.ActionPopup):
         If it is not, then a message appears and the function returns False.
         Otherwise, it returns True.
         """
-        
+
         number = self.number_note_for_del.value
         message = check_number_not_in_notes_book(self.parentApp.notesbook, number)
         if message:
@@ -129,7 +130,7 @@ class DeleteNoteForm(npyscreen.ActionPopup):
         """
         The delete_contact function deletes a contact from the notesbook.
         """
-        
+
         self.parentApp.notesbook.delete_record(self.number_note_for_del.value)
         self.parentApp.notesbook.save_records_to_file(FILE_NB)
         return f"The note '{self.number_note_for_del.value}' has been deleted."
@@ -140,7 +141,7 @@ class DeleteNoteForm(npyscreen.ActionPopup):
         It will validate that the number entered is not already in use, and if it isn't,
         it will add a new contact to the database.
         """
-        
+
         respon = self.check_number_note()
         if respon:
             message = self.delete_note()
@@ -153,7 +154,7 @@ class DeleteNoteForm(npyscreen.ActionPopup):
         The on_cancel function is called when the user presses the cancel button.
         It will return to the previous form, which in this case is NOTE MAIN.
         """
-        
+
         self.parentApp.switchForm("NOTE MAIN")
 
 
@@ -186,8 +187,8 @@ class AddNoteForm(npyscreen.ActionForm):
         """
 
         self.value = None
-        self.wg_note_name: npyscreen.TitleText = self.add(npyscreen.TitleText, name='Note name:')
-        self.wg_name: npyscreen.TitleFixedText = self.add(npyscreen.TitleFixedText, name='Note:', editable=False)
+        self.wg_note_name: npyscreen.TitleText = self.add(npyscreen.TitleText, name="Note name:")
+        self.wg_name: npyscreen.TitleFixedText = self.add(npyscreen.TitleFixedText, name="Note:", editable=False)
         self.wg_note: npyscreen.MultiLineEdit = self.add(npyscreen.MultiLineEdit)
 
     def beforeEditing(self) -> None:
@@ -207,9 +208,9 @@ class AddNoteForm(npyscreen.ActionForm):
     def after_editing(self) -> None:
         """
         The after_editing function is called when the user presses ENTER on a widget.
-        It will be called for every widget that has an after_editing function defined, 
-        even if it is not visible on the screen. The after_editing function should return 
-        True to indicate that editing of this form can continue, or False to indicate that 
+        It will be called for every widget that has an after_editing function defined,
+        even if it is not visible on the screen. The after_editing function should return
+        True to indicate that editing of this form can continue, or False to indicate that
         editing of this form should stop.
         """
 
@@ -217,7 +218,7 @@ class AddNoteForm(npyscreen.ActionForm):
         self.wg_note_name.value = None
         self.wg_note.value = ""
 
-        self.parentApp.getForm('ADD NOTE').name = "Add note"
+        self.parentApp.getForm("ADD NOTE").name = "Add note"
 
     def data_validation(self) -> bool:
         """
@@ -255,8 +256,8 @@ class AddNoteForm(npyscreen.ActionForm):
         """
         The change_note function is used to change a note in the notesbook.
         It takes as input self, which is an instance of the ChangeNoteForm class.
-        The function deletes the record that was selected by the user from 
-        self.parentApp.notesbook and then calls add_note() to create a new record with 
+        The function deletes the record that was selected by the user from
+        self.parentApp.notesbook and then calls add_note() to create a new record with
         updated information.
         """
 
