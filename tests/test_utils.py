@@ -36,7 +36,6 @@ class TestPrintContacts(unittest.TestCase):
         self.addressbook_test.add_record(self.record_test)
 
         result = print_all_contacts(self.addressbook_test)
-        print(result)
         expected_output = (
             "| sasha        | 380951234567              | test_sasha@gmail.com                 |    -     |        -         |"
         )

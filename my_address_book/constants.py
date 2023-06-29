@@ -9,8 +9,8 @@ from string import ascii_letters
 from string import punctuation
 
 current_dir = os.getcwd()
-FILE_AB = os.path.join(current_dir, "address_book.bin")
-FILE_NB = os.path.join(current_dir, "notes_book.bin")
+FILE_AB = os.path.join(current_dir, "storage", "address_book.bin")
+FILE_NB = os.path.join(current_dir, "storage", "notes_book.bin")
 
 
 NUMBER_OF_CONTACTS_PER_PAGE = 20

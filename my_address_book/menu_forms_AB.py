@@ -171,45 +171,50 @@ class AddContactForm(npyscreen.ActionForm):
     This class represents a form for adding or editing a contact in an address book.
 
     Attributes:
-        value (str):
-            The value representing the contact to be edited (optional).
-        contact_name (npyscreen.TitleText):
-            The widget for entering the contact's name.
-        contact_phone_one (npyscreen.TitleText):
-            The widget for entering the first phone number.
-        phone_assignment_one (npyscreen.TitleSelectOne):
-            The widget for selecting the assignment of the first phone number.
-        contact_phone_two (npyscreen.TitleText):
-            The widget for entering the second phone number.
-        phone_assignment_two (npyscreen.TitleSelectOne):
-            The widget for selecting the assignment of the second phone number.
-        contact_phone_three (npyscreen.TitleText):
-            The widget for entering the third phone number.
-        phone_assignment_three (npyscreen.TitleSelectOne):
-            The widget for selecting the assignment of the third phone number.
-        contact_email_one (npyscreen.TitleText):
-            The widget for entering the first email address.
-        email_assignment_one (npyscreen.TitleSelectOne):
-            The widget for selecting the assignment of the first email address.
-        contact_email_two (npyscreen.TitleText):
-            The widget for entering the second email address.
-        email_assignment_two (npyscreen.TitleSelectOne):
-            The widget for selecting the assignment of the second email address.
-        contact_birth_text (npyscreen.TitleText):
-            The widget for entering the year of birth.
-        contact_birth (npyscreen.TitleDateCombo):
-            The widget for selecting the date of birth.
+
+        contact_name: npyscreen.TitleText -
+            Widget for entering the contact's name.
+        contact_phone_one: npyscreen.TitleText -
+            Widget for entering the contact's first phone number.
+        phone_assignment_one: npyscreen.TitleSelectOne -
+            Widget for selecting the assignment of the first phone number.
+        contact_phone_two: npyscreen.TitleText -
+            Widget for entering the contact's second phone number.
+        phone_assignment_two: npyscreen.TitleSelectOne -
+            Widget for selecting the assignment of the second phone number.
+        contact_phone_three: npyscreen.TitleText -
+            Widget for entering the contact's third phone number.
+        phone_assignment_three: npyscreen.TitleSelectOne -
+            Widget for selecting the assignment of the third phone number.
+        contact_email_one: npyscreen.TitleText -
+            Widget for entering the contact's first email address.
+        email_assignment_one: npyscreen.TitleSelectOne -
+            Widget for selecting the assignment of the first email address.
+        contact_email_two: npyscreen.TitleText -
+            Widget for entering the contact's second email address.
+        email_assignment_two: npyscreen.TitleSelectOne -
+            Widget for selecting the assignment of the second email address.
+        contact_birth_text: npyscreen.TitleText -
+            Widget for entering the contact's birth year.
+        contact_birth: npyscreen.TitleDateCombo -
+            Widget for selecting the contact's birth date.
 
     Methods:
-        create(): Sets up the form and its widgets.
-        beforeEditing(): Populates the form with data from the contact to be edited (if provided).
-        after_editing(): Resets the form's values after editing is completed.
+
+        create(): Sets up the form's widgets and their initial values.
+        beforeEditing(): Populates the form with data from an existing contact before it is displayed.
+        after_editing(): Resets the form's values after the user has finished editing.
         data_validation(): Validates the data entered by the user.
-        while_editing(*args, **kwargs): Converts the year of birth to a full date format while the user is editing.
-        add_contact(): Creates a new contact object and adds it to the address book.
-        change_contact(): Updates an existing contact with the modified information.
-        on_ok(): Called when the user presses OK on the form, performs validation and adds or updates the contact.
-        on_cancel(): Called when the user cancels the form, resets the form's values and returns to the main form.
+        _validate_phone_numbers(): Validates the phone numbers entered by the user.
+        _validate_email_addresses(): Validates the email addresses entered by the user.
+        _show_error_message(message, widget): Displays an error message to the user.
+        while_editing(*args, **kwargs): Converts the entered birth year into a valid date format.
+        add_contact(): Adds a new contact to the address book.
+        _add_phone_numbers(contact): Adds phone numbers to the contact.
+        _add_email_addresses(contact): Adds email addresses to the contact.
+        change_contact(): Deletes the selected contact and adds a new contact with updated information.
+        on_ok(): Handles the user's click on the OK button, validates the data, and adds or updates the contact.
+        on_cancel(): Handles the user's click on the Cancel button, resets the form's values, and returns to the main form.
     """
 
     def create(self) -> None:
@@ -450,8 +455,8 @@ class AddContactForm(npyscreen.ActionForm):
         """
         The _add_phone_numbers function is a helper function that adds phone numbers to the contact.
         It takes in two arguments: self and contact. The self argument is the current instance of the class,
-        and it allows us to access attributes and methods within that class. The contact argument is an object of type RecordContact,
-        which we will be adding phone numbers to.
+        and it allows us to access attributes and methods within that class. The contact argument is an object
+        of type RecordContact, which we will be adding phone numbers to.
         """
         phone_widgets = [
             (self.contact_phone_one, self.phone_assignment_one),
