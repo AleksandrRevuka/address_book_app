@@ -6,19 +6,19 @@ and provides functionality for creating and running the address book application
 """
 import npyscreen
 
-from my_address_book.address_book import AddressBook as AB
-from my_address_book.constants import FILE_AB
-from my_address_book.constants import FILE_NB
-from my_address_book.main_form_AB import MainFormAB
-from my_address_book.main_form_NB import MainFormNB
-from my_address_book.menu_forms_AB import AddContactForm
-from my_address_book.menu_forms_AB import DeleteContactForm
-from my_address_book.menu_forms_AB import EditContactForm
-from my_address_book.menu_forms_NB import AddNoteForm
-from my_address_book.menu_forms_NB import DeleteNoteForm
-from my_address_book.menu_forms_NB import EditNoteForm
-from my_address_book.notes_book import NotesBook as NB
-from my_address_book.theme import MyThemeApp
+from my_address_book import AddContactForm
+from my_address_book import AddNoteForm
+from my_address_book import AddressBook as AB
+from my_address_book import DeleteContactForm
+from my_address_book import DeleteNoteForm
+from my_address_book import EditContactForm
+from my_address_book import EditNoteForm
+from my_address_book import FILE_AB
+from my_address_book import FILE_NB
+from my_address_book import MainFormAB
+from my_address_book import MainFormNB
+from my_address_book import MyThemeApp
+from my_address_book import NotesBook as NB
 
 
 class AddressBookApp(npyscreen.NPSAppManaged):
