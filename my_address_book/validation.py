@@ -7,22 +7,24 @@ Functions:
     phone_validation(phone: str) -> None: Verifies that a given phone number is valid.
     birthday_date_validation(birthday_date: datetime) -> None: Verifies that a given birthday date is valid.
     email_validation(email: str) -> None: Verifies that a given email address is valid.
-    criteria_validation(criteria: str) -> None: 
-                                        Verifies that a given criteria string only contains numbers or letters.
-    check_name_in_address_book(address_book: AB, name: str) -> None: 
+    check_name_in_address_book(address_book: AB, name: str) -> None:
                                                             Checks if a given name already exists in the address book.
-    check_name_not_in_address_book(address_book: AB, name: str) -> None: 
+    check_name_not_in_address_book(address_book: AB, name: str) -> None:
                                                             Checks if a given name does not exist in the address book.
-
+    check_number_not_in_notes_book(notes_book: NB, number: str) -> None:
+                                                            Checks if the number is in the notes book.
 """
-
 import re
+from datetime import date
+from datetime import datetime
 from string import digits
-from datetime import datetime, date
 
-from my_address_book.error import input_error
-from my_address_book.constants import LETTERS, NAME_RANGE, PHONE_RANGE, NOTE_LEN
 from my_address_book.address_book import AddressBook as AB
+from my_address_book.constants import LETTERS
+from my_address_book.constants import NAME_RANGE
+from my_address_book.constants import NOTE_LEN
+from my_address_book.constants import PHONE_RANGE
+from my_address_book.error import input_error
 from my_address_book.notes_book import NotesBook as NB
 
 
@@ -33,16 +35,13 @@ def name_validation(name: str) -> None:
     """
 
     if not isinstance(name, str):
-        raise TypeError(
-            f"Name must be a string, but got {type(name).__name__}")
+        raise TypeError(f"Name must be a string, but got {type(name).__name__}")
 
     if len(name.strip(LETTERS)) != 0:
-        raise TypeError(
-            f"Contact's name can only contain letters, but got '{name.title()}'")
+        raise TypeError(f"Contact's name can only contain letters, but got '{name.title()}'")
 
     if len(name) not in NAME_RANGE:
-        raise ValueError(
-            f"Name length must be between {NAME_RANGE[0]} and {NAME_RANGE[-1]}, but got '{name.title()}'")
+        raise ValueError(f"Name length must be between {NAME_RANGE[0]} and {NAME_RANGE[-1]}, but got '{name.title()}'")
 
 
 @input_error
@@ -51,13 +50,11 @@ def phone_validation(phone: str) -> None:
     Verifies a phone number.
     """
 
-    if len(phone.strip(digits + '+')) != 0:
-        raise TypeError(
-            f"Contact's phone can only contain digits, but got '{phone}'")
+    if len(phone.strip(digits + "+")) != 0:
+        raise TypeError(f"Contact's phone can only contain digits, but got '{phone}'")
 
     if len(phone) not in PHONE_RANGE:
-        raise ValueError(
-            f"Contact's phone must be between 11 and 16 numbers, but got '{phone}'")
+        raise ValueError(f"Contact's phone must be between 11 and 16 numbers, but got '{phone}'")
 
 
 @input_error
@@ -82,10 +79,13 @@ def email_validation(email: str) -> None:
 
 @input_error
 def note_validation(note: str) -> None:
-    """..."""
+    """
+    The note_validation function checks if the length of a note is more than NOTE_LEN.
+    If it's not, then an error will be raised.
+    """
+
     if len(note) < NOTE_LEN:
-        raise ValueError(
-            f"Note length must be more {NOTE_LEN}, but got '{note}'")
+        raise ValueError(f"Note length must be more {NOTE_LEN}, but got '{note}'")
 
 
 @input_error

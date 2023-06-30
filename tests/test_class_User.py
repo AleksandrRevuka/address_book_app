@@ -6,7 +6,7 @@ from my_address_book.entities import User
 
 
 class TestUser(unittest.TestCase):
-    """Tests class Name"""
+    """Tests class User"""
 
     def setUp(self) -> None:
         self.user_test = User("Sasha")

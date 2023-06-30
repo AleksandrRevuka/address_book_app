@@ -1,7 +1,7 @@
+"""Record"""
 from datetime import date
 from datetime import datetime
 from typing import Any
-from typing import List
 from typing import Union
 
 from my_address_book.entities import Email
@@ -92,8 +92,8 @@ class RecordContact:
 
     def __init__(self, user: User):
         self.user = user
-        self.phone_numbers: List["RecordContact.Subrecord"] = []
-        self.emails: List["RecordContact.Subrecord"] = []
+        self.phone_numbers: list["RecordContact.Subrecord"] = []
+        self.emails: list["RecordContact.Subrecord"] = []
 
     def add_phone_number(self, phone_number: Phone, phone_assignment: list | None = None) -> None:
         """

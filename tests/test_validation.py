@@ -4,13 +4,19 @@ from datetime import datetime
 from datetime import timedelta
 
 from my_address_book.address_book import AddressBook as AB
-from my_address_book.address_book import RecordContact
+from my_address_book.constants import NOTE_LEN
+from my_address_book.entities import Note
 from my_address_book.entities import User
+from my_address_book.notes_book import NotesBook as NB
+from my_address_book.records import RecordContact
+from my_address_book.records import RecordNote
 from my_address_book.validation import birthday_date_validation
 from my_address_book.validation import check_name_in_address_book
 from my_address_book.validation import check_name_not_in_address_book
+from my_address_book.validation import check_number_not_in_notes_book
 from my_address_book.validation import email_validation
 from my_address_book.validation import name_validation
+from my_address_book.validation import note_validation
 from my_address_book.validation import phone_validation
 
 
@@ -151,6 +157,19 @@ class TestValidation(unittest.TestCase):
 
         message_error = check_name_not_in_address_book(address_book, name)
         self.assertEqual(f"KeyError: 'The contact {name} was not found.'", message_error)
+
+    def test_check_number_not_in_notes_book(self):
+        notes_book = NB()
+        note = RecordNote(Note("note text"))
+        notes_book.add_record(note)
+        number = 2
+        message_error = check_number_not_in_notes_book(notes_book, number)
+        self.assertEqual(f"KeyError: 'The note {number} was not found.'", message_error)
+
+    def test_note_validation(self):
+        note = ""
+        message_error = note_validation(note)
+        self.assertEqual(f"ValueError: Note length must be more {NOTE_LEN}, but got '{note}'", message_error)
 
 
 if __name__ == "__main__":

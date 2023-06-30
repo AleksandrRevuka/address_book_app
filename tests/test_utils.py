@@ -4,9 +4,13 @@ import unittest
 from my_address_book.address_book import AddressBook as AB
 from my_address_book.address_book import RecordContact
 from my_address_book.entities import Email
+from my_address_book.entities import Note
 from my_address_book.entities import Phone
 from my_address_book.entities import User
+from my_address_book.notes_book import NotesBook as NB
+from my_address_book.records import RecordNote
 from my_address_book.utils import print_all_contacts
+from my_address_book.utils import print_all_notes
 
 
 class TestPrintContacts(unittest.TestCase):
@@ -18,6 +22,11 @@ class TestPrintContacts(unittest.TestCase):
         self.phone_test = Phone("380951234567")
         self.email_test = Email("test_sasha@gmail.com")
         self.record_test = RecordContact(self.user_test)
+
+        self.notesbook_test = NB()
+        self.note_test = Note("some text")
+        self.record_note_test = RecordNote(self.note_test)
+        self.name_note_test = "name note"
 
     def tearDown(self) -> None:
         del self.addressbook_test
@@ -70,6 +79,19 @@ class TestPrintContacts(unittest.TestCase):
             "| sasha        | -                         | -                                    |    -     |        -         |"
         )
 
+        self.assertTrue(expected_output in result)
+
+    def test_print_all_notes_name_false(self):
+        self.notesbook_test.add_record(self.record_note_test)
+        result = print_all_notes(self.notesbook_test)
+        expected_output = "| 1 | -                     | some text                                                            | "
+        self.assertTrue(expected_output in result)
+
+    def test_print_all_notes_name_true(self):
+        self.record_note_test.add_note_name(self.name_note_test)
+        self.notesbook_test.add_record(self.record_note_test)
+        result = print_all_notes(self.notesbook_test)
+        expected_output = "| 1 | name note             | some text                                                            | "
         self.assertTrue(expected_output in result)
 
 

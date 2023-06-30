@@ -2,6 +2,7 @@
 import os
 import pickle
 import unittest
+from datetime import datetime
 
 from my_address_book.address_book import AddressBook as AB
 from my_address_book.entities import Email
@@ -19,6 +20,7 @@ class TestAddressBook(unittest.TestCase):
         self.phone_test = Phone("380951234567")
         self.email_test = Email("test_sasha@gmail.com")
         self.record_test = RecordContact(self.user_test)
+        self.record_test.add_birthday(datetime(1982, 6, 26))
         self.record_test.add_phone_number(self.phone_test)
         self.record_test.add_email(self.email_test)
 
@@ -63,6 +65,30 @@ class TestAddressBook(unittest.TestCase):
         addressbook_search = self.addressbook_test.search("sa")
         self.assertTrue("sasha" in addressbook_search)
 
+    def test_search_birthday(self) -> None:
+        """
+        The test_search_birthday function tests the search function in AddressBook.py
+            by searching for a birthday that is present in the addressbook_test object,
+            and checking if it returns an object with &quot;sasha&quot; as one of its keys.
+        """
+        self.addressbook_test.add_record(self.record_test)
+        addressbook_search = self.addressbook_test.search("26-06")
+        self.assertTrue("sasha" in addressbook_search)
+
+    def test_search_email(self) -> None:
+        """
+        The test_search_email function tests the search function in AddressBook.py
+            by adding a record to an addressbook and then searching for that record's email.
+            The test passes if the email is found.
+        """
+
+        self.addressbook_test.add_record(self.record_test)
+        addressbook_search = self.addressbook_test.search("gmail.com")
+        if isinstance(addressbook_search, AB):
+            contact: RecordContact = addressbook_search.get_record("sasha")
+        record_email = contact.emails[0].subrecord.email
+        self.assertTrue("gmail.com" in record_email)
+
     def test_search_phone(self) -> None:
         """
         The test_search_phone function tests the search function of the AddressBook class.
@@ -77,6 +103,39 @@ class TestAddressBook(unittest.TestCase):
             contact: RecordContact = addressbook_search.get_record("sasha")
         record_phone = contact.phone_numbers[0].subrecord.phone
         self.assertTrue("380951234567" in record_phone)
+
+    def test_search_future_birthday(self) -> None:
+        """
+        The test_search_future_birthday function tests the search function in AddressBook.py
+            to see if it can find a record with a birthday that is in the future.
+            The test_search_future_birthday function takes no parameters and returns None.
+        """
+
+        self.addressbook_test.add_record(self.record_test)
+        addressbook_search = self.addressbook_test.search("-0")
+        self.assertTrue(0 == len(addressbook_search))
+
+    def test_search_past_birthday(self) -> None:
+        """
+        The test_search_past_birthday function tests the search function in AddressBook.py
+            to see if it can find a record that has a birthday more than 365 days ago.
+            The test_search_past_birthday function is called by the unittest module, and
+            uses assertTrue to check if the length of addressbook_search is 0.
+        """
+
+        self.addressbook_test.add_record(self.record_test)
+        addressbook_search = self.addressbook_test.search("+365")
+        self.assertTrue(0 == len(addressbook_search))
+
+    def test_search_none(self) -> None:
+        """
+        The test_search_none function tests the search function in AddressBook.py
+            to see if it returns an empty list when there is no match for the inputted string.
+        """
+
+        self.addressbook_test.add_record(self.record_test)
+        addressbook_search = self.addressbook_test.search("1111")
+        self.assertTrue(0 == len(addressbook_search))
 
     def test_save_records_to_file(self) -> None:
         """

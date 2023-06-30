@@ -8,7 +8,7 @@ from my_address_book.entities import Phone
 from my_address_book.entities import User
 
 
-class TestRecord(unittest.TestCase):
+class TestRecordContact(unittest.TestCase):
     """Tests class Record"""
 
     def setUp(self) -> None:
