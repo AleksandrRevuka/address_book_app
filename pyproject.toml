@@ -51,3 +51,6 @@ omit = [
 exclude = [
     "sort.py"
 ]
+
+[tool.ruff]
+line-length = 130

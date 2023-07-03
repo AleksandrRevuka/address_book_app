@@ -40,6 +40,10 @@ class MainFormSF(MainForm):
         self.menu.addItem("Exit", self.exit, "^E")
 
     def beforeEditing(self) -> None:
+        """
+        The beforeEditing function is called before the form is displayed.
+        It allows you to set up the form, and populate it with data.
+        """
         home_dir = str(Path.home())
         tree_start_data = npyscreen.TreeData()
         self.make_folder_data(home_dir, tree_start_data)
@@ -47,9 +51,20 @@ class MainFormSF(MainForm):
         self.search_widget.value = home_dir
 
     def while_editing(self, *args: list, **kwargs: dict) -> None:
+        """
+        The while_editing function is a function that runs while the user is editing the field.
+        It will be called every time the user presses a key, and it will be passed all of the arguments
+        that were passed to add_handlers.  It can also accept keyword arguments.
+        """
         self.search_folder()
 
     def search_folder(self):
+        """
+        The search_folder function is used to search for a folder in the system.
+        It takes as an argument self, which is the current instance of the class.
+        The function checks if there are any values in the search_widget and then checks if it's a directory or not.
+        If it's a directory, then we check whether we want to make structure or data and call either one of them.
+        """
         if self.search_widget.value:
             if os.path.isdir(self.search_widget.value):
                 if self.structure:
@@ -73,10 +88,20 @@ class MainFormSF(MainForm):
         self.parentApp.switchForm("MAIN")
 
     def _update_widget(self, tree_data: npyscreen.TreeData) -> None:
+        """
+        The _update_widget function is a helper function that updates the tree widget.
+        It takes in a TreeData object and sets the values of the tree_display to be equal to it.
+        Then, it calls display() on self.tree_display.
+        """
         self.tree_display.values = tree_data
         self.tree_display.display()
 
     def make_data(self) -> None:
+        """
+        The make_data function is used to create the data that will be displayed in the tree widget.
+        It takes a directory as an argument and then creates a TreeData object, which it populates with
+        the contents of that directory. It then calls _update_widget to display this data.
+        """
         directory = self.search_widget.value
         tree_new_data = npyscreen.TreeData()
         self.structure = False
@@ -84,6 +109,13 @@ class MainFormSF(MainForm):
         self._update_widget(tree_new_data)
 
     def make_structure(self) -> None:
+        """
+        The make_structure function is used to create a tree structure of the directory that was entered by the user.
+        The function takes in self as an argument and returns None. The function creates a variable called directory which
+        is equal to the value of what was entered into the search widget (the text box where you enter your path). It then
+        creates another variable called tree_new_data which is equal to npyscreen's TreeData() method, this allows us to use
+        npyscreen's TreeData class methods on our new data set. We then set self.structure = True so we can access it later on
+        """
         directory = self.search_widget.value
         tree_new_data = npyscreen.TreeData()
         self.structure = True
@@ -93,6 +125,11 @@ class MainFormSF(MainForm):
         self._update_widget(tree_new_data)
 
     def make_folder_data(self, directory: str, parent: npyscreen.TreeData) -> None:
+        """
+        The make_folder_data function is used to create a tree structure of the files and folders in the directory.
+        The function takes two arguments: self, which is an instance of TreeData class, and directory - a string that represents
+        the path to the folder we want to display its content. The function returns None.
+        """
         for filename in os.listdir(directory):
             full_path = os.path.join(directory, filename)
 
@@ -107,6 +144,11 @@ class MainFormSF(MainForm):
                 parent.new_child(content=filename)
 
     def sorting_files(self) -> None:
+        """
+        The sorting_files function is used to sort files in a directory.
+            Args:
+                self (object): The object of the class MainForm.MainForm
+        """
         directory = self.search_widget.value
         path = Path(directory)
         message = check_path_address_to_sort_files_in_it(path)
@@ -122,6 +164,11 @@ class MainFormSF(MainForm):
             npyscreen.notify_confirm(message, "Successfully", editw=1)
 
     def sorting_files_(self) -> None:
+        """
+        The sorting_files_ function is used to sort files in the directory.
+            It takes a self argument and returns None.
+            The function checks if the path address is correct, then sorts files in it.
+        """
         directory = self.search_widget.value
         path = Path(directory)
         message = check_path_address_to_sort_files_in_it(path)
