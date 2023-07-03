@@ -7,15 +7,14 @@ Functions:
 """
 from typing import Any
 from typing import Callable
-from typing import Union
 
 
-def input_error(func: Callable[..., Any]) -> Callable[..., Union[str, Exception]]:
+def input_error(func: Callable[..., Any]) -> Callable[..., str]:
     """
     Decorator for handling input errors
     """
 
-    def wrapper_input_error(*args: tuple) -> Union[str, Exception]:
+    def wrapper_input_error(*args: tuple) -> str:
         """
         Wrapper function for handling input errors
         """

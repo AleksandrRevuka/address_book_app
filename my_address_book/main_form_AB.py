@@ -39,11 +39,12 @@ class MainFormAB(MainForm):
         self.search_widget: npyscreen.TitleText = self.add(npyscreen.TitleText, name="Search:", rely=39, begin_entry_at=10)
         self.search_widget.when_value_edited = self.while_editing
 
-        self.menu = self.new_menu(name="Menu", shortcut="m")
+        self.menu = self.new_menu(name="Menu")
         self.menu.addItem("Add contact", self.add_contact, "1")
         self.menu.addItem("Edit contact", self.edit_contact, "2")
         self.menu.addItem("Delete contact", self.delete_contact, "3")
         self.menu.addItem("Notesbook", self.to_notesbook_fotm, "4")
+        self.menu.addItem("Sorting files", self.to_sorting_files_fotm, "5")
         self.menu.addItem("Close Menu", self.close_menu, "^X")
         self.menu.addItem("Exit", self.exit, "^E")
 
@@ -108,4 +109,14 @@ class MainFormAB(MainForm):
         self.parentApp.switchForm("DELETE CONTACT")
 
     def to_notesbook_fotm(self) -> None:
+        """
+        The to_notesbook_fotm function is a callback function that switches the current form to the NOTE MAIN form.
+        It takes in one parameter, self, which is an instance of AddressBookForm. It returns None.
+        """
         self.parentApp.switchForm("NOTE MAIN")
+
+    def to_sorting_files_fotm(self) -> None:
+        """
+        The to_sorting_files_fotm function is a callback function that switches the current form to the SORT MAIN form.
+        """
+        self.parentApp.switchForm("SORT MAIN")

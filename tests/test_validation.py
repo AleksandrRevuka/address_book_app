@@ -2,6 +2,7 @@
 import unittest
 from datetime import datetime
 from datetime import timedelta
+from pathlib import Path
 
 from my_address_book.address_book import AddressBook as AB
 from my_address_book.constants import NOTE_LEN
@@ -10,6 +11,7 @@ from my_address_book.entities import User
 from my_address_book.notes_book import NotesBook as NB
 from my_address_book.records import RecordContact
 from my_address_book.records import RecordNote
+from my_address_book.constants import current_dir, FILE_AB
 from my_address_book.validation import birthday_date_validation
 from my_address_book.validation import check_name_in_address_book
 from my_address_book.validation import check_name_not_in_address_book
@@ -18,6 +20,7 @@ from my_address_book.validation import email_validation
 from my_address_book.validation import name_validation
 from my_address_book.validation import note_validation
 from my_address_book.validation import phone_validation
+from my_address_book.validation import check_path_address_to_sort_files_in_it
 
 
 class TestValidation(unittest.TestCase):
@@ -170,6 +173,20 @@ class TestValidation(unittest.TestCase):
         note = ""
         message_error = note_validation(note)
         self.assertEqual(f"ValueError: Note length must be more {NOTE_LEN}, but got '{note}'", message_error)
+
+    def test_valid_path(self):
+        path = Path(current_dir)
+        self.assertEqual(check_path_address_to_sort_files_in_it(path), "")
+
+    def test_nonexistent_path(self):
+        path = Path(current_dir + "path")
+        error_message = check_path_address_to_sort_files_in_it(path)
+        self.assertEqual(error_message, "ValueError: The way is not exists!")
+
+    def test_file_path(self):
+        path = Path(FILE_AB)
+        error_message = check_path_address_to_sort_files_in_it(path)
+        self.assertEqual(error_message, "ValueError: The path points to a file! Must point to a folder!")
 
 
 if __name__ == "__main__":

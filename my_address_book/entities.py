@@ -65,12 +65,12 @@ class User:
 
     """
 
-    def __init__(self, name: str | None = None):
+    def __init__(self, name: str):
         self.__birthday_date: date | None = None
         self.name: str = name
 
     @property
-    def name(self) -> str | None:
+    def name(self) -> str:
         """
         Returns the name of the contact.
         """
@@ -81,10 +81,7 @@ class User:
         """
         Sets the name of the contact if it is valid, otherwise raises an error.
         """
-        if new_name is None:
-            self.__name: str | None = None
-        else:
-            self.__name = new_name
+        self.__name = new_name
 
     @property
     def birthday_date(self) -> date | None:

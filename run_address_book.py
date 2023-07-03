@@ -6,19 +6,22 @@ and provides functionality for creating and running the address book application
 """
 import npyscreen
 
-from my_address_book import AddContactForm
-from my_address_book import AddNoteForm
-from my_address_book import AddressBook as AB
-from my_address_book import DeleteContactForm
-from my_address_book import DeleteNoteForm
-from my_address_book import EditContactForm
-from my_address_book import EditNoteForm
-from my_address_book import FILE_AB
-from my_address_book import FILE_NB
-from my_address_book import MainFormAB
-from my_address_book import MainFormNB
-from my_address_book import MyThemeApp
-from my_address_book import NotesBook as NB
+from my_address_book import (
+    AddContactForm,
+    AddNoteForm,
+    AddressBook as AB,
+    DeleteContactForm,
+    DeleteNoteForm,
+    EditContactForm,
+    EditNoteForm,
+    FILE_AB,
+    FILE_NB,
+    MainFormSF,
+    MainFormAB,
+    MainFormNB,
+    MyThemeApp,
+    NotesBook as NB,
+)
 
 
 class AddressBookApp(npyscreen.NPSAppManaged):
@@ -88,6 +91,7 @@ class AddressBookApp(npyscreen.NPSAppManaged):
             draw_line=10,
         )
         self.addForm("ADD NOTE", AddNoteForm, name="Add note", lines=40, columns=65, draw_line=1)
+
         self.addForm(
             "EDIT NOTE",
             EditNoteForm,
@@ -103,6 +107,14 @@ class AddressBookApp(npyscreen.NPSAppManaged):
             lines=10,
             columns=50,
             draw_line=1,
+        )
+        self.addForm(
+            "SORT MAIN",
+            MainFormSF,
+            name="Sort files",
+            lines=42,
+            columns=130,
+            draw_line=10,
         )
 
 

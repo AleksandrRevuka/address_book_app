@@ -16,13 +16,38 @@ prettytable = "^3.8.0"
 ipython = "^8.14.0"
 mypy = "^1.4.1"
 black = "^23.3.0"
-flake8 = "^6.0.0"
 coverage = "^7.2.7"
 pre-commit = "^3.3.3"
-autoflake = "^2.2.0"
 pyupgrade = "^3.7.0"
-reorder-python-imports = "^3.10.0"
+ruff = "^0.0.275"
+rich = "^13.4.2"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.coverage.run]
+omit = [
+    "menu_forms_AB.py",
+    "main_form_AB.py",
+    "main_form_NB.py",
+    "menu_forms_NB.py",
+    "interface_main_form.py",
+    "test_runner.py",
+    "test_class_AB.py",
+    "test_class_Email.py",
+    "test_class_Phone.py",
+    "test_class_Record.py",
+    "test_class_User.py",
+    "test_utils.py",
+    "test_validation.py",
+    "test_class_NB.py",
+    "test_class_Note.py",
+    "test_class_RecordContact.py",
+    "test_class_RecordNote.py"
+]
+
+[tool.mypy]
+exclude = [
+    "sort.py"
+]

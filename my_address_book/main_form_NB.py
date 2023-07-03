@@ -29,11 +29,12 @@ class MainFormNB(MainForm):
         self.search_widget = self.add(npyscreen.TitleText, name="Search:", rely=39, begin_entry_at=10)
         self.search_widget.when_cursor_moved = self.while_editing
 
-        self.menu = self.new_menu(name="Menu", shortcut="m")
+        self.menu = self.new_menu(name="Menu")
         self.menu.addItem("Add note", self.add_note, "1")
         self.menu.addItem("Edit note", self.edit_note, "2")
         self.menu.addItem("Delete note", self.delete_note, "3")
         self.menu.addItem("Addressbook", self.to_addressbook_form, "4")
+        self.menu.addItem("Sorting files", self.to_sorting_files_fotm, "5")
         self.menu.addItem("Close Menu", self.close_menu, "^X")
         self.menu.addItem("Exit", self.exit, "^E")
 
@@ -118,3 +119,9 @@ class MainFormNB(MainForm):
         The form also has a search feature that allows users to find entries based on criteria they specify.
         """
         self.parentApp.switchForm("MAIN")
+
+    def to_sorting_files_fotm(self) -> None:
+        """
+        The to_sorting_files_fotm function is a callback function that switches the current form to the SORT MAIN form.
+        """
+        self.parentApp.switchForm("SORT MAIN")
