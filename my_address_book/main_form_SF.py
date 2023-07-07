@@ -2,10 +2,9 @@ from pathlib import Path
 import os
 import npyscreen
 
-from my_address_book.sorting_files import SortingFiles
 from my_address_book.interface_main_form import MainForm
 from my_address_book.validation import check_path_address_to_sort_files_in_it
-from my_address_book.sort import main
+from my_address_book.garbage_sorter import sorter_run
 
 
 class MainFormSF(MainForm):
@@ -27,15 +26,12 @@ class MainFormSF(MainForm):
 
         self.search_widget: npyscreen.TitleFilename = self.add(npyscreen.TitleFilename, name="Sort folder:", begin_entry_at=15)
 
-        self.search_widget.when_value_edited = self.while_editing
-
         self.menu = self.new_menu(name="Menu")
         self.menu.addItem("Folder data", self.make_data, "1")
         self.menu.addItem("Folder structure", self.make_structure, "2")
         self.menu.addItem("Folder sort", self.sorting_files, "3")
         self.menu.addItem("Addressbook", self.to_addressbook_form, "4")
         self.menu.addItem("Notesbook", self.to_notesbook_form, "5")
-        self.menu.addItem("Folder sort", self.sorting_files_, "6")
         self.menu.addItem("Close Menu", self.close_menu, "^X")
         self.menu.addItem("Exit", self.exit, "^E")
 
@@ -65,7 +61,7 @@ class MainFormSF(MainForm):
         The function checks if there are any values in the search_widget and then checks if it's a directory or not.
         If it's a directory, then we check whether we want to make structure or data and call either one of them.
         """
-        if self.search_widget.value:
+        if self.search_widget.when_check_value_changed():
             if os.path.isdir(self.search_widget.value):
                 if self.structure:
                     self.make_structure()
@@ -150,36 +146,12 @@ class MainFormSF(MainForm):
                 self (object): The object of the class MainForm.MainForm
         """
         directory = self.search_widget.value
-        path = Path(directory)
-        message = check_path_address_to_sort_files_in_it(path)
-        if message:
-            npyscreen.notify_confirm(message, "Error", editw=1)
-        else:
-            main(directory)
-            if self.structure:
-                self.make_structure()
-            else:
-                self.make_data()
-            message = f"Directory {directory} has been sorted successfully!"
-            npyscreen.notify_confirm(message, "Successfully", editw=1)
 
-    def sorting_files_(self) -> None:
-        """
-        The sorting_files_ function is used to sort files in the directory.
-            It takes a self argument and returns None.
-            The function checks if the path address is correct, then sorts files in it.
-        """
-        directory = self.search_widget.value
-        path = Path(directory)
-        message = check_path_address_to_sort_files_in_it(path)
+        message = check_path_address_to_sort_files_in_it(directory)
         if message:
             npyscreen.notify_confirm(message, "Error", editw=1)
         else:
-            sorting_files = SortingFiles(path)
-            sorting_files.files_addresses()
-            sorting_files.sort_extensions()
-            sorting_files.removing_files()
-            sorting_files.del_empty_folders()
+            sorter_run(directory)
             if self.structure:
                 self.make_structure()
             else:

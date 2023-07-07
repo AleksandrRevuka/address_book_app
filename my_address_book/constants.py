@@ -15,7 +15,7 @@ FILE_NB = os.path.join(current_dir, "storage", "notes_book.bin")
 
 NUMBER_OF_CONTACTS_PER_PAGE = 20
 
-CYRILLIC = "абвгґдеєёжзиіїйклмнопрстуфхцчшщъыьэюя. ʼ"
+CYRILLIC = "абвгґдеєёжзиіїйклмнопрстуфхцчшщъыьэюя"
 LETTERS = ascii_letters + CYRILLIC + CYRILLIC.upper()
 PUNCTUATION = punctuation
 NAME_RANGE = range(1, 50)

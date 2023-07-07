@@ -19,8 +19,8 @@ def input_error(func: Callable[..., Any]) -> Callable[..., str]:
         Wrapper function for handling input errors
         """
         try:
-            func(*args)
-            return ""
+            result = func(*args)
+            return result
 
         except TypeError as error:
             return f"TypeError: {error}"
@@ -30,5 +30,14 @@ def input_error(func: Callable[..., Any]) -> Callable[..., str]:
 
         except KeyError as error:
             return f"KeyError: {error}"
+
+        except PermissionError as error:
+            return f"PermissionError: {error}"
+
+        except FileNotFoundError as error:
+            return f"FileNotFoundError: {error}"
+
+        except RuntimeError as error:
+            return f"RuntimeError: {error}"
 
     return wrapper_input_error

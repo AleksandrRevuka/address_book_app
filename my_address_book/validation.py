@@ -16,9 +16,9 @@ Functions:
 """
 import re
 import os
+
 from datetime import date
 from datetime import datetime
-from pathlib import Path
 from string import digits
 
 from my_address_book.address_book import AddressBook as AB
@@ -123,9 +123,9 @@ def check_number_not_in_notes_book(notes_book: NB, number: str) -> None:
 
 
 @input_error
-def check_path_address_to_sort_files_in_it(path: Path) -> None:
+def check_path_address_to_sort_files_in_it(path: str) -> None:
     """Checks if the path (for sorting files) exists and if it points to a folder"""
-    if not path.exists():
+    if not os.path.exists(path):
         raise ValueError("The way is not exists!")
     if os.path.isfile(path):
         raise ValueError("The path points to a file! Must point to a folder!")
