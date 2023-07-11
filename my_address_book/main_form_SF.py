@@ -91,6 +91,7 @@ class MainFormSF(MainForm):
         """
         self.tree_display.values = tree_data
         self.tree_display.display()
+        self.display()
 
     def make_data(self) -> None:
         """
@@ -101,8 +102,9 @@ class MainFormSF(MainForm):
         directory = self.search_widget.value
         tree_new_data = npyscreen.TreeData()
         self.structure = False
-        self.make_folder_data(directory, tree_new_data)
-        self._update_widget(tree_new_data)
+        if os.path.isdir(directory):
+            self.make_folder_data(directory, tree_new_data)
+            self._update_widget(tree_new_data)
 
     def make_structure(self) -> None:
         """
@@ -116,9 +118,9 @@ class MainFormSF(MainForm):
         tree_new_data = npyscreen.TreeData()
         self.structure = True
         npyscreen.notify_wait("Please wait loading data...", title="Wait!")
-        self.make_folder_data(directory, tree_new_data)
-
-        self._update_widget(tree_new_data)
+        if os.path.isdir(directory):
+            self.make_folder_data(directory, tree_new_data)
+            self._update_widget(tree_new_data)
 
     def make_folder_data(self, directory: str, parent: npyscreen.TreeData) -> None:
         """
@@ -151,10 +153,13 @@ class MainFormSF(MainForm):
         if message:
             npyscreen.notify_confirm(message, "Error", editw=1)
         else:
-            sorter_run(directory)
+            message = sorter_run(directory)
             if self.structure:
                 self.make_structure()
             else:
                 self.make_data()
-            message = f"Directory {directory} has been sorted successfully!"
-            npyscreen.notify_confirm(message, "Successfully", editw=1)
+            if message:
+                npyscreen.notify_confirm(message, "Error", editw=1)
+            else:
+                message = f"Directory {directory} has been sorted successfully!"
+                npyscreen.notify_confirm(message, "Successfully", editw=1)

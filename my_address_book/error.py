@@ -9,7 +9,7 @@ from typing import Any
 from typing import Callable
 
 
-def input_error(func: Callable[..., Any]) -> Callable[..., str]:
+def input_error(func: Callable[..., Any]) -> Callable[..., Any]:
     """
     Decorator for handling input errors
     """

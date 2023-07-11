@@ -40,10 +40,10 @@ def name_validation(name: str) -> None:
         raise TypeError(f"Name must be a string, but got {type(name).__name__}")
 
     if len(name.strip(LETTERS)) != 0:
-        raise TypeError(f"Contact's name can only contain letters, but got '{name.title()}'")
+        raise TypeError(f"Contact's name can only contain letters, but got '{name}'")
 
     if len(name) not in NAME_RANGE:
-        raise ValueError(f"Name length must be between {NAME_RANGE[0]} and {NAME_RANGE[-1]}, but got '{name.title()}'")
+        raise ValueError(f"Name length must be between {NAME_RANGE[0]} and {NAME_RANGE[-1]}, but got '{name}'")
 
 
 @input_error

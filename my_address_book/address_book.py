@@ -61,11 +61,13 @@ class AddressBook(Book):
             if any(re.search(criteria.lower(), email.subrecord.email.lower()) for email in record.emails):
                 return True
 
-        if record.days_to_birthday() is not None:
+        days_to_birthday = record.days_to_birthday()
+
+        if days_to_birthday is not None:
             if criteria[0] == "-" and criteria[1:].isdigit():
-                return int(criteria[1:]) >= record.days_to_birthday()
+                return int(criteria[1:]) >= days_to_birthday
 
             if criteria[0] == "+" and criteria[1:].isdigit():
-                return int(criteria[1:]) <= record.days_to_birthday()
+                return int(criteria[1:]) <= days_to_birthday
 
         return False

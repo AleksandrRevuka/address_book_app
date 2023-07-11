@@ -97,7 +97,7 @@ class TestValidation(unittest.TestCase):
         name_invalid = "new_name"
         message_error = name_validation(name_invalid)
         self.assertEqual(
-            "TypeError: Contact's name can only contain letters, but got 'New_Name'",
+            "TypeError: Contact's name can only contain letters, but got 'new_name'",
             message_error,
         )
 
@@ -175,11 +175,11 @@ class TestValidation(unittest.TestCase):
         self.assertEqual(f"ValueError: Note length must be more {NOTE_LEN}, but got '{note}'", message_error)
 
     def test_valid_path(self):
-        path = Path(current_dir)
-        self.assertEqual(check_path_address_to_sort_files_in_it(path), "")
+        path = current_dir
+        self.assertEqual(check_path_address_to_sort_files_in_it(path), None)
 
     def test_nonexistent_path(self):
-        path = Path(current_dir + "path")
+        path = current_dir + "path"
         error_message = check_path_address_to_sort_files_in_it(path)
         self.assertEqual(error_message, "ValueError: The way is not exists!")
 
